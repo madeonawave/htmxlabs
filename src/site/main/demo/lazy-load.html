@@ -1,0 +1,106 @@
+<!-- Lazy Load Images Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Lazy Load Images</h3>
+    <p>
+        Images below are only loaded when they are visible in the viewport, using <code>hx-get</code> and <code>hx-trigger="revealed"</code>.
+    </p>
+    <div class="columns is-multiline">
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=1"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=2"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=3"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=4"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=5"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-image" style="min-height:220px;">
+                    <div
+                        hx-get="/demo/lazy-load-image?img=6"
+                        hx-trigger="revealed"
+                        hx-swap="outerHTML"
+                        class="lazy-image-placeholder has-text-centered"
+                        style="height:220px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; border-radius:8px;"
+                    >
+                        <span class="icon is-large"><i class="fas fa-image fa-2x"></i></span>
+                        <span class="ml-2">Loading image...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

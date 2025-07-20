@@ -1,0 +1,46 @@
+{% extends "_base.html" %}
+{% block content %}
+{% include "navigation.html" %}
+{% include "docs/hero.html" %}
+<div id="docs-container">
+    <nav class="docs-nav">
+        <div class="container">
+            <a href="/docs/" class="mr-4">Home</a>
+            <a href="/docs/getting-started#docs-container" class="mr-4 has-text-weight-bold">Getting Started</a>
+            <a href="/docs/attributes#docs-container" class="mr-4">Core Attributes</a>
+            <a href="https://htmx.org/docs/" target="_blank" class="docs-link">HTMX.org Full Docs</a>
+        </div>
+    </nav>
+    <section class="docs-content">
+        <h2 class="title is-3">1. Include HTMX in Your Project</h2>
+        <p>
+            Add the following script tag to your HTML, just before the closing <code>&lt;/body&gt;</code> tag:
+        </p>
+        <pre><code>&lt;script src="https://unpkg.com/htmx.org@2.0.4"&gt;&lt;/script&gt;</code></pre>
+
+        <h2 class="title is-3 mt-5">2. Make Your First AJAX Request</h2>
+        <p>
+            With HTMX, you can make AJAX requests using simple HTML attributes. For example:
+        </p>
+        <pre><code>&lt;button hx-get="/hello" hx-target="#result"&gt;Say Hello&lt;/button&gt;
+&lt;div id="result"&gt;&lt;/div&gt;</code></pre>
+        <p>
+            When the button is clicked, HTMX will send a GET request to <code>/hello</code> and replace the contents of <code>#result</code> with the response.
+        </p>
+
+        <h2 class="title is-3 mt-5">3. How It Works</h2>
+        <ul>
+            <li><strong>hx-get</strong>: The URL to fetch when the element is triggered.</li>
+            <li><strong>hx-target</strong>: The element to update with the response.</li>
+            <li><strong>hx-trigger</strong>: (Optional) The event that triggers the request (default is <code>click</code> for buttons).</li>
+        </ul>
+
+        <h2 class="title is-3 mt-5">4. Next Steps</h2>
+        <ul>
+            <li>Explore the <a href="/docs/attributes" class="docs-link">Core Attributes</a> to learn more about what you can do with HTMX.</li>
+            <li>Check out <a href="/docs/examples" class="docs-link">Examples</a> for real-world usage.</li>
+            <li>Read the <a href="https://htmx.org/docs/" class="docs-link" target="_blank">full documentation at htmx.org</a>.</li>
+        </ul>
+    </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,81 @@
+<!-- Infinite Scroll Example: Load more content as you scroll down the page, using hx-get and hx-trigger='revealed' -->
+
+<div class="box scroll-box">
+    <h3 class="title is-4 mb-3">Infinite Scroll</h3>
+    <p>
+        Scroll down to automatically load more content. This uses <code>hx-get</code> and <code>hx-trigger="intersect once"</code> for seamless infinite scrolling.
+    </p>
+    <div id="infinite-scroll-list" style="max-height: 150px; overflow-y: auto; height: 145px">
+        <!-- Initial items -->
+        <div class="infinite-item">Item 1</div>
+        <div class="infinite-item">Item 2</div>
+        <div class="infinite-item">Item 3</div>
+        <div class="infinite-item">Item 4</div>
+        <div class="infinite-item">Item 5</div>
+        <div class="infinite-item">Item 6</div>
+        <div class="infinite-item">Item 7</div>
+        <div class="infinite-item">Item 8</div>
+        <div class="infinite-item">Item 9</div>
+        <div class="infinite-item">Item 10</div>
+
+        <!-- The loader will be swapped with more items as you scroll -->
+        <span
+            id="infinite-scroll-loader"
+            hx-get="/demo/infinite-scroll-items?page=2"
+            hx-trigger="intersect once"
+            hx-swap="afterend"
+            class="has-text-centered py-4"
+            style="min-height: 1px;"
+            data-scroll-loader
+        ></span>
+        <div id="infinite-scroll-spinner" class="has-text-centered py-4" style="display:none;">
+            <button class="button is-light is-loading is-large" disabled>Loading more...</button>
+        </div>
+    </div>
+    <script>
+    (function() {
+        function checkLoaderVisibility(list) {
+            var loader = list.querySelector('#infinite-scroll-loader');
+            if (!loader) return;
+            // Only trigger if scrolled to bottom of the list
+            if (list.scrollTop + list.clientHeight >= list.scrollHeight - 1) {
+                if (!loader.hasAttribute('data-loading')) {
+                    loader.setAttribute('data-loading', '1');
+                    loader.dispatchEvent(new Event('revealed', {bubbles:true}));
+                }
+            }
+        }
+        function setupInfiniteScroll(list) {
+            if (!list) return;
+            list.addEventListener('scroll', function() {
+                checkLoaderVisibility(list);
+            });
+            // Also check on load in case already at bottom
+            setTimeout(function() { checkLoaderVisibility(list); }, 100);
+            // After each HTMX swap, re-check for new loader and trigger if needed
+            document.body.addEventListener('htmx:afterSwap', function(evt) {
+                var loader = list.querySelector('#infinite-scroll-loader');
+                if (loader) loader.removeAttribute('data-loading');
+                setTimeout(function() { checkLoaderVisibility(list); }, 50);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var list = document.getElementById('infinite-scroll-list');
+            setupInfiniteScroll(list);
+        });
+    })();
+    document.addEventListener('htmx:beforeRequest', function(evt) {
+        var loader = document.getElementById('infinite-scroll-loader');
+        var spinner = document.getElementById('infinite-scroll-spinner');
+        if (loader && spinner && evt.target === loader) {
+            spinner.style.display = '';
+        }
+    });
+    document.addEventListener('htmx:afterSwap', function(evt) {
+        var spinner = document.getElementById('infinite-scroll-spinner');
+        if (spinner) {
+            spinner.style.display = 'none';
+        }
+    });
+    </script>
+</div>

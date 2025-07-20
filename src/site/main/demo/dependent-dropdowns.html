@@ -1,0 +1,42 @@
+<!-- Dependent Dropdowns Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Dependent Dropdowns</h3>
+    <p>
+        Select a category to populate the second dropdown dynamically.
+    </p>
+    <form>
+        <div class="field">
+            <label class="label">Category</label>
+            <div class="control">
+                <div class="select">
+                    <select id="category-select"
+                            name="category"
+                            hx-get="/demo/dependent-dropdown-options"
+                            hx-target="#item-select-container"
+                            hx-trigger="change"
+                            hx-indicator="#dropdown-indicator"
+                            required>
+                        <option value="">-- Choose a category --</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="animals">Animals</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Item</label>
+            <div class="control" id="item-select-container">
+                <div class="select">
+                    <select id="item-select" name="item" disabled>
+                        <option value="">-- Select a category first --</option>
+                    </select>
+                </div>
+            </div>
+            <span id="dropdown-indicator" class="icon is-small" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </div>
+    </form>
+</div>

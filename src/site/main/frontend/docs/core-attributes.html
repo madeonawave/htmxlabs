@@ -1,0 +1,83 @@
+{% extends "_base.html" %}
+{% block content %}
+{% include "navigation.html" %}
+{% include "docs/hero.html" %}
+<div id="docs-container">
+    <nav class="docs-nav">
+        <div class="container">
+            <a href="/docs/" class="mr-4">Home</a>
+            <a href="/docs/getting-started#docs-container" class="mr-4">Getting Started</a>
+            <a href="/docs/attributes#docs-container" class="mr-4 has-text-weight-bold">Core Attributes</a>
+            <a href="https://htmx.org/docs/" target="_blank" class="docs-link">HTMX.org Full Docs</a>
+        </div>
+    </nav>
+    <section class="docs-content">
+        <h2 class="title is-3">HTMX Core Attributes</h2>
+        <p>
+            HTMX uses special <strong>hx-*</strong> attributes to add dynamic behavior to your HTML. Here are the most important ones:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>hx-get</code></td>
+                    <td>Performs a GET request to the specified URL when triggered.</td>
+                    <td><code>&lt;button hx-get="/hello" hx-target="#result"&gt;Say Hello&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-post</code></td>
+                    <td>Performs a POST request to the specified URL when triggered.</td>
+                    <td><code>&lt;form hx-post="/submit" hx-target="#msg"&gt;...&lt;/form&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-put</code></td>
+                    <td>Performs a PUT request to the specified URL when triggered.</td>
+                    <td><code>&lt;button hx-put="/update" hx-target="#item"&gt;Update&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-delete</code></td>
+                    <td>Performs a DELETE request to the specified URL when triggered.</td>
+                    <td><code>&lt;button hx-delete="/delete/1" hx-target="#row-1"&gt;Delete&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-target</code></td>
+                    <td>Specifies which element to update with the response.</td>
+                    <td><code>&lt;button hx-get="/hello" hx-target="#result"&gt;Say Hello&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-trigger</code></td>
+                    <td>Specifies the event that triggers the request (e.g. <code>click</code>, <code>change</code>, <code>every 2s</code>).</td>
+                    <td><code>&lt;input hx-get="/search" hx-trigger="keyup changed delay:300ms" hx-target="#results"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-swap</code></td>
+                    <td>Controls how the response is swapped into the target (<code>innerHTML</code>, <code>outerHTML</code>, <code>beforeend</code>, etc.).</td>
+                    <td><code>&lt;button hx-get="/next" hx-target="#list" hx-swap="beforeend"&gt;Load More&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-vals</code></td>
+                    <td>Specifies additional values to submit with the request (as JSON).</td>
+                    <td><code>&lt;button hx-post="/vote" hx-vals='{"option":"A"}'&gt;Vote A&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><code>hx-headers</code></td>
+                    <td>Adds custom headers to the request.</td>
+                    <td><code>&lt;button hx-get="/data" hx-headers='{"X-API-Key":"123"}'&gt;Fetch&lt;/button&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="title is-4 mt-5">More Attributes</h2>
+        <p>
+            HTMX supports many more attributes for advanced use cases, including <code>hx-push-url</code>, <code>hx-select</code>, <code>hx-indicator</code>, and more.
+            See the <a href="https://htmx.org/docs/" class="docs-link" target="_blank">full documentation</a> for details.
+        </p>
+    </section>
+</div>
+{% endblock content %}

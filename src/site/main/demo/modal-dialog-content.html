@@ -1,0 +1,11 @@
+<div class="box has-background-light">
+    <h4 class="title is-5">Dynamically Loaded Modal Content</h4>
+    <p>
+        This content was loaded into the modal via HTMX!
+    </p>
+    <div class="mt-4">
+        <button class="button is-success" onclick="document.getElementById('htmx-modal').classList.remove('is-active');document.getElementById('htmx-modal').querySelector('.modal-content').innerHTML='';">
+            Close Modal
+        </button>
+    </div>
+</div>

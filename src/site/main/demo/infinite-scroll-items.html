@@ -1,0 +1,16 @@
+{% for item in items %}
+    <div class="infinite-item">{{ item }}</div>
+{% endfor %}
+{% if has_more %}
+    <span
+        id="infinite-scroll-loader"
+        hx-get="/demo/infinite-scroll-items?page={{ next_page }}"
+        hx-trigger="intersect once"
+        hx-swap="afterend"
+        class="has-text-centered py-4"
+        style="min-height: 1px;"
+    ></span>
+{% else %}
+    <div class="has-text-centered py-4 has-text-grey">No more items to load.</div>
+{% endif %}
+

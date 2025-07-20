@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+{% block content %}
+{% include "navigation.html" %}
+{% include "docs/hero.html" %}
+<nav class="docs-nav">
+    <div class="container">
+        <a href="/docs/#docs-container" class="mr-4 has-text-weight-bold">Home</a>
+        <a href="/docs/getting-started#docs-container" class="mr-4">Getting Started</a>
+        <a href="/docs/attributes#docs-container" class="mr-4">Core Attributes</a>
+        <a href="https://htmx.org/docs/" target="_blank" class="docs-link">HTMX.org Full Docs</a>
+    </div>
+</nav>
+<section class="docs-content">
+    <h2 class="title is-3">Welcome to the HTMX Documentation</h2>
+    <p>
+        HTMX lets you build modern user interfaces with simple HTML attributes, enabling AJAX, CSS transitions, WebSockets, and more, directly in your markup.
+    </p>
+    <ul>
+        <li><a href="/docs/getting-started#docs-container" class="docs-link">Getting Started</a> – Learn how to add HTMX to your project and your first AJAX request.</li>
+        <li><a href="/docs/attributes#docs-container" class="docs-link">Core Attributes</a> – Reference for <code>hx-get</code>, <code>hx-post</code>, <code>hx-trigger</code>, and more.</li>
+        <li><a href="/examples" class="docs-link">Examples</a> – See real-world usage and interactive demos.</li>
+        <li><a href="https://htmx.org/docs/" class="docs-link" target="_blank">Full Documentation at htmx.org</a></li>
+    </ul>
+    <hr>
+    <p>
+        <strong>Looking for the full API and advanced topics?</strong>
+        Visit the <a href="https://htmx.org/docs/" class="docs-link" target="_blank">official htmx.org documentation</a>.
+    </p>
+</section>
+{% endblock content %}

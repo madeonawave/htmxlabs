@@ -1,0 +1,386 @@
+{% extends "_base.html" %}
+{% block content %}
+<!-- Navigation -->
+<nav class="navbar is-white is-fixed-top" role="navigation" >
+<div class="container">
+    <div class="navbar-brand">
+        <a class="navbar-item"
+           href="/">
+            <span class="htmx-logo">HTMX</span>
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/#features">Features</a>
+            <a class="navbar-item"
+               href="/examples/"
+                >Examples</a>
+            <a class="navbar-item" href="/docs/">Documentation</a>
+            <a class="navbar-item" href="https://discord.com/invite/Z6gPqAd">Community</a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary">
+                        <strong>Get Started</strong>
+                    </a>
+                    <a class="button is-light">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</nav>
+
+    <!-- Main Content Section -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero is-large hero-gradient">
+            <div class="hero-body">
+                <div class="container">
+                    <div class="columns is-vcentered hero-content">
+                        <div class="column is-6">
+                            <h1 class="title is-1 has-text-white">
+                                Build modern web apps with the power of <span class="has-text-warning">HTML</span>
+                            </h1>
+                            <p class="subtitle is-4 has-text-white-bis">
+                                HTMX gives you access to AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.
+                            </p>
+                            <div class="buttons">
+                                <button class="button is-large is-warning"
+                                        hx-get="#quick-start"
+                                        hx-target="#demo-area"
+                                        hx-swap="innerHTML">
+                                    <strong>Quick Start</strong>
+                                </button>
+                                <a class="button is-large is-outlined is-white"
+                                   href="https://github.com/madeonawave/htmxlabs">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>View on GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="demo-container" id="demo-area"
+                                hx-get="#quick-start"
+                                hx-target="#demo-area"
+                                hx-swap="innerHTML">
+                                <div class="has-text-centered">
+                                    <i class="fas fa-code fa-3x has-text-grey-light"></i>
+                                    <p class="has-text-grey">Interactive demos will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="section">
+            <div class="container">
+                <div class="columns has-text-centered">
+                    <div class="column">
+                        <div class="stats-counter" hx-get="#stat1" hx-trigger="intersect once">0</div>
+                        <p class="subtitle">GitHub Stars</p>
+                    </div>
+                    <div class="column">
+                        <div class="stats-counter" hx-get="#stat2" hx-trigger="intersect once">0</div>
+                        <p class="subtitle">npm Downloads</p>
+                    </div>
+                    <div class="column">
+                        <div class="stats-counter" hx-get="#stat3" hx-trigger="intersect once">0</div>
+                        <p class="subtitle">Community Members</p>
+                    </div>
+                    <div class="column">
+                        <div class="stats-counter" hx-get="#stat4" hx-trigger="intersect once">0</div>
+                        <p class="subtitle">Lines of Code</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <div class="container">
+                <div class="has-text-centered mb-6">
+                    <h2 class="title is-2">Why Choose HTMX?</h2>
+                    <p class="subtitle">Powerful features that make web development simple and efficient</p>
+                </div>
+
+                <div class="columns is-multiline">
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-primary">
+                                            <i class="fas fa-bolt fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">Lightning Fast</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    High performance with minimal overhead. HTMX is only ~14kb min.gz'd and has no dependencies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-info">
+                                            <i class="fas fa-code fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">HTML-First</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Extend HTML with attributes. No complex JavaScript frameworks or build steps required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-success">
+                                            <i class="fas fa-plug fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">Easy Integration</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Works with any backend. Drop it into existing projects without major architectural changes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-warning">
+                                            <i class="fas fa-exchange-alt fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">AJAX Made Simple</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Make AJAX requests with simple HTML attributes. Handle responses declaratively.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-danger">
+                                            <i class="fas fa-satellite-dish fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">Real-time Features</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Built-in support for WebSockets, Server-Sent Events, and real-time updates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="card feature-card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <span class="icon is-large has-text-primary">
+                                            <i class="fas fa-mobile-alt fa-2x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">Mobile Ready</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Responsive and mobile-friendly out of the box. Works great on all devices.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Code Example Section -->
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-6">
+                        <h3 class="title is-3">Simple. Powerful. Elegant.</h3>
+                        <p class="content is-medium">
+                            HTMX allows you to access modern browser features directly from HTML, rather than using JavaScript.
+                            This example shows how easy it is to make an AJAX request and update part of your page.
+                        </p>
+
+                    </div>
+                    <div class="column is-6">
+                        <div class="code-block">
+    <span style="color: #ff6b6b;">&lt;button</span> <span style="color: #4ecdc4;">hx-post</span>=<span style="color: #ffe66d;">"/clicked"</span>
+            <span style="color: #4ecdc4;">hx-trigger</span>=<span style="color: #ffe66d;">"click"</span>
+            <span style="color: #4ecdc4;">hx-target</span>=<span style="color: #ffe66d;">"#parent-div"</span>
+            <span style="color: #4ecdc4;">hx-swap</span>=<span style="color: #ffe66d;">"outerHTML"</span><span style="color: #ff6b6b;">&gt;</span>
+        Click Me!
+    <span style="color: #ff6b6b;">&lt;/button&gt;</span>
+                        </div>
+                        <div id="example-result" class="mt-4 p-4 has-background-light">
+                            <p class="has-text-grey">Click the button below to see HTMX in action!</p>
+                        </div>
+
+                    <button class="button is-primary mt-4"
+                                id="live-example-btn"
+                                hx-get="demo/clickme_example.html"
+                                hx-target="#example-result"
+                                hx-swap="innerHTML">
+                            Click me!
+                        </button>
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section cta-section">
+            <div class="container">
+<!--                <div class="has-text-centered">-->
+<!--                    <h2 class="title is-2">Ready to Get Started?</h2>-->
+<!--                    <p class="subtitle">Join thousands of developers building modern web applications with HTMX</p>-->
+<!--                    <div class="buttons is-centered">-->
+<!--                        <button class="button is-large is-primary">-->
+<!--                            <span class="icon">-->
+<!--                                <i class="fas fa-rocket"></i>-->
+<!--                            </span>-->
+<!--                            <span>Start Building</span>-->
+<!--                        </button>-->
+<!--                        <a class="button is-large is-outlined">-->
+<!--                            <span class="icon">-->
+<!--                                <i class="fas fa-book"></i>-->
+<!--                            </span>-->
+<!--                            <span>Read the Docs</span>-->
+<!--                        </a>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% include 'footer.html' %}
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+
+            burger.addEventListener('click', () => {
+                burger.classList.toggle('is-active');
+                menu.classList.toggle('is-active');
+            });
+        });
+
+        // Mock HTMX responses for demo purposes
+        document.body.addEventListener('htmx:configRequest', function(evt) {
+            // Simulate different responses based on the requested endpoint
+            if (evt.detail.path === '#quick-start') {
+                evt.preventDefault();
+                setTimeout(() => {
+                    document.getElementById('demo-area').innerHTML = `
+                        <div class="has-text-centered p-4">
+                            <h4 class="title is-4 has-text-primary">Welcome to HTMX!</h4>
+                            <p>You just made your first HTMX request! 🎉</p>
+                            <div class="code-block mt-4">
+&lt;script src="https://unpkg.com/htmx.org@2.0.4"&gt;&lt;/script&gt;
+                            </div>
+                        </div>
+                    `;
+                }, 100);
+            }
+            else if (evt.detail.path.includes('#stat')) {
+                evt.preventDefault();
+                const stats = {
+                    '#stat1': '37.2K',
+                    '#stat2': '2.8M',
+                    '#stat3': '15.3K',
+                    '#stat4': '15K'
+                };
+                setTimeout(() => {
+                    evt.detail.elt.textContent = stats[evt.detail.path] || '0';
+                }, Math.random() * 1000 + 500);
+            }
+        });
+
+        // Measure response time for the live example
+        let liveExampleStart = null;
+        document.getElementById('live-example-btn').addEventListener('click', function() {
+            liveExampleStart = performance.now();
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            if (evt.detail.target && evt.detail.target.id === 'example-result' && liveExampleStart !== null) {
+                const elapsed = performance.now() - liveExampleStart;
+                // Add a notification with the response time
+                const resultDiv = document.getElementById('example-result');
+                resultDiv.innerHTML = `
+                    <div class="notification is-success">
+                        <button class="delete"></button>
+                        <strong>Success!</strong> ${resultDiv.textContent.trim()}
+                        <br><small>Response time: ${elapsed.toFixed(1)}ms</small>
+                    </div>
+                `;
+                liveExampleStart = null;
+            }
+        });
+    </script>
+    <script>
+        // Handle Bulma notification close button (for dynamically loaded content)
+        document.body.addEventListener('click', function(e) {
+            if (e.target.classList.contains('delete') && e.target.parentElement.classList.contains('notification')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+
+{% endblock content %}

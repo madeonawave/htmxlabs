@@ -1,0 +1,55 @@
+<!-- File Upload Example: Upload files asynchronously using HTMX and a simple form. -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">File Upload</h3>
+    <p>
+        Select a file and upload it asynchronously. The server will respond with the upload status and file info.
+    </p>
+    <form
+        id="file-upload-form"
+        hx-post="/demo/file-upload-result.html"
+        hx-target="#file-upload-result"
+        hx-encoding="multipart/form-data"
+        enctype="multipart/form-data"
+        _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
+        <div class="field">
+            <div class="file has-name is-boxed is-fullwidth">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="file" required>
+                    <span class="file-cta">
+                        <span class="icon"><i class="fas fa-upload"></i></span>
+                        <span class="file-label">Choose a file…</span>
+                    </span>
+                    <span class="file-name" id="file-upload-filename">No file selected</span>
+                </label>
+            </div>
+        </div>
+        <button class="button is-primary mt-3" type="submit">
+            <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+            <span>Upload</span>
+        </button>
+        <progress id='progress' value='0' max='100'></progress>
+    </form>
+    <div id="file-upload-result" class="mt-4"></div>
+</div>
+
+<script>
+    // Show selected file name in the UI
+    // This must be re-attached after HTMX swaps the modal content!
+    function attachFileInputListener() {
+        var input = document.querySelector('#file-upload-form input[type="file"]');
+        var nameSpan = document.getElementById('file-upload-filename');
+        if (input && nameSpan) {
+            input.addEventListener('change', function() {
+                nameSpan.textContent = input.files.length > 0 ? input.files[0].name : 'No file selected';
+            });
+        }
+    }
+    document.addEventListener('DOMContentLoaded', attachFileInputListener);
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        // Only re-attach if the file upload form is present in the swapped content
+        if (document.getElementById('file-upload-form')) {
+            attachFileInputListener();
+        }
+    });
+</script>

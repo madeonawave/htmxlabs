@@ -1,0 +1,115 @@
+<!-- Kanban Board Example with HTMX and Drag & Drop -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Kanban Board</h3>
+    <p>
+        Drag and drop cards between columns to manage tasks in a Kanban board.
+    </p>
+    <div class="columns" id="kanban-board">
+        <div class="column">
+            <div class="box has-background-light">
+                <h4 class="title is-5">To Do</h4>
+                <ul class="kanban-list" id="todo-list">
+                    <li class="kanban-card" draggable="true" data-id="1">Write docs</li>
+                    <li class="kanban-card" draggable="true" data-id="2">Design UI</li>
+                </ul>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-light">
+                <h4 class="title is-5">In Progress</h4>
+                <ul class="kanban-list" id="inprogress-list">
+                    <li class="kanban-card" draggable="true" data-id="3">Implement backend</li>
+                </ul>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-light">
+                <h4 class="title is-5">Done</h4>
+                <ul class="kanban-list" id="done-list">
+                    <li class="kanban-card" draggable="true" data-id="4">Setup project</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="kanban-result" class="mt-4"></div>
+</div>
+<script>
+(function() {
+    let dragged = null;
+    document.querySelectorAll('.kanban-card').forEach(card => {
+        card.addEventListener('dragstart', function(e) {
+            dragged = this;
+            setTimeout(() => this.classList.add('is-dragging'), 0);
+        });
+        card.addEventListener('dragend', function(e) {
+            this.classList.remove('is-dragging');
+            dragged = null;
+        });
+    });
+    document.querySelectorAll('.kanban-list').forEach(list => {
+        list.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(this, e.clientY);
+            if (afterElement == null) {
+                this.appendChild(dragged);
+            } else {
+                this.insertBefore(dragged, afterElement);
+            }
+        });
+        list.addEventListener('drop', function(e) {
+            e.preventDefault();
+            // Send new board state to server (for demo, just show in result)
+            const board = {};
+            document.querySelectorAll('.kanban-list').forEach(l => {
+                board[l.id] = Array.from(l.querySelectorAll('.kanban-card')).map(card => card.textContent.trim());
+            });
+            // Use XMLHttpRequest to send JSON payload (like drag-drop.html)
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/demo/kanban-board-update', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('HX-Request', 'true');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('kanban-result').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send(JSON.stringify({ board: board }));
+        });
+    });
+    function getDragAfterElement(list, y) {
+        const cards = [...list.querySelectorAll('.kanban-card:not(.is-dragging)')];
+        return cards.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: -Infinity }).element;
+    }
+})();
+</script>
+<style>
+.kanban-list {
+    min-height: 60px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 0.5em;
+    list-style: none;
+}
+.kanban-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+    padding: 0.75em 1em;
+    cursor: grab;
+    transition: box-shadow 0.2s;
+}
+.kanban-card.is-dragging {
+    opacity: 0.5;
+    box-shadow: 0 4px 16px rgba(102,126,234,0.2);
+}
+</style>

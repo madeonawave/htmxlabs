@@ -1,0 +1,24 @@
+
+<!-- Detail fragment for Master/Detail Example -->
+<div class="card">
+    <div class="card-content">
+        <div class="media">
+            <div class="media-left">
+                {% if d.image %}
+                    <figure class="image is-64x64">
+                        <img src="{{ d.image }}" alt="{{ d.name }}">
+                    </figure>
+                {% else %}
+                    <span class="icon is-large"><i class="{{ d.icon }} fa-3x"></i></span>
+                {% endif %}
+            </div>
+            <div class="media-content">
+                <p class="title is-4">{{ d.name }}</p>
+                <p class="subtitle is-6">{{ d.role }}</p>
+                <p><strong>Email:</strong> <a href="mailto:{{ d.email }}">{{ d.email }}</a></p>
+            </div>
+        </div>
+        <div class="content mt-3">{{ d.bio }}</div>
+    </div>
+</div>
+

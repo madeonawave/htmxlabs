@@ -1,0 +1,43 @@
+<!-- demo/live-chat.html -->
+<div class="box">
+    <h3 class="title is-4 mb-3">Live Chat (WebSockets)</h3>
+    <div id="chat-messages" class="mb-3" style="height:200px; overflow-y:auto; background:#f8f9fa; border-radius:6px; padding:1em;"></div>
+    <form id="chat-form" autocomplete="off">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">Send</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    const chatSocket = new WebSocket(
+        (window.location.protocol === "https:" ? "wss://" : "ws://") +
+        window.location.host +
+        "/ws/chat/"
+    );
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const msg = document.createElement('div');
+        msg.textContent = data.message;
+        chatMessages.appendChild(msg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    chatForm.onsubmit = function(e) {
+        e.preventDefault();
+        if (chatInput.value.trim() !== "") {
+            chatSocket.send(JSON.stringify({
+                'message': chatInput.value
+            }));
+            chatInput.value = '';
+        }
+    };
+</script>

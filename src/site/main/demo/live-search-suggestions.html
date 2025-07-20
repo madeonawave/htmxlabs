@@ -1,0 +1,19 @@
+
+<!-- Autocomplete Suggestions Fragment for Live Search Example -->
+{% if q|length == 0 %}
+    <!-- No query, show nothing -->
+{% elif matches|length == 0 %}
+    <div class="notification is-warning is-light">No results found.</div>
+{% else %}
+    <ul class="menu-list">
+        {% for name in matches %}
+            <li>
+                <a href="#"
+                   onclick="document.getElementById('live-search-input').value='{{ name }}';document.getElementById('live-search-suggestions').innerHTML='';return false;">
+                    {{ name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+

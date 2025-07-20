@@ -1,0 +1,49 @@
+.docs-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 2rem 0 1rem 0;
+}
+.docs-nav {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1rem 0;
+}
+.docs-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 2rem 2.5rem;
+}
+.docs-link {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+#docs-container {
+    scroll-margin-top: 60px;
+    /* Remove margin-top to avoid gap between hero and docs content */
+    margin-top: 0;
+}
+pre {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 1em;
+    font-size: 1em;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    margin-top: 2em;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0.75em 1em;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: left;
+}
+th {
+    background: #f8f9fa;
+    min-width: 160px;
+}

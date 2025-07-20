@@ -1,0 +1,17 @@
+<!-- Basic AJAX Request Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Basic AJAX Request</h3>
+    <p>
+        Click the button below to make an AJAX request using <code>hx-get</code>. The server will respond with a message, and the content below will update without a page reload.
+    </p>
+     <div id="basic-ajax-result" class="mt-4 p-4 has-background-light">
+        <p class="has-text-grey">No request made yet.</p>
+    </div>
+    <button class="button is-primary mt-4"
+            hx-get="/demo/basic-ajax-response.html"
+            hx-target=".box #basic-ajax-result"
+            hx-swap="innerHTML">
+        Make AJAX Request
+    </button>
+</div>

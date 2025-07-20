@@ -1,0 +1,75 @@
+<!-- Master/Detail Example: Display a list and show details for the selected item without a full page reload. -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Master/Detail View</h3>
+    <p>
+        Select an item from the list to view its details. The details are loaded dynamically without a full page reload.
+    </p>
+    <div class="columns">
+        <div class="column is-4">
+            <aside class="menu">
+                <p class="menu-label">Items</p>
+                <ul class="menu-list" id="master-detail-list">
+                    <li>
+                        <a href="#"
+                           hx-get="/demo/master-detail-detail.html?id=1"
+                           hx-target="#detail-panel"
+                           hx-swap="innerHTML"
+                           class="is-active"
+                           data-detail-id="1"
+                        >Alice Johnson</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           hx-get="/demo/master-detail-detail.html?id=2"
+                           hx-target="#detail-panel"
+                           hx-swap="innerHTML"
+                           data-detail-id="2"
+                        >Bob Smith</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           hx-get="/demo/master-detail-detail.html?id=3"
+                           hx-target="#detail-panel"
+                           hx-swap="innerHTML"
+                           data-detail-id="3"
+                        >Charlie Brown</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           hx-get="/demo/master-detail-detail.html?id=4"
+                           hx-target="#detail-panel"
+                           hx-swap="innerHTML"
+                           data-detail-id="4"
+                        >Dana White</a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column is-8">
+            <div id="detail-panel">
+                <div class="has-text-grey-light has-text-centered p-6">
+                    <span class="icon is-large"><i class="fas fa-user fa-3x"></i></span>
+                    <p>Select an item to view details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    // Use event delegation on the document to handle dynamically loaded content
+    document.body.addEventListener('click', function(e) {
+        var a = e.target.closest('a[data-detail-id]');
+        if (!a) return;
+        var list = a.closest('#master-detail-list');
+        if (!list) return;
+        // Remove is-active from all
+        list.querySelectorAll('a[data-detail-id]').forEach(function(link) {
+            link.classList.remove('is-active');
+        });
+        // Add is-active to clicked
+        a.classList.add('is-active');
+    });
+})();
+</script>

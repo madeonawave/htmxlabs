@@ -1,0 +1,27 @@
+
+<div class="box">
+    <h3 class="title is-4 mb-3">
+        HTMX with REST API
+    </h3>
+    <p>
+        This example fetches data from a public REST API (<code>jsonplaceholder.typicode.com</code>) and renders it using HTMX.
+    </p>
+    <button class="button is-link mt-3"
+            hx-get="/demo/htmx-rest-api"
+            hx-target="#rest-api-results"
+            hx-swap="innerHTML">
+        Fetch Posts
+    </button>
+    <div id="rest-api-results" class="mt-4">
+        {% if posts %}
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <strong>{{ post.title|capfirst }}</strong>
+                        <p>{{ post.body }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,14 @@
+
+<!-- Results fragment for Active Search Example -->
+{% if q|length == 0 %}
+    <div class="notification is-info is-light">Start typing to see results.</div>
+{% elif matches|length == 0 %}
+    <div class="notification is-warning is-light">No results found.</div>
+{% else %}
+    <ul class="menu-list">
+        {% for name in matches %}
+            <li><span>{{ name }}</span></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+

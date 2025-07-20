@@ -1,0 +1,59 @@
+<!-- Real-time Notifications Example with WebSockets -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Real-time Notifications</h3>
+    <p>
+        Receive notifications instantly as they arrive, using WebSockets.
+    </p>
+    <div id="notifications-list" class="mb-4"></div>
+    <form id="notification-form" autocomplete="off" style="max-width:400px;">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type="text" id="notification-input" placeholder="Send a notification (demo)">
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">
+                    <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                    <span>Send</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+(function() {
+    const ws = new WebSocket(
+        (window.location.protocol === "https:" ? "wss://" : "ws://") +
+        window.location.host +
+        "/ws/notifications/"
+    );
+    const list = document.getElementById('notifications-list');
+    const form = document.getElementById('notification-form');
+    const input = document.getElementById('notification-input');
+
+    ws.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const div = document.createElement('div');
+        div.className = "notification is-info is-light";
+        div.innerHTML = `<span class="icon"><i class="fas fa-bell"></i></span> ${data.message}`;
+        list.prepend(div);
+        setTimeout(() => div.classList.add('fade-out'), 5000);
+        setTimeout(() => div.remove(), 6000);
+    };
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        if (input.value.trim() !== "") {
+            ws.send(JSON.stringify({ message: input.value }));
+            input.value = '';
+        }
+    };
+})();
+</script>
+<style>
+/* Fade out notification after a few seconds */
+.notification.fade-out {
+    opacity: 0.2;
+    transition: opacity 1s;
+}
+</style>

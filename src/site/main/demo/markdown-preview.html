@@ -1,0 +1,38 @@
+<!-- Markdown Live Preview Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Markdown Live Preview</h3>
+    <p>
+        Type Markdown in the textarea below and see a live HTML preview update as you type.
+    </p>
+    <div class="columns">
+        <div class="column is-half">
+            <label class="label">Markdown Input</label>
+            <textarea class="textarea"
+                      id="markdown-input"
+                      name="markdown"
+                      rows="10"
+                      placeholder="Type **Markdown** here..."
+                      hx-get="/demo/markdown-preview-fragment"
+                      hx-trigger="keyup changed delay:200ms"
+                      hx-target="#markdown-preview"
+                      hx-swap="innerHTML"
+                      autocomplete="off"></textarea>
+        </div>
+        <div class="column is-half">
+            <label class="label">Live Preview</label>
+            <div id="markdown-preview" class="content has-background-light p-3" style="min-height: 200px;">
+                <em>Start typing Markdown to see a preview...</em>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Trigger initial preview if textarea has content
+    var ta = document.getElementById('markdown-input');
+    if (ta && ta.value.trim()) {
+        htmx.trigger(ta, 'keyup');
+    }
+});
+</script>

@@ -1,0 +1,290 @@
+[
+  {
+    "id": "htmx-rest-api",
+    "title": "HTMX with REST API",
+    "description": "Fetch and render data from a REST API using HTMX, demonstrating how to consume external or internal APIs and update the UI dynamically.",
+    "tags": ["Integrations", "API", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-plug",
+    "timestamp": "2024-06-27T10:00:00Z"
+  },
+  {
+    "id": "basic-ajax",
+    "title": "Basic AJAX Request",
+    "description": "Learn how to make your first AJAX request with HTMX using simple HTML attributes.",
+    "tags": ["AJAX", "Basic"],
+    "level": "beginner",
+    "icon": "fas fa-mouse-pointer",
+    "timestamp": "2024-06-01T10:00:00Z"
+  },
+  {
+    "id": "form-validation",
+    "title": "Dynamic Form Validation",
+    "description": "Real-time form validation with server-side feedback and error handling.",
+    "tags": ["Forms", "Validation"],
+    "level": "intermediate",
+    "icon": "fas fa-edit",
+    "timestamp": "2024-06-02T11:00:00Z"
+  },
+  {
+    "id": "data-table",
+    "title": "Sortable Data Table",
+    "description": "Interactive data table with sorting, filtering, and pagination.",
+    "tags": ["Tables", "Sorting"],
+    "level": "intermediate",
+    "icon": "fas fa-table",
+    "timestamp": "2024-06-03T12:00:00Z"
+  },
+  {
+    "id": "live-chat",
+    "title": "Real-time Chat",
+    "description": "Live chat application using WebSockets and server-sent events.",
+    "tags": ["WebSockets", "Real-time", "Integrations"],
+    "level": "advanced",
+    "icon": "fas fa-comments",
+    "timestamp": "2024-06-04T13:00:00Z"
+  },
+  {
+    "id": "live-search",
+    "title": "Autocomplete Search",
+    "description": "Dynamic search with autocomplete suggestions and debounced requests.",
+    "tags": ["Search", "Autocomplete"],
+    "level": "intermediate",
+    "icon": "fas fa-search",
+    "timestamp": "2024-06-05T14:00:00Z"
+  },
+  {
+    "id": "like-button",
+    "title": "Interactive Like Button",
+    "description": "Animated like button with optimistic updates and error handling.",
+    "tags": ["Animation", "UI"],
+    "level": "beginner",
+    "icon": "fas fa-heart",
+    "timestamp": "2024-06-06T15:00:00Z"
+  },
+  {
+    "id": "active-search",
+    "title": "Active Search",
+    "description": "Live search results as you type, using HTMX's hx-get and hx-trigger.",
+    "tags": ["Search", "AJAX", "UI"],
+    "level": "beginner",
+    "icon": "fas fa-search",
+    "timestamp": "2024-06-07T10:00:00Z"
+  },
+  {
+    "id": "infinite-scroll",
+    "title": "Infinite Scroll",
+    "description": "Load more content as you scroll down the page, using hx-get and hx-trigger='revealed'.",
+    "tags": ["Scrolling", "Pagination", "UI"],
+    "level": "intermediate",
+    "icon": "fas fa-infinity",
+    "timestamp": "2024-06-08T11:00:00Z"
+  },
+  {
+    "id": "click-to-edit",
+    "title": "Click to Edit",
+    "description": "Edit content in place by clicking on it, then save changes via AJAX.",
+    "tags": ["Forms", "UI", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-pen",
+    "timestamp": "2024-06-09T12:00:00Z"
+  },
+  {
+    "id": "master-detail",
+    "title": "Master/Detail View",
+    "description": "Display a list and show details for the selected item without a full page reload.",
+    "tags": ["UI", "AJAX", "Detail"],
+    "level": "intermediate",
+    "icon": "fas fa-list",
+    "timestamp": "2024-06-10T13:00:00Z"
+  },
+  {
+    "id": "file-upload",
+    "title": "File Upload",
+    "description": "Upload files asynchronously using HTMX and a simple form.",
+    "tags": ["Forms", "Upload", "AJAX"],
+    "level": "advanced",
+    "icon": "fas fa-upload",
+    "timestamp": "2024-06-11T14:00:00Z"
+  },
+  {
+    "id": "polling",
+    "title": "Polling Example",
+    "description": "Automatically update content at a regular interval using hx-get and hx-trigger='every 2s'.",
+    "tags": ["Polling", "AJAX", "Real-time"],
+    "level": "beginner",
+    "icon": "fas fa-sync",
+    "timestamp": "2024-06-13T16:00:00Z"
+  },
+  {
+    "id": "modal-dialog",
+    "title": "Modal Dialog",
+    "description": "Load modal dialog content dynamically with HTMX.",
+    "tags": ["UI", "Modal", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-window-maximize",
+    "timestamp": "2024-06-14T17:00:00Z"
+  },
+  {
+    "id": "tabbed-interface",
+    "title": "Tabbed Interface",
+    "description": "Switch between tabs and load content dynamically using HTMX.",
+    "tags": ["UI", "Tabs", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-folder",
+    "timestamp": "2024-06-15T18:00:00Z"
+  },
+  {
+    "id": "delete-row",
+    "title": "Delete Row",
+    "description": "Delete a table row with a confirmation and AJAX request.",
+    "tags": ["Tables", "AJAX", "UI"],
+    "level": "beginner",
+    "icon": "fas fa-trash",
+    "timestamp": "2024-06-16T19:00:00Z"
+  },
+  {
+    "id": "sort-table",
+    "title": "Sort Table",
+    "description": "Sort table columns dynamically with HTMX.",
+    "tags": ["Tables", "Sorting", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-sort",
+    "timestamp": "2024-06-17T20:00:00Z"
+  },
+  {
+    "id": "lazy-load",
+    "title": "Lazy Load Images",
+    "description": "Load images only when they are visible using hx-get and hx-trigger='revealed'.",
+    "tags": ["Images", "Performance", "UI"],
+    "level": "beginner",
+    "icon": "fas fa-image",
+    "timestamp": "2024-06-18T21:00:00Z"
+  },
+  {
+    "id": "progress-bar",
+    "title": "Progress Bar",
+    "description": "Show a progress bar for long-running AJAX requests.",
+    "tags": ["UI", "Progress", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-tasks",
+    "timestamp": "2024-06-19T22:00:00Z"
+  },
+  {
+    "id": "dependent-dropdowns",
+    "title": "Dependent Dropdowns",
+    "description": "Populate a dropdown based on the selection of another using HTMX.",
+    "tags": ["Forms", "Dropdown", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-caret-down",
+    "timestamp": "2024-06-20T23:00:00Z"
+  },
+  {
+    "id": "theme-switcher",
+    "title": "Theme Switcher",
+    "description": "Switch between light and dark themes using HTMX and CSS variables.",
+    "tags": ["UI", "Theme", "CSS"],
+    "level": "beginner",
+    "icon": "fas fa-adjust",
+    "timestamp": "2024-06-21T09:00:00Z"
+  },
+  {
+    "id": "drag-drop",
+    "title": "Drag and Drop",
+    "description": "Implement drag-and-drop sorting with HTMX and a small JS helper.",
+    "tags": ["UI", "DragDrop", "AJAX"],
+    "level": "advanced",
+    "icon": "fas fa-arrows-alt",
+    "timestamp": "2024-06-22T10:00:00Z"
+  },
+  {
+    "id": "toast-notification",
+    "title": "Toast Notification",
+    "description": "Show toast notifications in response to AJAX events.",
+    "tags": ["UI", "Notification", "AJAX"],
+    "level": "beginner",
+    "icon": "fas fa-bell",
+    "timestamp": "2024-06-23T11:00:00Z"
+  },
+  {
+    "id": "csv-export",
+    "title": "CSV Export",
+    "description": "Export table data to CSV using HTMX and a server endpoint.",
+    "tags": ["Tables", "Export", "AJAX"],
+    "level": "intermediate",
+    "icon": "fas fa-file-csv",
+    "timestamp": "2024-06-24T12:00:00Z"
+  },
+  {
+    "id": "calendar",
+    "title": "Calendar Widget",
+    "description": "Display and interact with a calendar, loading events dynamically.",
+    "tags": ["UI", "Calendar", "AJAX"],
+    "level": "advanced",
+    "icon": "fas fa-calendar-alt",
+    "timestamp": "2024-06-25T13:00:00Z"
+  },
+  {
+    "id": "live-stock-ticker",
+    "title": "Live Stock Ticker",
+    "description": "Display stock prices or Bitcoin values that update in real time using HTMX polling.",
+    "tags": ["Real-time", "Polling", "API"],
+    "level": "intermediate",
+    "icon": "fas fa-chart-line",
+    "timestamp": "2024-06-27T12:00:00Z"
+  },
+  {
+    "id": "weather-widget",
+    "title": "Weather Widget",
+    "description": "Show live weather updates for any city using HTMX and a public API.",
+    "tags": ["API", "Widget", "Real-time", "Integrations"],
+    "level": "intermediate",
+    "icon": "fas fa-cloud-sun",
+    "timestamp": "2024-06-26T10:00:00Z"
+  },
+  {
+    "id": "markdown-preview",
+    "title": "Markdown Live Preview",
+    "description": "Type Markdown and see a live HTML preview update as you type.",
+    "tags": ["Forms", "Preview", "Markdown"],
+    "level": "intermediate",
+    "icon": "fas fa-file-alt",
+    "timestamp": "2024-06-26T11:00:00Z"
+  },
+  {
+    "id": "kanban-board",
+    "title": "Kanban Board",
+    "description": "Drag and drop cards between columns to manage tasks in a Kanban board.",
+    "tags": ["UI", "DragDrop", "Board"],
+    "level": "advanced",
+    "icon": "fas fa-columns",
+    "timestamp": "2024-06-26T12:00:00Z"
+  },
+  {
+    "id": "realtime-notifications",
+    "title": "Real-time Notifications",
+    "description": "Receive notifications instantly as they arrive, using WebSockets.",
+    "tags": ["Real-time", "Notifications", "WebSockets", "Integrations"],
+    "level": "advanced",
+    "icon": "fas fa-bell",
+    "timestamp": "2024-06-26T17:00:00Z"
+  },
+  {
+    "id": "color-picker",
+    "title": "Color Picker",
+    "description": "Pick a color and see the UI update live with your selection.",
+    "tags": ["UI", "Color", "Picker"],
+    "level": "beginner",
+    "icon": "fas fa-palette",
+    "timestamp": "2024-06-26T18:00:00Z"
+  },
+  {
+    "id": "language-switcher",
+    "title": "Language Switcher",
+    "description": "Switch the UI language instantly using HTMX and server-rendered fragments.",
+    "tags": ["UI", "Integrations", "Forms"],
+    "level": "beginner",
+    "icon": "fas fa-language",
+    "timestamp": "2024-06-27T18:00:00Z"
+  }
+]

@@ -1,0 +1,49 @@
+<!-- Progress Bar Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Progress Bar for Long-Running AJAX Request</h3>
+    <p>
+        Click the button below to start a long-running request. The progress bar will show while the request is in progress.
+    </p>
+    <div id="progress-bar-container" style="margin-bottom: 1.5rem;">
+        <progress id="progress-bar" class="progress is-info" value="0" max="100" style="width:100%; display:none;"></progress>
+    </div>
+    <button class="button is-primary"
+            id="start-progress-btn"
+            hx-get="/demo/progress-bar"
+            hx-target="#progress-bar-result"
+            hx-indicator="#progress-bar"
+            hx-swap="innerHTML">
+        Start Long-Running Request
+    </button>
+    <div id="progress-bar-result" class="mt-4"></div>
+</div>
+<script>
+(function() {
+    var progressBar = document.getElementById('progress-bar');
+    var btn = document.getElementById('start-progress-btn');
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        if (evt.target === btn) {
+            progressBar.style.display = '';
+            progressBar.value = 0;
+            // Simulate progress for demo (since we can't get real progress from server)
+            var val = 0;
+            progressBar._interval = setInterval(function() {
+                val += 5 + Math.random() * 10;
+                if (val > 98) val = 98;
+                progressBar.value = val;
+            }, 200);
+        }
+    });
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.target.id === "progress-bar-result") {
+            progressBar.value = 100;
+            setTimeout(function() {
+                progressBar.style.display = 'none';
+                progressBar.value = 0;
+            }, 500);
+            clearInterval(progressBar._interval);
+        }
+    });
+})();
+</script>

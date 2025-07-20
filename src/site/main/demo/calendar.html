@@ -1,0 +1,19 @@
+<!-- Calendar Widget Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Calendar Widget</h3>
+    <p>
+        View and interact with a calendar. Change months dynamically with HTMX.
+    </p>
+    <div id="calendar-widget"
+         hx-get="/demo/calendar-month"
+         hx-trigger="load"
+         hx-target="this"
+         hx-swap="innerHTML">
+        <!-- Calendar month will be loaded here via HTMX -->
+        <div class="has-text-centered p-4">
+            <span class="icon is-large"><i class="fas fa-spinner fa-spin fa-2x"></i></span>
+            <p>Loading calendar...</p>
+        </div>
+    </div>
+</div>

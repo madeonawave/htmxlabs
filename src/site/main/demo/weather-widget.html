@@ -1,0 +1,30 @@
+<!-- Weather Widget Example with HTMX and Open-Meteo API -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Weather Widget</h3>
+    <p>
+        Enter a city and get live weather updates using HTMX and a public API.
+    </p>
+    <form id="weather-form" hx-get="/demo/weather-widget-fragment" hx-target="#weather-widget-result" hx-trigger="submit" autocomplete="off">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type="text" name="city" id="weather-city-input" placeholder="Enter city (e.g. Amsterdam)" value="Amsterdam" required>
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">
+                    <span class="icon"><i class="fas fa-search"></i></span>
+                    <span>Get Weather</span>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="weather-widget-result" class="mt-4">
+        <!-- Weather info will be loaded here -->
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-load weather for default city on page load
+    document.getElementById('weather-form').dispatchEvent(new Event('submit', {bubbles:true, cancelable:true}));
+});
+</script>

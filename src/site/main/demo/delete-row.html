@@ -1,0 +1,64 @@
+<!-- Delete Row Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Delete Table Row</h3>
+    <p>
+        Click the trash icon to delete a row. Confirmation is shown before deletion.
+    </p>
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="row-1">
+                <td>Alice</td>
+                <td>Developer</td>
+                <td>
+                    <button class="button is-danger is-light is-small"
+                        hx-post="/demo/delete-row"
+                        hx-vals='{"row_id": "1"}'
+                        hx-target="#row-1"
+                        hx-swap="outerHTML"
+                        onclick="return confirm('Are you sure you want to delete this row?');"
+                    >
+                        <span class="icon"><i class="fas fa-trash"></i></span>
+                    </button>
+                </td>
+            </tr>
+            <tr id="row-2">
+                <td>Bob</td>
+                <td>Designer</td>
+                <td>
+                    <button class="button is-danger is-light is-small"
+                        hx-post="/demo/delete-row"
+                        hx-vals='{"row_id": "2"}'
+                        hx-target="#row-2"
+                        hx-swap="outerHTML"
+                        onclick="return confirm('Are you sure you want to delete this row?');"
+                    >
+                        <span class="icon"><i class="fas fa-trash"></i></span>
+                    </button>
+                </td>
+            </tr>
+            <tr id="row-3">
+                <td>Charlie</td>
+                <td>Manager</td>
+                <td>
+                    <button class="button is-danger is-light is-small"
+                        hx-post="/demo/delete-row"
+                        hx-vals='{"row_id": "3"}'
+                        hx-target="#row-3"
+                        hx-swap="outerHTML"
+                        onclick="return confirm('Are you sure you want to delete this row?');"
+                    >
+                        <span class="icon"><i class="fas fa-trash"></i></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

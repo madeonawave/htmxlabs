@@ -1,0 +1,453 @@
+
+    <!-- Header Section -->
+    <section class="section examples-header hero-gradient"
+             style="padding-top: 5rem; padding-bottom: 5rem;">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Examples</a></li>
+                </ul>
+            </nav>
+
+            <div class="columns is-vcentered">
+                <div class="column is-8">
+                    <h1 class="title is-1 has-text-white">Examples</h1>
+                    <p class="subtitle is-4 has-text-white-bis">
+                        Discover the power of HTMX through real-world examples and interactive demos.
+                        From simple AJAX requests to complex real-time applications.
+                    </p>
+                </div>
+                <div class="column is-4 has-text-right">
+                    <div class="stats-bar">
+                        <div class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading has-text-white">Examples</p>
+                                    <p class="title is-4 has-text-white" id="total-examples">31</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading has-text-white">Categories</p>
+                                    <p class="title is-4 has-text-white">8</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="section" style="padding-top: 2rem; padding-bottom: 1rem;">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <input class="input is-large search-box"
+                                   type="text"
+                                   placeholder="Search examples..."
+                                   hx-get="/search-examples/search"
+                                   hx-target="#examples-container"
+                                   hx-trigger="keyup changed delay:300ms"
+                                   name="q"
+                                   id="examples-search-input"
+                                   oninput="if(this.value===''){htmx.ajax('GET','/examples/all?limit=12&offset=0','#examples-container');}">
+                            <span class="icon is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="field">
+                        <div class="control">
+                            <div class="select is-large is-fullwidth">
+                                <select
+                                    name="sort"
+                                    hx-get="/examples/all"
+                                    hx-target="#examples-container"
+                                    hx-trigger="change"
+                                >
+                                    <option value="newest">Newest First</option>
+                                    <option value="difficulty">By Difficulty</option>
+                                    <option value="alphabetical">Alphabetical</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="field is-grouped is-grouped-multiline" style="margin-top: 1rem;">
+                <div class="control">
+                    <span class="category-filter is-active"
+                          hx-get="/examples/all"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        All Examples
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/basic"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-play-circle"></i> Basic
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/forms"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-edit"></i> Forms
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/ui"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-desktop"></i> UI Components
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/real-time"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-broadcast-tower"></i> Real-time
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/animation"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-magic"></i> Animations
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/advanced"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-rocket"></i> Advanced
+                    </span>
+                </div>
+                <div class="control">
+                    <span class="category-filter"
+                          hx-get="/examples/integrations"
+                          hx-target="#examples-container"
+                          hx-headers='{"Accept": "application/json"}'>
+                        <i class="fas fa-plug"></i> Integrations
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Grid -->
+    <section class="section">
+        <div class="container">
+            <div id="examples-container">
+                <div class="examples-grid">
+                    <div class="columns is-multiline" id="examples-list">
+                        <!-- Example cards will be rendered here by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Example Demo -->
+    <div id="example-modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <!-- Example content will be loaded here via HTMX -->
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+    <!-- This style tag will be swapped by HTMX to update the theme -->
+<style id="theme-vars">
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --dark-blue: #2c3e50;
+    --light-gray: #f8f9fa;
+    --text-color: #222;
+    --card-bg: #fff;
+}
+body { background: #fff; color: #222; }
+.box, .card, .navbar, .modal-content { background: #fff !important; color: #222 !important; }
+</style>
+
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+
+            // Category filter activation
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.addEventListener('click', () => {
+                    console.log('Category filter ', searchInput);
+                    document.querySelectorAll('.category-filter').forEach(f => f.classList.remove('is-active'));
+                    filter.classList.add('is-active');
+                    // Clear the search input when a category is clicked
+                    var searchInput = document.getElementById('examples-search-input');
+                    if (searchInput) {
+                        console.log('Category filter clicked');
+                        searchInput.value = '';
+                    }
+                });
+            });
+
+        });
+
+
+        // When the modal is shown, use htmx to GET asdf.html into modal-content
+        function loadModalContentIfNeeded(exampleId) {
+            var modal = document.getElementById('example-modal');
+            if (modal && modal.classList.contains('is-active')) {
+                var modalContent = modal.querySelector('.modal-content');
+                if (modalContent && exampleId) {
+                    // Compose the path dynamically based on the example id
+                    htmx.ajax('GET', '/demo/' + exampleId + '.html', modalContent);
+                    console.log('Requested demo/' + exampleId + '.html via htmx for modal');
+                }
+            }
+        }
+
+            // Hook into modal open logic
+        document.body.addEventListener('click', function(e) {
+            // Open modal when .open-example-modal is clicked
+            var btn = e.target.closest('.open-example-modal');
+            if (btn) {
+                // Try to get the example id from a data attribute
+                var exampleId = btn.getAttribute('data-example-id');
+                var modal = document.getElementById('example-modal');
+                if (modal) {
+                    modal.classList.add('is-active');
+                    // Load content after modal is shown
+                    setTimeout(function() {
+                        loadModalContentIfNeeded(exampleId);
+                    }, 10); // slight delay to ensure DOM update
+                }
+            }
+            // Close modal when background or close button is clicked
+            if (
+                e.target.classList.contains('modal-background') ||
+                e.target.classList.contains('modal-close')
+            ) {
+                var modal = document.getElementById('example-modal');
+                if (modal) {
+                    modal.classList.remove('is-active');
+                    // Optionally clear modal content
+                    modal.querySelector('.modal-content').innerHTML = '';
+                }
+            }
+        });
+    </script>
+    <script>
+        // Modal open/close logic for Bulma
+        document.body.addEventListener('click', function(e) {
+            // Open modal when .open-example-modal is clicked
+            if (e.target.closest('.open-example-modal')) {
+                var modal = document.getElementById('example-modal');
+                if (modal) {
+                    modal.classList.add('is-active');
+                }
+                // Load content after modal is shown
+            }
+            // Close modal when background or close button is clicked
+            if (
+                e.target.classList.contains('modal-background') ||
+                e.target.classList.contains('modal-close')
+            ) {
+                var modal = document.getElementById('example-modal');
+                if (modal) {
+                    modal.classList.remove('is-active');
+                    // Optionally clear modal content
+                    modal.querySelector('.modal-content').innerHTML = '';
+                }
+            }
+        });
+
+        // Optional: close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                var modal = document.getElementById('example-modal');
+                if (modal && modal.classList.contains('is-active')) {
+                    modal.classList.remove('is-active');
+                    modal.querySelector('.modal-content').innerHTML = '';
+                }
+            }
+        });
+    </script>
+    <script>
+        // HTMX mock for /search-examples, /examples/all, /examples/{tag}, and /examples/load-more (for demo/dev only)
+        document.body.addEventListener('htmx:configRequest', function(evt) {
+            console.log('HTMX request:', evt.detail.path);
+            const path = evt.detail.path || "";
+            // Parse query params for search, limit, offset
+            function getParams(url) {
+                const u = new URL(url, window.location.origin);
+
+                // Try to get q from the input if not present in URL
+                let q = u.searchParams.get('q');
+                if (!q) {
+                    const input = document.getElementById('examples-search-input');
+                    if (input) q = input.value;
+                }
+                return {
+                    q: q || "",
+                    limit: parseInt(u.searchParams.get('limit') || "12", 10),
+                    offset: parseInt(u.searchParams.get('offset') || "0", 10),
+                    sort: u.searchParams.get('sort') || "popular"
+                };
+            }
+            // Utility: render examples grid
+            function renderExamplesGrid(examples, total, limit, offset) {
+                let html = `
+                    <div class="examples-grid">
+                        <div class="columns is-multiline" id="examples-list">
+                            ${examples.map(example => `
+                            <div class="column is-4">
+                                <div class="card example-card${example.comingSoon ? ' coming-soon' : ''}">
+                                    <div class="difficulty-badge">
+                                        <span class="tag ${getLevelClass(example.level)}">${capitalize(example.level)}</span>
+                                    </div>
+                                    <div class="example-preview">
+                                        <div class="has-text-centered has-text-grey">
+                                            <i class="${example.icon} fa-2x"></i>
+                                            <p class="mt-2">${example.preview || example.title}</p>
+                                        </div>
+                                        <div class="example-overlay">
+                                            <button class="button is-white is-large open-example-modal example-overlay-btn"
+                                                data-example-id="${example.id}">
+                                                <span class="icon">
+                                                    <i class="fas fa-play"></i>
+                                                </span>
+                                                <span>View Demo</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4 class="title is-5">${example.title}</h4>
+                                        <p class="content">
+                                            ${example.description}
+                                        </p>
+                                        <div class="tags">
+                                            ${example.tags.map(tag => `<span class="tag is-light">${tag}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                // Pagination controls
+                return html;
+            }
+            // Utility: update total count
+            function updateTotal(count) {
+                const totalElem = document.getElementById('total-examples');
+                if (totalElem) totalElem.textContent = count;
+            }
+
+            // Only handle our endpoints
+            if (
+                path.startsWith('/examples/load-more')
+            ) {
+                evt.preventDefault();
+                // Get params
+                const params = getParams(path);
+                // Determine filter type
+                let filterType = "all";
+                let filterValue = "";
+                if (path.startsWith('/search-examples')) {
+                    filterType = "search";
+                } else if (path.startsWith('/examples/')) {
+                    const parts = path.split('/');
+                    filterType = "category";
+                    filterValue = parts[2] || "all";
+                }
+                // Load and filter examples
+                fetch('examples-data')
+                    .then(r => r.json())
+                    .then(data => {
+
+                        let filtered = data;
+                        const paged = filtered.results;
+
+                        const html = renderExamplesGrid(data.results, filtered.length, params.limit, params.offset);
+                        evt.detail.xhr = {
+                            response: html,
+                            getResponseHeader: () => "text/html"
+                        };
+                        updateTotal(filtered.length);
+                        // Actually swap the HTML
+                        htmx.process(document.getElementById('examples-container'));
+
+                    });
+            }
+        });
+
+        // Utility functions
+        function getLevelClass(level) {
+            switch ((level || '').toLowerCase()) {
+                case 'beginner': return 'is-success';
+                case 'intermediate': return 'is-warning';
+                case 'advanced': return 'is-danger';
+                case 'info': return 'is-info';
+                default: return 'is-light';
+            }
+        }
+        function capitalize(str) {
+            return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+        }
+
+        // On page load, show first 12 from All Examples
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only run if #examples-container exists (i.e. on examples page)
+            if (document.getElementById('examples-container')) {
+                // Simulate an initial HTMX request to /examples/all?limit=12&offset=0
+                htmx.ajax('GET', '/examples/all?limit=12&offset=0', '#examples-container');
+            }
+        });
+    </script>
+
+    <script>
+document.body.addEventListener('htmx:afterRequest', function(evt) {
+    // Only handle JSON responses for the examples grid
+    if (evt.detail.xhr && evt.detail.xhr.responseType !== "document") {
+        try {
+            const data = JSON.parse(evt.detail.xhr.responseText);
+            if (data && data.results && evt.detail.target && evt.detail.target.id === "examples-container") {
+                console.log(renderExamplesGrid(data.results, data.total, data.limit, data.offset));
+                evt.detail.target.innerHTML = renderExamplesGrid(data.results, data.total, data.limit, data.offset);
+            };
+        } catch (e) {
+            // Not JSON, ignore
+        }
+    }
+});
+</script>

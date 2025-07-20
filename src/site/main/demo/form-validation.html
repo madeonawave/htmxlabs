@@ -1,0 +1,32 @@
+<!-- Dynamic Form Validation Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Dynamic Form Validation</h3>
+    <p>
+        This form validates the username and email fields in real-time as you type, using <code>hx-post</code> and <code>hx-trigger="keyup changed delay:300ms"</code>. The server responds with validation feedback.
+    </p>
+    <form id="dynamic-validation-form"
+          hx-post="/demo/dynamic-form-validation"
+          hx-trigger="keyup changed delay:300ms from:input"
+          hx-target="#validation-messages"
+          hx-swap="innerHTML"
+          autocomplete="off">
+        {% csrf_token %}
+        <div class="field">
+            <label class="label" for="username">Username</label>
+            <div class="control">
+                <input class="input" type="text" id="username" name="username" placeholder="Enter username" required>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="email">Email</label>
+            <div class="control">
+                <input class="input" type="email" id="email" name="email" placeholder="Enter email" required novalidate>
+            </div>
+        </div>
+        <div id="validation-messages" class="mt-3"></div>
+        <button class="button is-primary mt-4" type="submit">
+            Submit
+        </button>
+    </form>
+</div>

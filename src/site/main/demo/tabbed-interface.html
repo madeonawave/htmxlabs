@@ -1,0 +1,50 @@
+<!-- Tabbed Interface Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Tabbed Interface</h3>
+    <p>
+        Switch between tabs to load content dynamically.
+    </p>
+    <div class="tabs is-boxed is-medium" id="tabbed-interface-tabs">
+        <ul>
+            <li class="is-active">
+                <a href="#" hx-get="/demo/tab-content?tab=overview" hx-target="#tab-content" hx-swap="innerHTML" hx-push-url="false" data-tab="overview">Overview</a>
+            </li>
+            <li>
+                <a href="#" hx-get="/demo/tab-content?tab=details" hx-target="#tab-content" hx-swap="innerHTML" hx-push-url="false" data-tab="details">Details</a>
+            </li>
+            <li>
+                <a href="#" hx-get="/demo/tab-content?tab=settings" hx-target="#tab-content" hx-swap="innerHTML" hx-push-url="false" data-tab="settings">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <div id="tab-content">
+        <!-- Initial tab content will be loaded here via HTMX -->
+        <div class="has-text-centered p-4">
+            <span class="icon is-large"><i class="fas fa-spinner fa-spin fa-2x"></i></span>
+            <p>Loading tab...</p>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load the initial tab content
+    var firstTab = document.querySelector('#tabbed-interface-tabs li.is-active a');
+    if (firstTab) {
+        firstTab.click();
+    }
+});
+// Use event delegation to handle tab switching even after HTMX swaps
+document.body.addEventListener('click', function(e) {
+    var a = e.target.closest('#tabbed-interface-tabs a[data-tab]');
+    if (!a) return;
+    var tabs = document.getElementById('tabbed-interface-tabs');
+    if (!tabs) return;
+    // Remove is-active from all
+    tabs.querySelectorAll('li').forEach(function(li) {
+        li.classList.remove('is-active');
+    });
+    // Add is-active to clicked
+    a.closest('li').classList.add('is-active');
+});
+</script>

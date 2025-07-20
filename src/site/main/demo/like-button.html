@@ -1,0 +1,36 @@
+
+<div id="like-button-container">
+    <div class="box has-text-centered" style="max-width: 340px; margin: 0 auto;">
+        <h3 class="title is-4 mb-3">Interactive Like Button</h3>
+        <form
+            hx-post="/demo/like-button"
+            hx-target="#like-button-container"
+            hx-swap="outerHTML"
+            hx-vals='{}'
+            style="display: inline-block;"
+        >
+            <button
+                type="submit"
+                class="button is-large is-rounded"
+                style="font-size: 2rem; transition: color 0.2s;{% if liked %} color: #e0245e;{% endif %}"
+                aria-pressed="{{ liked|yesno:'true,false' }}"
+            >
+                <span class="icon is-large">
+                    <i class="fas fa-heart{% if not liked %}-broken{% endif %}"></i>
+                </span>
+                <span style="font-size: 1.2rem; margin-left: 0.5em;">
+                    {{ count }}
+                </span>
+            </button>
+        </form>
+        <div style="margin-top: 1em;">
+            <span>
+                {% if liked %}
+                    <span class="has-text-danger">You like this!</span>
+                {% else %}
+                    <span class="has-text-grey">Click to like</span>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>

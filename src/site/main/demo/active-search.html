@@ -1,0 +1,31 @@
+<!-- Active Search Example: Live search results as you type, using HTMX's hx-get and hx-trigger -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Active Search</h3>
+    <p>
+        Type in the box below to see live search results update as you type. This uses <code>hx-get</code> and <code>hx-trigger="keyup changed delay:300ms"</code> for a smooth, real-time experience.
+    </p>
+    <div class="field">
+        <div class="control has-icons-left">
+            <input
+                class="input is-medium"
+                type="text"
+                id="active-search-input"
+                name="q"
+                placeholder="Search for people, products, etc..."
+                autocomplete="off"
+                hx-get="/demo/active-search-results.html"
+                hx-trigger="keyup changed delay:300ms"
+                hx-target="#active-search-results"
+                hx-indicator="#active-search-indicator"
+            >
+            <span class="icon is-left">
+                <i class="fas fa-search"></i>
+            </span>
+            <span id="active-search-indicator" class="icon is-right" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </div>
+    </div>
+    <div id="active-search-results" class="mt-3"></div>
+</div>

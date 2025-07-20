@@ -1,0 +1,35 @@
+
+<!-- Fragment: Inline edit form for Click to Edit example -->
+<form
+    id="edit-form"
+    hx-post="/demo/click-to-edit-save"
+    hx-target="this"
+    hx-swap="outerHTML"
+    style="display:inline;"
+    autocomplete="off"
+>
+    <div class="field has-addons">
+        <div class="control">
+            <input
+                class="input is-small"
+                type="text"
+                name="value"
+                value="{{ value|default:'This is editable text. Click to edit.' }}"
+                autofocus
+                style="min-width: 200px;"
+            >
+        </div>
+        <div class="control">
+            <button class="button is-primary is-small" type="submit">Save</button>
+        </div>
+        <div class="control">
+            <button class="button is-light is-small"
+                type="button"
+                hx-get="/demo/click-to-edit-cancel?value={{ value|urlencode }}"
+                hx-target="#editable-demo"
+                hx-swap="outerHTML"
+            >Cancel</button>
+        </div>
+    </div>
+</form>
+

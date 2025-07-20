@@ -1,0 +1,15 @@
+
+<!-- Fragment: Saved value for Click to Edit example -->
+<div id="editable-demo">
+    <span
+        id="editable-text"
+        hx-get="/demo/click-to-edit-form?value={{ value|urlencode }}"
+        hx-trigger="click"
+        hx-target="#editable-demo"
+        hx-swap="outerHTML"
+        style="cursor:pointer; display:inline-block; padding:0.25em 0.5em; border-radius:4px; background: #f0fff4;"
+        title="Click to edit"
+    >
+        {{ value }}
+    </span>
+</div>

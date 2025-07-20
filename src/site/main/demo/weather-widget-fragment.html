@@ -1,0 +1,12 @@
+{% if temp is not None %}
+<div class="notification is-info is-light">
+    <span class="icon"><i class="{{ icon }}"></i></span>
+    <strong>{{ city }}</strong>: {{ desc }}<br>
+    <span>🌡️ {{ temp }}°C &nbsp; 💨 {{ wind }} km/h</span>
+</div>
+{% else %}
+<div class="notification is-danger is-light">
+    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+    Could not fetch weather for <strong>{{ city }}</strong>.
+</div>
+{% endif %}

@@ -1,0 +1,49 @@
+<!-- Calendar Month Fragment for Calendar Widget Example -->
+<div class="calendar-controls mb-3" style="display:flex; align-items:center; justify-content:space-between;">
+    <button class="button is-small"
+            hx-get="/demo/calendar-month?year={{ year }}&month={{ month|add:"-1" }}"
+            hx-target="#calendar-widget"
+            hx-swap="innerHTML"
+            {% if month == 1 %}disabled{% endif %}
+    >
+        <span class="icon"><i class="fas fa-chevron-left"></i></span>
+        <span>Prev</span>
+    </button>
+    <span class="title is-5">{{ month_name }} {{ year }}</span>
+    <button class="button is-small"
+            hx-get="/demo/calendar-month?year={{ year }}&month={{ month|add:"1" }}"
+            hx-target="#calendar-widget"
+            hx-swap="innerHTML"
+            {% if month == 12 %}disabled{% endif %}
+    >
+        <span>Next</span>
+        <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </button>
+</div>
+<table class="table is-bordered is-fullwidth calendar-table">
+    <thead>
+        <tr>
+            {% for day in days_of_week %}
+                <th>{{ day }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in month_days %}
+        <tr>
+            {% for day in week %}
+            <td class="{% if day.month != month %}has-background-light{% endif %}">
+                <div>
+                    <span>{{ day.day }}</span>
+                    {% for event_day, event_label in events.items %}
+                        {% if event_day == day %}
+                            <div class="tag is-info is-light mt-1">{{ event_label }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

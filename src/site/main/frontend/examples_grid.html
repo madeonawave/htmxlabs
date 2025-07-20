@@ -1,0 +1,61 @@
+{# Partial template for rendering the examples grid (for HTMX swaps) #}
+<div class="examples-grid">
+    <div class="columns is-multiline" id="examples-list">
+        {% for example in examples %}
+        <div class="column is-4">
+            <div class="card example-card{% if example.comingSoon %} coming-soon{% endif %}">
+                <div class="difficulty-badge">
+                    <span class="tag
+                        {% if example.level == "beginner" %}is-success
+                        {% elif example.level == "intermediate" %}is-warning
+                        {% elif example.level == "advanced" %}is-danger
+                        {% else %}is-light{% endif %}">
+                        {{ example.level|capfirst }}
+                    </span>
+                </div>
+                <div class="example-preview">
+                    <div class="has-text-centered has-text-grey">
+                        <i class="{{ example.icon }} fa-2x"></i>
+                        <p class="mt-2">{{ example.preview|default:example.title }}</p>
+                    </div>
+                    <div class="example-overlay">
+                        <button class="button is-white is-large open-example-modal example-overlay-btn"
+                                data-example-id="{{ example.id }}">
+                            <span class="icon">
+                                <i class="fas fa-play"></i>
+                            </span>
+                            <span>View Demo</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h4 class="title is-5">{{ example.title }}</h4>
+                    <p class="content">
+                        {{ example.description }}
+                    </p>
+                    <div class="tags">
+                        {% for tag in example.tags %}
+                        <span class="tag is-light">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+    {% if loadmore %}
+        <div id="load-more-wrapper">
+            <div class="has-text-centered mt-4">
+                <button class="button is-link is-light"
+                        hx-get="/examples/{{ request.resolver_match.kwargs.filter_name }}?limit={{ limit }}&offset={{ offset|add:limit }}"
+                        hx-target="#load-more-wrapper"
+                        hx-swap="outerHTML"
+                        hx-on="htmx:afterRequest: this.closest('#load-more-wrapper').outerHTML = ''"
+                        >
+                    Load More
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
+</div>

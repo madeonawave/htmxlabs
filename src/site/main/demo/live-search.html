@@ -1,0 +1,31 @@
+<!-- Live Search with Autocomplete Suggestions Example -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Live Search with Autocomplete</h3>
+    <p>
+        Start typing to see dynamic autocomplete suggestions. Requests are debounced for performance.
+    </p>
+    <div class="field">
+        <div class="control has-icons-left">
+            <input
+                class="input is-medium"
+                type="text"
+                id="live-search-input"
+                name="q"
+                placeholder="Search users, products, etc..."
+                autocomplete="off"
+                hx-get="/demo/live-search-suggestions.html"
+                hx-trigger="keyup changed delay:300ms"
+                hx-target="#live-search-suggestions"
+                hx-indicator="#live-search-indicator"
+            >
+            <span class="icon is-left">
+                <i class="fas fa-search"></i>
+            </span>
+            <span id="live-search-indicator" class="icon is-right" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </div>
+    </div>
+    <div id="live-search-suggestions" class="mt-2"></div>
+</div>

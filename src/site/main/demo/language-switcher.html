@@ -1,0 +1,37 @@
+
+<div class="box has-text-centered" style="max-width: 400px; margin: 0 auto;">
+    <div id="language-switcher-result">
+        <h3 class="title is-4 mb-3">Language Switcher</h3>
+        <p>
+            Instantly switch the greeting language using HTMX and server-rendered fragments.
+        </p>
+
+        <div class="field is-grouped is-grouped-centered mb-4">
+            <div class="control">
+                <div class="select is-medium">
+                    <select
+                        name="lang"
+                        hx-get="/demo/language-switcher"
+                        hx-target="#language-switcher-result"
+                        hx-swap="innerHTML"
+                    >
+                        <option value="en" {% if lang == "en" %}selected{% endif %}>English</option>
+                        <option value="es" {% if lang == "es" %}selected{% endif %}>Español</option>
+                        <option value="fr" {% if lang == "fr" %}selected{% endif %}>Français</option>
+                        <option value="de" {% if lang == "de" %}selected{% endif %}>Deutsch</option>
+                        <option value="it" {% if lang == "it" %}selected{% endif %}>Italiano</option>
+                        <option value="nl" {% if lang == "nl" %}selected{% endif %}>Nederlands</option>
+                        <option value="zh" {% if lang == "zh" %}selected{% endif %}>中文</option>
+                        <option value="ja" {% if lang == "ja" %}selected{% endif %}>日本語</option>
+                        <option value="ru" {% if lang == "ru" %}selected{% endif %}>Русский</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="notification is-primary is-light is-medium" style="font-size: 1.5rem;">
+            {{ greeting }}
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,17 @@
+
+<!-- Sortable Data Table Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Sortable Data Table</h3>
+    <p>
+        Click on the column headers to sort the table. Pagination and filtering are handled via HTMX requests.
+    </p>
+    <div id="data-table-container" hx-get="/demo/data-table-rows?sort=name&order=asc&page=1" hx-trigger="load" hx-target="this" hx-swap="innerHTML">
+        <!-- Table rows will be loaded here via HTMX -->
+        <div class="has-text-centered p-4">
+            <span class="icon is-large"><i class="fas fa-spinner fa-spin fa-2x"></i></span>
+            <p>Loading table...</p>
+        </div>
+    </div>
+</div>
+

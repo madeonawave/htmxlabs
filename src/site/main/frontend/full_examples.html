@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+{% block content %}
+<!-- Navigation -->
+<nav class="navbar is-white is-fixed-top" role="navigation" >
+<div class="container">
+    <div class="navbar-brand">
+        <a class="navbar-item"
+           href="/">
+            <span class="htmx-logo">HTMX</span>
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/#features">Features</a>
+            <a class="navbar-item"
+               href="/examples/">Examples</a>
+            <a class="navbar-item" href="/docs/">Documentation</a>
+            <a class="navbar-item" href="#community">Community</a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary">
+                        <strong>Get Started</strong>
+                    </a>
+                    <a class="button is-light">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</nav>
+
+{% include "examples.html" %}
+{% include 'footer.html' %}
+{% endblock content %}

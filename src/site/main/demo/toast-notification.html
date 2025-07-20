@@ -1,0 +1,61 @@
+<!-- Toast Notifications Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Toast Notifications</h3>
+    <p>
+        Show toast notifications in response to AJAX events.
+    </p>
+    <form id="toast-form" hx-post="/demo/toast-notify" hx-target="#toast-container" hx-swap="beforeend" autocomplete="off">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type="text" name="message" placeholder="Enter a message..." value="This is a toast notification!">
+            </div>
+            <div class="control">
+                <div class="select">
+                    <select name="level">
+                        <option value="info">Info</option>
+                        <option value="success">Success</option>
+                        <option value="warning">Warning</option>
+                        <option value="danger">Danger</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">
+                    <span class="icon"><i class="fas fa-bell"></i></span>
+                    <span>Show Toast</span>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="toast-container" style="position: fixed; top: 2rem; right: 2rem; z-index: 9999;"></div>
+</div>
+<script>
+document.body.addEventListener('htmx:afterSwap', function(evt) {
+    if (evt.detail.target && evt.detail.target.id === "toast-container") {
+        // Animate and auto-dismiss the toast
+        var toasts = evt.detail.target.querySelectorAll('.toast');
+        var toast = toasts[toasts.length - 1];
+        if (toast) {
+            setTimeout(function() {
+                toast.classList.add('fade-out');
+                setTimeout(function() {
+                    toast.remove();
+                }, 1000);
+            }, 3000);
+        }
+    }
+});
+</script>
+<style>
+.toast {
+    min-width: 250px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 16px rgba(102,126,234,0.15);
+    opacity: 1;
+    transition: opacity 1s;
+}
+.toast.fade-out {
+    opacity: 0;
+}
+</style>

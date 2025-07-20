@@ -1,0 +1,28 @@
+<!-- Theme Switcher Example with HTMX and CSS Variables -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Theme Switcher</h3>
+    <p>
+        Switch between light and dark themes using HTMX and CSS variables.
+    </p>
+    <div class="buttons">
+        <button class="button is-light" id="theme-light"
+                hx-get="/demo/theme-switcher-css?theme=light"
+                hx-target="#theme-vars"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+        >
+            <span class="icon"><i class="fas fa-sun"></i></span>
+            <span>Light Theme</span>
+        </button>
+        <button class="button is-dark" id="theme-dark"
+                hx-get="/demo/theme-switcher-css?theme=dark"
+                hx-target="#theme-vars"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+        >
+            <span class="icon"><i class="fas fa-moon"></i></span>
+            <span>Dark Theme</span>
+        </button>
+    </div>
+</div>

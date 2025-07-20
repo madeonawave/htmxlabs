@@ -1,0 +1,79 @@
+<!-- Drag and Drop Sorting Example with HTMX and JS -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Drag and Drop Sorting</h3>
+    <p>
+        Drag and drop the items below to reorder them. The new order is sent to the server via HTMX.
+    </p>
+    <ul id="sortable-list" class="box" style="list-style:none; padding:0;">
+        <li class="draggable-item" draggable="true" data-id="1">
+            <span class="icon"><i class="fas fa-grip-vertical"></i></span> Item 1
+        </li>
+        <li class="draggable-item" draggable="true" data-id="2">
+            <span class="icon"><i class="fas fa-grip-vertical"></i></span> Item 2
+        </li>
+        <li class="draggable-item" draggable="true" data-id="3">
+            <span class="icon"><i class="fas fa-grip-vertical"></i></span> Item 3
+        </li>
+        <li class="draggable-item" draggable="true" data-id="4">
+            <span class="icon"><i class="fas fa-grip-vertical"></i></span> Item 4
+        </li>
+    </ul>
+    <div id="drag-drop-result" class="mt-3"></div>
+</div>
+<script>
+(function() {
+    var list = document.getElementById('sortable-list');
+    var draggingEl = null;
+    var placeholder = document.createElement('li');
+    placeholder.className = 'draggable-item';
+    placeholder.style.background = '#f0f0f0';
+    placeholder.style.border = '1px dashed #aaa';
+    placeholder.style.height = '2.5em';
+
+    list.addEventListener('dragstart', function(e) {
+        draggingEl = e.target;
+        e.dataTransfer.effectAllowed = 'move';
+        setTimeout(function() {
+            draggingEl.style.display = 'none';
+        }, 0);
+    });
+
+    list.addEventListener('dragend', function(e) {
+        if (draggingEl) draggingEl.style.display = '';
+        draggingEl = null;
+        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+    });
+
+    list.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        var target = e.target.closest('.draggable-item');
+        if (!target || target === draggingEl) return;
+        var rect = target.getBoundingClientRect();
+        var next = (e.clientY - rect.top) > (rect.height / 2);
+        list.insertBefore(placeholder, next ? target.nextSibling : target);
+    });
+
+    list.addEventListener('drop', function(e) {
+        e.preventDefault();
+        if (placeholder.parentNode) {
+            list.insertBefore(draggingEl, placeholder);
+            placeholder.parentNode.removeChild(placeholder);
+        }
+        // Send new order to server via XMLHttpRequest (not htmx.ajax)
+        var order = Array.from(list.querySelectorAll('.draggable-item')).map(function(li) {
+            return li.getAttribute('data-id');
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/demo/drag-drop-update', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('HX-Request', 'true');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                document.getElementById('drag-drop-result').innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send(JSON.stringify({ order: order }));
+    });
+})();
+</script>

@@ -1,0 +1,75 @@
+
+<!-- Table rows fragment for Sortable Data Table Example -->
+<table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>
+                <a href="#"
+                   hx-get="/demo/data-table-rows?sort=name&order={% if sort == 'name' and order == 'asc' %}desc{% else %}asc{% endif %}&page={{ page }}"
+                   hx-target="#data-table-container"
+                   hx-swap="innerHTML">
+                    Name
+                    <span class="icon"><i class="fas fa-sort"></i></span>
+                </a>
+            </th>
+            <th>
+                <a href="#"
+                   hx-get="/demo/data-table-rows?sort=age&order={% if sort == 'age' and order == 'asc' %}desc{% else %}asc{% endif %}&page={{ page }}"
+                   hx-target="#data-table-container"
+                   hx-swap="innerHTML">
+                    Age
+                    <span class="icon"><i class="fas fa-sort"></i></span>
+                </a>
+            </th>
+            <th>
+                <a href="#"
+                   hx-get="/demo/data-table-rows?sort=role&order={% if sort == 'role' and order == 'asc' %}desc{% else %}asc{% endif %}&page={{ page }}"
+                   hx-target="#data-table-container"
+                   hx-swap="innerHTML">
+                    Role
+                    <span class="icon"><i class="fas fa-sort"></i></span>
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.age }}</td>
+            <td>{{ row.role }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <a class="pagination-previous"
+       {% if page > 1 %}
+       hx-get="/demo/data-table-rows?page={{ page|add:"-1" }}&sort={{ sort }}&order={{ order }}"
+       hx-target="#data-table-container"
+       hx-swap="innerHTML"
+       {% else %}disabled{% endif %}
+    >Previous</a>
+    <a class="pagination-next"
+       {% if page < total_pages %}
+       hx-get="/demo/data-table-rows?page={{ page|add:"1" }}&sort={{ sort }}&order={{ order }}"
+       hx-target="#data-table-container"
+       hx-swap="innerHTML"
+       {% else %}disabled{% endif %}
+    >Next page</a>
+    <ul class="pagination-list">
+        {% for p in page_range %}
+        <li>
+            <a class="pagination-link {% if p == page %}is-current{% endif %}"
+               aria-label="Goto page {{ p }}"
+               {% if p != page %}
+               hx-get="/demo/data-table-rows?page={{ p }}&sort={{ sort }}&order={{ order }}"
+               hx-target="#data-table-container"
+               hx-swap="innerHTML"
+               {% endif %}
+            >{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+

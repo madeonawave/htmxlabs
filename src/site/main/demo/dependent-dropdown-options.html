@@ -1,0 +1,12 @@
+<div class="select">
+    <select id="item-select" name="item" {% if not items %}disabled{% endif %}>
+        {% if not items %}
+            <option value="">-- Select a category first --</option>
+        {% else %}
+            <option value="">-- Choose an item --</option>
+            {% for value, label in items %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>

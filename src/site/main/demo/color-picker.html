@@ -1,0 +1,36 @@
+<!-- Color Picker Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Color Picker</h3>
+    <p>
+        Pick a color and see the UI update live with your selection.
+    </p>
+    <form>
+        <div class="field is-grouped is-align-items-center">
+            <div class="control">
+                <input type="color"
+                       id="color-input"
+                       name="color"
+                       value="#667eea"
+                       hx-get="/demo/color-picker-fragment"
+                       hx-target="#color-preview"
+                       hx-trigger="input changed"
+                       style="width: 3rem; height: 3rem; border: none; background: none; cursor: pointer;">
+            </div>
+            <div class="control" style="min-width: 200px;">
+                <div id="color-preview">
+                    <!-- Color preview will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Trigger initial preview
+    var colorInput = document.getElementById('color-input');
+    if (colorInput) {
+        htmx.trigger(colorInput, 'input');
+    }
+});
+</script>

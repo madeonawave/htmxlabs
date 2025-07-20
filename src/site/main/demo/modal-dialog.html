@@ -1,0 +1,50 @@
+<!-- Modal Dialog Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Modal Dialog (HTMX)</h3>
+    <p>
+        Click the button below to open a modal dialog. The content is loaded dynamically via HTMX.
+    </p>
+    <button class="button is-primary" id="open-modal-btn"
+            hx-get="/demo/modal-dialog-content"
+            hx-target="#htmx-modal .modal-content"
+            hx-trigger="click"
+            hx-swap="innerHTML">
+        Open Modal Dialog
+    </button>
+</div>
+
+<!-- Modal structure -->
+<div id="htmx-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <!-- Modal content will be loaded here via HTMX -->
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>
+(function() {
+    var modal = document.getElementById('htmx-modal');
+    var openBtn = document.getElementById('open-modal-btn');
+    // Show modal when content is loaded
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.target === modal.querySelector('.modal-content')) {
+            modal.classList.add('is-active');
+        }
+    });
+    // Close modal on background or close button click
+    modal.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-background') || e.target.classList.contains('modal-close')) {
+            modal.classList.remove('is-active');
+            modal.querySelector('.modal-content').innerHTML = '';
+        }
+    });
+    // Optional: close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && modal.classList.contains('is-active')) {
+            modal.classList.remove('is-active');
+            modal.querySelector('.modal-content').innerHTML = '';
+        }
+    });
+})();
+</script>

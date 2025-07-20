@@ -1,0 +1,19 @@
+<!-- Polling Example with HTMX -->
+
+<div class="box">
+    <h3 class="title is-4 mb-3">Polling Example</h3>
+    <p>
+        This box updates every 2 seconds using <code>hx-get</code> and <code>hx-trigger="every 2s"</code>.
+    </p>
+    <div id="polling-demo"
+         hx-get="/demo/polling-fragment"
+         hx-trigger="every 2s"
+         hx-target="this"
+         hx-swap="innerHTML"
+         class="has-background-light p-4 mt-4"
+         style="font-size:1.2em;">
+        <!-- Initial content will be loaded here -->
+        <span class="icon is-large"><i class="fas fa-sync fa-spin"></i></span>
+        <span>Loading...</span>
+    </div>
+</div>
