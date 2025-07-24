@@ -4,6 +4,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("favicon.ico", views.favicon, name="favicon"),
     path("", views.index, name="index"),
     path("docs/", views.documentation, name="documentation"),
     path("docs/getting-started", views.docs_getting_started, name="docs_getting_started"),

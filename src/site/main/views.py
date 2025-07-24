@@ -8,7 +8,7 @@ from io import StringIO
 import markdown as md
 
 import requests
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .utils import htmx_template
 
 from django.views.decorators.csrf import csrf_exempt
+
+from config import settings
+
 
 def htmx_rest_api_demo(request):
     """
@@ -186,6 +189,16 @@ def dynamic_page(request, page_name):
         return render(request, template_name)
     except TemplateDoesNotExist as e:
         raise Http404("Page not found") from e
+
+
+def favicon(request):
+    """
+    Serve the favicon.svg file.
+    """
+    import os
+    favicon_path = os.path.join(settings.BASE_DIR, "staticfiles", "main", "favicon.svg")
+    return FileResponse(open(favicon_path, "rb"), content_type="image/svg+xml")
+
 
 @csrf_exempt
 def click_to_edit_form(request):
