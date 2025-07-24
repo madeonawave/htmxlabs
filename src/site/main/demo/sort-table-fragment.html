@@ -1,0 +1,39 @@
+
+<table class="table is-striped is-hoverable is-fullwidth mt-4">
+    <thead>
+        <tr>
+            {% for col in col_list %}
+            <th>
+                <a href="#"
+                   hx-get="/demo/sort-table.html?sort={{ col }}&order={% if sort == col and order == 'asc' %}desc{% else %}asc{% endif %}&fragment=1"
+                   hx-target="#sort-table-container"
+                   hx-swap="innerHTML"
+                   class="{% if sort == col %}has-text-link{% endif %}">
+                    {{ col|capfirst }}
+                    {% if sort == col %}
+                        <span>
+                            {% if order == "asc" %}
+                                <i class="fas fa-sort-up"></i>
+                            {% else %}
+                                <i class="fas fa-sort-down"></i>
+                            {% endif %}
+                        </span>
+                    {% else %}
+                        <i class="fas fa-sort"></i>
+                    {% endif %}
+                </a>
+            </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.age }}</td>
+            <td>{{ row.role }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

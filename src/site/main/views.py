@@ -175,6 +175,7 @@ def dynamic_page(request, page_name):
         'tabbed-interface.html',
         'theme-switcher.html',
         'toast-notification.html',
+        'sort-table.html',
         'progress-bar.html',
         'polling.html',
         'realtime-notifications.html',
@@ -281,6 +282,47 @@ def data_table_rows(request):
         }
     )
 
+
+def sort_table(request):
+    """
+    Returns a table fragment with sortable columns using HTMX.
+    """
+    # Demo data
+    data = [
+        {"name": "Alice", "age": 28, "role": "Developer"},
+        {"name": "Bob", "age": 34, "role": "Designer"},
+        {"name": "Charlie", "age": 25, "role": "Manager"},
+        {"name": "Lana", "age": 30, "role": "Developer"},
+        {"name": "Eve", "age": 29, "role": "QA"},
+        {"name": "Frank", "age": 32, "role": "Support"},
+        {"name": "Grace", "age": 27, "role": "Developer"},
+        {"name": "Hank", "age": 31, "role": "Designer"},
+        {"name": "Ivy", "age": 26, "role": "Manager"},
+        {"name": "Jack", "age": 33, "role": "Developer"},
+    ]
+
+    col_list = ["name", "age", "role"]
+
+    sort = request.GET.get("sort", "name")
+    order = request.GET.get("order", "asc")
+    reverse = (order == "desc")
+    if sort in col_list:
+        data = sorted(data, key=lambda x: x[sort], reverse=reverse)
+
+    # Always render the full page, but if HX-Request, only return the fragment
+    if request.GET.get("fragment") == "1":
+        return render(request, "demo/sort-table-fragment.html", {
+            "rows": data,
+            "sort": sort,
+            "order": order,
+            "col_list": col_list,
+        })
+    return render(request, "demo/sort-table.html", {
+        "rows": data,
+        "sort": sort,
+        "order": order,
+        "col_list": col_list,
+    })
 
 def dynamic_form_validation(request):
     print(request)

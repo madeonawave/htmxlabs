@@ -47,6 +47,7 @@ urlpatterns = [
     path("demo/live-stock-ticker.html", views.live_stock_ticker, name="live_stock_ticker_html"),
     path("demo/language-switcher", views.language_switcher, name="language_switcher"),
     path("demo/language-switcher.html", views.language_switcher, name="language_switcher_html"),
+    path("demo/sort-table.html", views.sort_table, name="sort_table"),
 
     path("demo/<str:page_name>", views.dynamic_page, name="examples"),
 ]
