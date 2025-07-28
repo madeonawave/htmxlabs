@@ -73,3 +73,5 @@ venv.bak/
 
 # Ruff stuff:
 .ruff_cache/
+
+uv.lock
