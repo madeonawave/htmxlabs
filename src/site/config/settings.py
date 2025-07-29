@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "main",
     "channels",
     "django_extensions",
+    "silent_mammoth_whistle",
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "silent_mammoth_whistle.middleware.SilentMammothWhistleMiddleware",
+
 ]
 
 ROOT_URLCONF = "config.urls"

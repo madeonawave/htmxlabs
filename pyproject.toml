@@ -8,6 +8,7 @@ dependencies = [
     "django>=5.2.3",
     "django-extensions>=4.1",
     "django-htmx>=1.23.0",
+    "django-silent-mammoth-whistle>=2.5",
     "dotenv>=0.9.9",
     "markdown>=3.8.2",
     "requests>=2.32.4",
