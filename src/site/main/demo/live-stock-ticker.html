@@ -2,13 +2,21 @@
 <div class="box has-text-centered" style="max-width: 400px; margin: 0 auto;">
     <h3 class="title is-4 mb-3">Live Stock Ticker</h3>
     <p>
-        This example shows the current Bitcoin price in USD, updating every 5 seconds using HTMX polling.
+        This example initially shows a html template,
+        but updates its value (Bitcoin price) every
+        5 seconds using <code> hx-trigger="every 5s" </code>.
+
+        This HTMX polling returns a simple HTML string containing the values
+        for price and date.
+
     </p>
     <div id="btc-ticker"
          hx-get="/demo/live-stock-ticker"
          hx-trigger="every 5s"
-         hx-swap="innerHTML">
-        {% if price %}
+         hx-swap="outerHTML"
+         hx-target="#result"
+       >
+        <div id="result">
             <div style="font-size: 2.2rem; font-weight: bold;">
                 <i class="fab fa-btc"></i>
                 ${{ price|floatformat:2 }}
@@ -16,9 +24,8 @@
             <div class="has-text-grey mt-2" style="font-size: 1rem;">
                 Last updated: {{ updated }}
             </div>
-        {% else %}
-            <div class="has-text-danger">Could not fetch price.</div>
-        {% endif %}
+
+        </div>
     </div>
 </div>
 

@@ -1,35 +1,47 @@
 <!-- File Upload Example: Upload files asynchronously using HTMX and a simple form. -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">File Upload</h3>
     <p>
         Select a file and upload it asynchronously. The server will respond with the upload status and file info.
     </p>
-    <form
-        id="file-upload-form"
-        hx-post="/demo/file-upload-result.html"
-        hx-target="#file-upload-result"
-        hx-encoding="multipart/form-data"
-        enctype="multipart/form-data"
-        _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
-        <div class="field">
-            <div class="file has-name is-boxed is-fullwidth">
-                <label class="file-label">
-                    <input class="file-input" type="file" name="file" required>
-                    <span class="file-cta">
-                        <span class="icon"><i class="fas fa-upload"></i></span>
-                        <span class="file-label">Choose a file…</span>
-                    </span>
-                    <span class="file-name" id="file-upload-filename">No file selected</span>
-                </label>
+    <div class="bd-clipboard">
+        <form
+            id="file-upload-form"
+            hx-post="/demo/file-upload-result.html"
+            hx-target="#file-upload-result"
+            hx-encoding="multipart/form-data"
+            enctype="multipart/form-data"
+            _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
+            <div class="field">
+                <div class="file has-name is-boxed is-fullwidth">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="file" required>
+                        <span class="file-cta">
+                            <span class="icon"><i class="fas fa-upload"></i></span>
+                            <span class="file-label">Choose a file…</span>
+                        </span>
+                        <span class="file-name" id="file-upload-filename">No file selected</span>
+                    </label>
+                </div>
             </div>
-        </div>
-        <button class="button is-primary mt-3" type="submit">
-            <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
-            <span>Upload</span>
-        </button>
-        <progress id='progress' value='0' max='100'></progress>
-    </form>
+            <button class="button is-primary mt-3" type="submit">
+                <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                <span>Upload</span>
+            </button>
+            <progress id='progress' value='0' max='100'></progress>
+        </form>
+    <div>
     <div id="file-upload-result" class="mt-4"></div>
 </div>
 

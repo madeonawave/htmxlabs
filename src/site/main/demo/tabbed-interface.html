@@ -1,11 +1,21 @@
 <!-- Tabbed Interface Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Tabbed Interface</h3>
     <p>
         Switch between tabs to load content dynamically.
     </p>
-    <div class="tabs is-boxed is-medium" id="tabbed-interface-tabs">
+    <div class="tabs is-boxed is-medium bd-clipboard" id="tabbed-interface-tabs">
         <ul>
             <li class="is-active">
                 <a href="#" hx-get="/demo/tab-content?tab=overview" hx-target="#tab-content" hx-swap="innerHTML" hx-push-url="false" data-tab="overview">Overview</a>

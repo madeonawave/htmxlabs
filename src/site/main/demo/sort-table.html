@@ -1,5 +1,16 @@
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
 
-<div class="box" style="max-width: 700px; margin: 0 auto;">
+
     <h3 class="title is-4 mb-3">Sort Table Columns with HTMX</h3>
     <p>
         Click a column header to sort by that column. HTMX will fetch and update the table dynamically.

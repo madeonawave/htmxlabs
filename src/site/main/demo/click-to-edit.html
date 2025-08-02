@@ -1,6 +1,15 @@
 <!-- Click to Edit Example: Edit content in place by clicking on it, then save changes via AJAX. -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Click to Edit</h3>
     <p>
         Click on the text below to edit it in place. When you save, the changes are sent via AJAX and the updated value is shown.

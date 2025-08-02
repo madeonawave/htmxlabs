@@ -1,6 +1,16 @@
 <!-- Lazy Load Images Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Lazy Load Images</h3>
     <p>
         Images below are only loaded when they are visible in the viewport, using <code>hx-get</code> and <code>hx-trigger="revealed"</code>.
@@ -8,7 +18,7 @@
     <div class="columns is-multiline">
         <div class="column is-4">
             <div class="card">
-                <div class="card-image" style="min-height:220px;">
+                <div class="card-image bd-clipboard" style="min-height:220px;">
                     <div
                         hx-get="/demo/lazy-load-image?img=1"
                         hx-trigger="revealed"

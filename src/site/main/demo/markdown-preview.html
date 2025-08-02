@@ -1,11 +1,21 @@
 <!-- Markdown Live Preview Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Markdown Live Preview</h3>
     <p>
         Type Markdown in the textarea below and see a live HTML preview update as you type.
     </p>
-    <div class="columns">
+    <div class="columns bd-clipboard">
         <div class="column is-half">
             <label class="label">Markdown Input</label>
             <textarea class="textarea"

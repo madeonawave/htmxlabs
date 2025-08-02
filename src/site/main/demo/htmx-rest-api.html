@@ -1,27 +1,42 @@
-
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">
         HTMX with REST API
     </h3>
     <p>
-        This example fetches data from a public REST API (<code>jsonplaceholder.typicode.com</code>) and renders it using HTMX.
+        This example fetches data from a public REST API (<code>jsonplaceholder.typicode.com</code>)
+        using a direct POST request using HTMX .
     </p>
+    <p>
+    <br />
+    To allow external requests, make sure to add the meta-tag:
+    <br />
+    <div style="display: inline;">
+        <code data-lang="html">
+            &lt;meta name="htmx-config" content='{"selfRequestsOnly": false}' /&gt;
+        </code>
+    </div>
+
+    </p>
+    <div class="bd-clipboard">
     <button class="button is-link mt-3"
-            hx-get="/demo/htmx-rest-api"
+            hx-post="https://jsonplaceholder.typicode.com/posts"
             hx-target="#rest-api-results"
-            hx-swap="innerHTML">
+            hx-vals='{"title": "foo", "body": "bar", "userId": 1}'
+        >
         Fetch Posts
     </button>
-    <div id="rest-api-results" class="mt-4">
-        {% if posts %}
-            <ul>
-                {% for post in posts %}
-                    <li>
-                        <strong>{{ post.title|capfirst }}</strong>
-                        <p>{{ post.body }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    </div>
+    <div id="rest-api-results" class="mt-4 notification is-success is-light">
+
     </div>
 </div>

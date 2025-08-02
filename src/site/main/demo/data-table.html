@@ -1,11 +1,23 @@
 
 <!-- Sortable Data Table Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
+
     <h3 class="title is-4 mb-3">Sortable Data Table</h3>
     <p>
         Click on the column headers to sort the table. Pagination and filtering are handled via HTMX requests.
     </p>
+
     <div id="data-table-container" hx-get="/demo/data-table-rows?sort=name&order=asc&page=1" hx-trigger="load" hx-target="this" hx-swap="innerHTML">
         <!-- Table rows will be loaded here via HTMX -->
         <div class="has-text-centered p-4">

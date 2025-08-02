@@ -1,6 +1,16 @@
 <!-- Delete Row Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Delete Table Row</h3>
     <p>
         Click the trash icon to delete a row. Confirmation is shown before deletion.
@@ -18,7 +28,7 @@
             <tr id="row-1">
                 <td>Alice</td>
                 <td>Developer</td>
-                <td>
+                <td  class="bd-clipboard">
                     <button class="button is-danger is-light is-small"
                         hx-post="/demo/delete-row"
                         hx-vals='{"row_id": "1"}'

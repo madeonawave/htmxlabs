@@ -21,17 +21,7 @@ from config import settings
 
 
 def htmx_rest_api_demo(request):
-    """
-    Fetches data from a public REST API and returns an HTML fragment for HTMX.
-    """
-    # For demo, use the JSONPlaceholder API
-    url = "https://jsonplaceholder.typicode.com/posts"
-    try:
-        resp = requests.get(url, timeout=5)
-        posts = resp.json()[:5]  # Only show first 5 for demo
-    except Exception as e:
-        posts = []
-    return render(request, "demo/htmx-rest-api.html", {"posts": posts})
+    return render(request, "demo/htmx-rest-api.html", )
 
 # --- Like Button Example State (in-memory for demo) ---
 LIKE_BUTTON_STATE = {"count": 42, "liked": False}
@@ -78,10 +68,16 @@ def docs_core_attributes(request):
     """
     return render(request, "docs/core-attributes.html")
 
-@htmx_template('examples.html', 'full_examples.html')
+# @htmx_template('examples.html', 'full_examples.html')
+# def examples(request):
+#     context = {'data': 'some data'}
+#     return {'context': context}
 def examples(request):
-    context = {'data': 'some data'}
-    return {'context': context}
+    # Load examples from JSON
+    import json
+    with open('main/examples.json', 'r') as file:
+        examples = json.load(file)
+    return render(request, "full_examples.html", {"examples": examples})
 
 
 def examples_data(request, filter_name):
@@ -197,7 +193,7 @@ def favicon(request):
     Serve the favicon.svg file.
     """
     import os
-    favicon_path = os.path.join(settings.BASE_DIR, "staticfiles", "main", "favicon.svg")
+    favicon_path = os.path.join(settings.BASE_DIR, "static", "main", "favicon.svg")
     return FileResponse(open(favicon_path, "rb"), content_type="image/svg+xml")
 
 
@@ -610,19 +606,26 @@ def drag_drop_update(request):
     """
     Receives the new order of items and returns a success response.
     """
+    from urllib.parse import unquote_plus, parse_qs
+
     if request.method == "POST":
-        # HTMX with JSON body: request.body is bytes, decode and parse
-        try:
-            # If request.body is empty, try to get from POST (form-encoded fallback)
-            if request.body:
-                data = json.loads(request.body.decode())
-                order = data.get("order", [])
+        # If request.body is not empty, parse as form-encoded
+        if request.body:
+            # Decode bytes to string
+            body_str = request.body.decode()
+            # Parse params=... from form-encoded body
+            parsed = parse_qs(body_str)
+            params_json = parsed.get("params", [None])[0]
+            if params_json:
+                # URL-decode and parse JSON
+                params = json.loads(unquote_plus(params_json))
+                order = params.get("order", [])
             else:
-                # Fallback for form-encoded (should not happen in this example)
-                order = request.POST.getlist("order[]")
-        except Exception as e:
-            print("Drag-drop JSON parse error:", e)
-            order = []
+                order = []
+
+        else:
+            # Fallback for form-encoded (should not happen in this example)
+            order = request.POST.getlist("order[]")
         return render(request, "demo/drag-drop-update.html", {"order": order})
     return JsonResponse({"success": False}, status=400)
 
@@ -665,29 +668,38 @@ def polling_example(request):
     })
 
 
+@csrf_exempt
 def csv_export(request):
     """
     Returns a CSV file for the table data.
     """
-    # Demo data (same as data-table)
-    data = [
-        {"name": "Alice", "age": 28, "role": "Developer"},
-        {"name": "Bob", "age": 34, "role": "Designer"},
-        {"name": "Charlie", "age": 25, "role": "Manager"},
-        {"name": "Lana", "age": 30, "role": "Developer"},
-        {"name": "Eve", "age": 29, "role": "QA"},
-        {"name": "Frank", "age": 32, "role": "Support"},
-        {"name": "Grace", "age": 27, "role": "Developer"},
-        {"name": "Hank", "age": 31, "role": "Designer"},
-        {"name": "Ivy", "age": 26, "role": "Manager"},
-        {"name": "Jack", "age": 33, "role": "Developer"},
-    ]
+    if request.method == "POST" and request.POST.get("table_json"):
+        try:
+            data = json.loads(request.POST["table_json"])
+        except Exception:
+            data = []
+    else:
+        # Fallback to demo data
+        data = [
+            {"name": "Alice", "age": 28, "role": "Developer"},
+            {"name": "Bob", "age": 34, "role": "Designer"},
+            {"name": "Charlie", "age": 25, "role": "Manager"},
+            {"name": "Lana", "age": 30, "role": "Developer"},
+            {"name": "Eve", "age": 29, "role": "QA"},
+            {"name": "Frank", "age": 32, "role": "Support"},
+            {"name": "Grace", "age": 27, "role": "Developer"},
+            {"name": "Hank", "age": 31, "role": "Designer"},
+            {"name": "Ivy", "age": 26, "role": "Manager"},
+            {"name": "Jack", "age": 33, "role": "Developer"},
+        ]
     output = StringIO()
     writer = csv.DictWriter(output, fieldnames=["name", "age", "role"])
     writer.writeheader()
     for row in data:
         writer.writerow(row)
-    response = HttpResponse(output.getvalue(), content_type="text/csv")
+    # Return as bytes for blob download
+    csv_bytes = output.getvalue().encode("utf-8")
+    response = HttpResponse(csv_bytes, content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="table-data.csv"'
     return response
 
@@ -750,9 +762,8 @@ def weather_widget(request):
     })
 
 def live_stock_ticker(request):
-    """
-    Returns a fragment with the current Bitcoin price (USD) for the Live Stock Ticker example.
-    """
+    hx_trigger = request.headers.get("HX-Trigger")
+
     try:
         resp = requests.get("https://api.kraken.com/0/public/Ticker", timeout=5)
         data = resp.json()
@@ -761,6 +772,23 @@ def live_stock_ticker(request):
     except Exception as e:
         price = None
         updated = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if hx_trigger == "btc-ticker":
+        # Return the HTML fragment.
+        return HttpResponse(
+            f"""
+            <div id="result">
+                <div style="font-size: 2.2rem; font-weight: bold;">
+                    <i class="fab fa-btc"></i>
+                    ${price:,.2f}
+                </div>
+                <div class="has-text-grey mt-2" style="font-size: 1rem;">
+                    Last updated: {updated}
+                </div>
+            </div>
+            """
+        )
+
     return render(request, "demo/live-stock-ticker.html", {
         "price": price,
         "updated": updated,
@@ -788,16 +816,22 @@ def kanban_board_update(request):
     """
     Receives the new board state for the Kanban board and returns a success response.
     """
+    from urllib.parse import unquote_plus, parse_qs
     if request.method == "POST":
-        try:
-            if request.body:
-                data = json.loads(request.body.decode())
-                board = data.get("board", {})
+
+        if request.body:
+            body_str = request.body.decode()
+
+            parsed = parse_qs(body_str)
+            params_json = parsed.get("params", [None])[0]
+            print(params_json)
+            if params_json:
+                # URL-decode and parse JSON
+                params = json.loads(unquote_plus(params_json))
+                board = params.get("board", {})
             else:
                 board = {}
-        except Exception as e:
-            print("Kanban board JSON parse error:", e)
-            board = {}
+
         return render(request, "demo/kanban-board-update.html", {"board": board})
     return JsonResponse({"success": False}, status=400)
 

@@ -1,11 +1,26 @@
 <!-- Weather Widget Example with HTMX and Open-Meteo API -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Weather Widget</h3>
     <p>
         Enter a city and get live weather updates using HTMX and a public API.
     </p>
-    <form id="weather-form" hx-get="/demo/weather-widget-fragment" hx-target="#weather-widget-result" hx-trigger="submit" autocomplete="off">
+    <div class="bd-clipboard">
+    <form id="weather-form"
+          hx-get="/demo/weather-widget-fragment"
+          hx-target="#weather-widget-result"
+          hx-trigger="submit"
+          autocomplete="off">
         <div class="field has-addons">
             <div class="control is-expanded">
                 <input class="input" type="text" name="city" id="weather-city-input" placeholder="Enter city (e.g. Amsterdam)" value="Amsterdam" required>
@@ -20,6 +35,7 @@
     </form>
     <div id="weather-widget-result" class="mt-4">
         <!-- Weather info will be loaded here -->
+    </div>
     </div>
 </div>
 <script>

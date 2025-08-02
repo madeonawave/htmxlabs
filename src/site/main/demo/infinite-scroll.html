@@ -1,6 +1,16 @@
 <!-- Infinite Scroll Example: Load more content as you scroll down the page, using hx-get and hx-trigger='revealed' -->
 
-<div class="box scroll-box">
+<div class="box scroll-box" style="position: relative;">
+        <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Infinite Scroll</h3>
     <p>
         Scroll down to automatically load more content. This uses <code>hx-get</code> and <code>hx-trigger="intersect once"</code> for seamless infinite scrolling.
@@ -19,15 +29,17 @@
         <div class="infinite-item">Item 10</div>
 
         <!-- The loader will be swapped with more items as you scroll -->
-        <span
-            id="infinite-scroll-loader"
-            hx-get="/demo/infinite-scroll-items?page=2"
-            hx-trigger="intersect once"
-            hx-swap="afterend"
-            class="has-text-centered py-4"
-            style="min-height: 1px;"
-            data-scroll-loader
-        ></span>
+        <div class="bd-clipboard">
+            <span
+                id="infinite-scroll-loader"
+                hx-get="/demo/infinite-scroll-items?page=2"
+                hx-trigger="intersect once"
+                hx-swap="afterend"
+                class="has-text-centered py-4"
+                style="min-height: 1px;"
+                data-scroll-loader
+            ></span>
+        </div>
         <div id="infinite-scroll-spinner" class="has-text-centered py-4" style="display:none;">
             <button class="button is-light is-loading is-large" disabled>Loading more...</button>
         </div>

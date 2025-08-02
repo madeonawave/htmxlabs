@@ -1,11 +1,22 @@
 <!-- Active Search Example: Live search results as you type, using HTMX's hx-get and hx-trigger -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Active Search</h3>
     <p>
         Type in the box below to see live search results update as you type. This uses <code>hx-get</code> and <code>hx-trigger="keyup changed delay:300ms"</code> for a smooth, real-time experience.
     </p>
-    <div class="field">
+
+    <div class="field bd-clipboard">
         <div class="control has-icons-left">
             <input
                 class="input is-medium"

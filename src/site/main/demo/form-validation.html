@@ -1,10 +1,21 @@
 <!-- Dynamic Form Validation Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Dynamic Form Validation</h3>
     <p>
         This form validates the username and email fields in real-time as you type, using <code>hx-post</code> and <code>hx-trigger="keyup changed delay:300ms"</code>. The server responds with validation feedback.
     </p>
+    <div class="bd-clipboard">
     <form id="dynamic-validation-form"
           hx-post="/demo/dynamic-form-validation"
           hx-trigger="keyup changed delay:300ms from:input"
@@ -29,4 +40,5 @@
             Submit
         </button>
     </form>
+    </div>
 </div>

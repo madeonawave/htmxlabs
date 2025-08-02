@@ -1,10 +1,21 @@
 <!-- Toast Notifications Example with HTMX -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
     <h3 class="title is-4 mb-3">Toast Notifications</h3>
     <p>
         Show toast notifications in response to AJAX events.
     </p>
+    <div class="bd-clipboard">
     <form id="toast-form" hx-post="/demo/toast-notify" hx-target="#toast-container" hx-swap="beforeend" autocomplete="off">
         <div class="field has-addons">
             <div class="control is-expanded">
@@ -28,6 +39,7 @@
             </div>
         </div>
     </form>
+    </div>
     <div id="toast-container" style="position: fixed; top: 2rem; right: 2rem; z-index: 9999;"></div>
 </div>
 <script>

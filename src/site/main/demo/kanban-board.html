@@ -59,22 +59,27 @@
         });
         list.addEventListener('drop', function(e) {
             e.preventDefault();
-            // Send new board state to server (for demo, just show in result)
+            // Send new board state to server using HTMX
             const board = {};
             document.querySelectorAll('.kanban-list').forEach(l => {
                 board[l.id] = Array.from(l.querySelectorAll('.kanban-card')).map(card => card.textContent.trim());
             });
-            // Use XMLHttpRequest to send JSON payload (like drag-drop.html)
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/demo/kanban-board-update', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.setRequestHeader('HX-Request', 'true');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    document.getElementById('kanban-result').innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send(JSON.stringify({ board: board }));
+            // Create a hidden form and use HTMX to POST the board state as JSON
+            var form = document.createElement('form');
+            form.style.display = 'none';
+            form.setAttribute('hx-post', '/demo/kanban-board-update');
+            form.setAttribute('hx-target', '#kanban-result');
+            form.setAttribute('hx-swap', 'innerHTML');
+            form.setAttribute('hx-ext', 'json-enc');
+            form.setAttribute('hx-vals', JSON.stringify({'params':{ board: board }}));
+
+            document.body.appendChild(form);
+            htmx.process(form);
+
+            htmx.trigger(form, 'submit');
+            setTimeout(function() {
+                document.body.removeChild(form);
+            }, 1000);
         });
     });
     function getDragAfterElement(list, y) {

@@ -1,28 +1,40 @@
-
 <div id="like-button-container">
-    <div class="box has-text-centered" style="max-width: 340px; margin: 0 auto;">
+    <div class="box has-text-centered" style="  margin: 0 auto; position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
+
         <h3 class="title is-4 mb-3">Interactive Like Button</h3>
-        <form
-            hx-post="/demo/like-button"
-            hx-target="#like-button-container"
-            hx-swap="outerHTML"
-            hx-vals='{}'
-            style="display: inline-block;"
-        >
-            <button
-                type="submit"
-                class="button is-large is-rounded"
-                style="font-size: 2rem; transition: color 0.2s;{% if liked %} color: #e0245e;{% endif %}"
-                aria-pressed="{{ liked|yesno:'true,false' }}"
+        <div class="bd-clipboard">
+            <form
+                hx-post="/demo/like-button"
+                hx-target="#like-button-container"
+                hx-swap="outerHTML"
+                hx-vals='{}'
+                style="display: inline-block;"
             >
-                <span class="icon is-large">
-                    <i class="fas fa-heart{% if not liked %}-broken{% endif %}"></i>
-                </span>
-                <span style="font-size: 1.2rem; margin-left: 0.5em;">
-                    {{ count }}
-                </span>
-            </button>
-        </form>
+                <button
+                    type="submit"
+                    class="button is-large is-rounded"
+                    style="font-size: 2rem; transition: color 0.2s;{% if liked %} color: #e0245e;{% endif %}"
+                    aria-pressed="{{ liked|yesno:'true,false' }}"
+                >
+                    <span class="icon is-large">
+                        <i class="fas fa-heart{% if not liked %}-broken{% endif %}"></i>
+                    </span>
+                    <span style="font-size: 1.2rem; margin-left: 0.5em;">
+                        {{ count }}
+                    </span>
+                </button>
+            </form>
+        </div>
         <div style="margin-top: 1em;">
             <span>
                 {% if liked %}

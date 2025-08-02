@@ -3,7 +3,7 @@
 <div class="box">
     <h3 class="title is-4 mb-3">Theme Switcher</h3>
     <p>
-        Switch between light and dark themes using HTMX and CSS variables.
+        Switch between <ligh></ligh>t and dark themes using HTMX and CSS variables.
     </p>
     <div class="buttons">
         <button class="button is-light" id="theme-light"
@@ -26,3 +26,17 @@
         </button>
     </div>
 </div>
+
+<!-- This style tag will be swapped by HTMX to update the theme -->
+<style id="theme-vars">
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --dark-blue: #2c3e50;
+    --light-gray: #f8f9fa;
+    --text-color: #222;
+    --card-bg: #fff;
+}
+body { background: #fff; color: #222; }
+.box, .card, .navbar, .modal-content { background: #fff !important; color: #222 !important; }
+</style>

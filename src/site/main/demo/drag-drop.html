@@ -1,6 +1,17 @@
 <!-- Drag and Drop Sorting Example with HTMX and JS -->
 
-<div class="box">
+<div class="box" style="position: relative;">
+    <!-- Copy button in top right -->
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+        <button type="button"
+                class="button is-small is-light btn-clipboard"
+                title="Copy to clipboard"
+                onclick="copyClipboardContent(this)">
+            <span class="icon is-small"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+        </button>
+    </div>
+
     <h3 class="title is-4 mb-3">Drag and Drop Sorting</h3>
     <p>
         Drag and drop the items below to reorder them. The new order is sent to the server via HTMX.
@@ -60,20 +71,31 @@
             list.insertBefore(draggingEl, placeholder);
             placeholder.parentNode.removeChild(placeholder);
         }
-        // Send new order to server via XMLHttpRequest (not htmx.ajax)
+        // Send new order to server via HTMX
         var order = Array.from(list.querySelectorAll('.draggable-item')).map(function(li) {
             return li.getAttribute('data-id');
         });
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/demo/drag-drop-update', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('HX-Request', 'true');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                document.getElementById('drag-drop-result').innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send(JSON.stringify({ order: order }));
+        // Use a hidden form and trigger htmx with JSON encoding
+        var form = document.createElement('form');
+        form.style.display = 'none';
+        form.setAttribute('hx-post', '/demo/drag-drop-update');
+        form.setAttribute('hx-target', '#drag-drop-result');
+        form.setAttribute('hx-swap', 'innerHTML');
+        form.setAttribute('hx-vals', JSON.stringify({'params':{"order": order}}));
+        document.body.appendChild(form);
+
+        htmx.process(form);
+        htmx.trigger(form, 'submit');
+        setTimeout(function() {
+            document.body.removeChild(form);
+        }, 1000);
+    });
+
+    // Add hx attributes to each draggable item for clarity (optional, for demo)
+    Array.from(list.querySelectorAll('.draggable-item')).forEach(function(li) {
+        li.setAttribute('hx-post', '/demo/drag-drop-update');
+        li.setAttribute('hx-target', '#drag-drop-result');
+        li.setAttribute('hx-swap', 'innerHTML');
     });
 })();
 </script>

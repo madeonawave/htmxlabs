@@ -4,6 +4,9 @@
     <h3 class="title is-4 mb-3">CSV Export</h3>
     <p>
         Click the button below to export the table data as a CSV file.
+        The table data is sent to the backend (in case you want some extra processing),
+        and returne
+
     </p>
     <section tabindex=0 style="overflow-x: auto;">
     <table class="table is-striped is-fullwidth mb-4">
@@ -28,9 +31,71 @@
         </tbody>
     </table>
     </section>
-    <button class="button is-primary"
-            onclick="window.location.href='/demo/csv-export'">
+<form id="csv-export-form"
+      hx-post="/demo/csv-export"
+      hx-encoding="multipart/form-data"
+      hx-target="this"
+      hx-swap="none"
+      method="POST">
+    <input type="hidden" name="table_json" id="table-json-input">
+    <button class="button is-primary" type="submit">
         <span class="icon"><i class="fas fa-file-csv"></i></span>
         <span>Export as CSV</span>
     </button>
+</form>
 </div>
+<script>
+document.getElementById('csv-export-form').addEventListener('submit', function(e) {
+    // Gather table data as JSON before submitting
+    var rows = [];
+    document.querySelectorAll('table tbody tr').forEach(function(tr) {
+        var cells = tr.querySelectorAll('td');
+        rows.push({
+            name: cells[0].textContent.trim(),
+            age: cells[1].textContent.trim(),
+            role: cells[2].textContent.trim()
+        });
+    });
+    document.getElementById('table-json-input').value = JSON.stringify(rows);
+    // Allow form to submit (HTMX will handle the request)
+});
+
+// Intercept the HTMX response and trigger a download if it's CSV
+(function() {
+    // Only run this handler once per request
+    let lastRequestId = null;
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        // Mark the request with a unique id
+        lastRequestId = Math.random().toString(36).slice(2);
+        evt.detail.xhr._htmx_csv_export_id = lastRequestId;
+    });
+
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        var xhr = evt.detail.xhr;
+        // Only handle the most recent request
+        if (!xhr || xhr._htmx_csv_export_id !== lastRequestId) return;
+        // Check for CSV content type and Content-Disposition header
+        if (xhr.getResponseHeader('content-type') &&
+            xhr.getResponseHeader('content-type').includes('text/csv')) {
+            // Get filename from Content-Disposition
+            var disposition = xhr.getResponseHeader('content-disposition');
+            var filename = "table-data.csv";
+            if (disposition) {
+                var match = disposition.match(/filename="?([^"]+)"?/);
+                if (match) filename = match[1];
+            }
+            // Create a blob and trigger download
+            var blob = new Blob([xhr.response], {type: 'text/csv'});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(function() {
+                window.URL.revokeObjectURL(link.href);
+                document.body.removeChild(link);
+            }, 100);
+        }
+    });
+})();
+</script>

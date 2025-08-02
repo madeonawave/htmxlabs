@@ -3,15 +3,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTMX - High Power Tools for HTML</title>
     <link rel="icon" href="/favicon.ico" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <script src=https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.4/htmx.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.6/htmx.min.js></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/main/style.css">
     <link rel="stylesheet" href="/static/main/docs_style.css">
-        <script src="{% static 'silent_mammoth_whistle/js/whistle.js' %}"></script>
+    <script src="{% static 'silent_mammoth_whistle/js/whistle.js' %}"></script>
+    <script src="{% static 'main/clipboard.js' %}"></script>
 
 </head>
 <body>
