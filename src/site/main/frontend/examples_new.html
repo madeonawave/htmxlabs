@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block content %}
+<div class="section" style="padding-top: 5rem;">
+  <div class="container">
+    <div class="columns">
+      <!-- Left menu (desktop) -->
+      <div class="column is-3 is-hidden-mobile">
+        <aside class="menu" style="max-height: 70vh; overflow-y: auto;">
+          <p class="menu-label">Examples</p>
+          <ul class="menu-list">
+            {% for example in examples %}
+              <li>
+                <a
+                  hx-get="/demo/{{ example.id }}.html"
+                  hx-target="#example-detail"
+                  hx-swap="innerHTML"
+                  class="example-link"
+                  id="example-link-{{ example.id }}"
+                  >
+                  {{ example.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </aside>
+      </div>
+      <!-- Dropdown menu (mobile) -->
+      <div class="column is-12 is-hidden-tablet mb-4">
+        <div class="field">
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="examples-dropdown">
+                <option value="">Select an example...</option>
+                {% for example in examples %}
+                  <option value="{{ example.id }}">{{ example.title }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Central example display -->
+      <div class="column is-9-desktop is-12-mobile">
+        <div id="example-detail">
+          <div class="notification is-info is-light">
+            <strong>Select an example from the menu to view it here.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Highlight the active example link (desktop)
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('example-link')) {
+      document.querySelectorAll('.example-link').forEach(function(link) {
+        link.classList.remove('is-active');
+      });
+      e.target.classList.add('is-active');
+    }
+  });
+
+  // Handle dropdown change (mobile)
+  document.addEventListener('DOMContentLoaded', function() {
+    var dropdown = document.getElementById('examples-dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('change', function() {
+        var exampleId = this.value;
+        if (exampleId) {
+          htmx.ajax('GET', '/demo/' + exampleId + '.html', '#example-detail');
+        }
+      });
+    }
+  });
+</script>
+<style>
+/* Ensure the left menu is hidden on mobile, dropdown hidden on desktop */
+@media (max-width: 768px) {
+  .is-hidden-tablet { display: block !important; }
+  .is-hidden-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .is-hidden-tablet { display: none !important; }
+  .is-hidden-mobile { display: block !important; }
+}
+</style>
+{% endblock %}
