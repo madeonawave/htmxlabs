@@ -13,6 +13,7 @@ urlpatterns = [
     path("examples/<str:filter_name>", views.examples_data, name="examples_data"),
     path("examples/examples-data", views.examples_data, name="examples_data"),
     path("search-examples/<str:filter_name>", views.examples_data, name="examples_data"),
+    path("reference_api/", views.reference_api, name="reference"),
 
     path("demo/data-table-rows", views.data_table_rows, name="data_table_rows"),
     path("demo/live-search-suggestions.html", views.live_search_suggestions, name="live_search_suggestions"),

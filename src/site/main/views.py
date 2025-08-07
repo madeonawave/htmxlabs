@@ -68,10 +68,7 @@ def docs_core_attributes(request):
     """
     return render(request, "docs/core-attributes.html")
 
-# @htmx_template('examples.html', 'full_examples.html')
-# def examples(request):
-#     context = {'data': 'some data'}
-#     return {'context': context}
+
 def examples(request):
     # Load examples from JSON
     import json
@@ -190,12 +187,15 @@ def dynamic_page(request, page_name):
 
 def favicon(request):
     """
-    Serve the favicon.svg file.
+    Serve the favicon.svg file. If not found, return an empty SVG.
     """
     import os
     favicon_path = os.path.join(settings.BASE_DIR, "static", "main", "favicon.svg")
-    return FileResponse(open(favicon_path, "rb"), content_type="image/svg+xml")
-
+    try:
+        return FileResponse(open(favicon_path, "rb"), content_type="image/svg+xml")
+    except Exception:
+        empty_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"></svg>'
+        return HttpResponse(empty_svg, content_type="image/svg+xml")
 
 @csrf_exempt
 def click_to_edit_form(request):
@@ -862,3 +862,7 @@ def language_switcher(request):
     }
     greeting = greetings.get(lang, greetings["en"])
     return render(request, "demo/language-switcher.html", {"greeting": greeting, "lang": lang})
+
+
+def reference_api(request):
+    return render(request, "frontend/api_reference.html", )

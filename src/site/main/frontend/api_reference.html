@@ -1,0 +1,1026 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+{% include 'navigation.html' %}
+<div class="section" style="padding-top: 5rem;">
+  <div class="container">
+    <div class="columns">
+      <!-- Left menu (desktop) -->
+      <div class="column is-3 is-hidden-mobile">
+        <aside class="menu api-reference-menu">
+          <p class="menu-label">API Reference</p>
+          <ul class="menu-list" id="api-menu-list">
+            <li><a href="#core-attributes" data-section="core-attributes">htmx Core Attributes</a></li>
+            <li><a href="#additional-attributes" data-section="additional-attributes">htmx Additional Attributes</a></li>
+            <li><a href="#css-classes" data-section="css-classes">htmx CSS Classes</a></li>
+            <li><a href="#request-headers" data-section="request-headers">htmx Request Headers</a></li>
+            <li><a href="#response-headers" data-section="response-headers">htmx Response Headers</a></li>
+            <li><a href="#events" data-section="events">htmx Events</a></li>
+            <li><a href="#js-api" data-section="js-api">JavaScript API</a></li>
+            <li><a href="#config-options" data-section="config-options">Configuration Options</a></li>
+          </ul>
+        </aside>
+      </div>
+      <!-- Dropdown menu (mobile) -->
+      <div class="column is-12 is-hidden-tablet mb-4">
+        <div class="field">
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="api-sections-dropdown">
+                <option value="">Select a section...</option>
+                <option value="core-attributes">htmx Core Attributes</option>
+                <option value="additional-attributes">htmx Additional Attributes</option>
+                <option value="css-classes">htmx CSS Classes</option>
+                <option value="request-headers">htmx Request Headers</option>
+                <option value="response-headers">htmx Response Headers</option>
+                <option value="events">htmx Events</option>
+                <option value="extensions">htmx Extensions</option>
+                <option value="js-api">JavaScript API</option>
+                <option value="config-options">Configuration Options</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main content area -->
+      <div class="column is-9-desktop is-12-mobile">
+        <section id="core-attributes">
+          <h2 class="title is-4 sticky-section-title">htmx Core Attributes</h2>
+          <div class="content">
+            <p>
+              Core attributes are the primary way to use htmx. They allow you to issue AJAX requests and update parts of your page declaratively.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>hx-get</code></td>
+                    <td>Issues a GET request to the specified URL and swaps the response into the target element.</td>
+                    <td><code>&lt;button hx-get="/hello"&gt;Say Hello&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-post</code></td>
+                    <td>Issues a POST request to the specified URL and swaps the response into the target element.</td>
+                    <td><code>&lt;form hx-post="/submit"&gt;...&lt;/form&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-put</code></td>
+                    <td>Issues a PUT request to the specified URL and swaps the response into the target element.</td>
+                    <td><code>&lt;button hx-put="/update"&gt;Update&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-delete</code></td>
+                    <td>Issues a DELETE request to the specified URL and swaps the response into the target element.</td>
+                    <td><code>&lt;button hx-delete="/delete"&gt;Delete&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-patch</code></td>
+                    <td>Issues a PATCH request to the specified URL and swaps the response into the target element.</td>
+                    <td><code>&lt;button hx-patch="/patch"&gt;Patch&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-target</code></td>
+                    <td>Specifies the element to swap the response into. Can be a CSS selector or <code>this</code> for the current element.</td>
+                    <td><code>&lt;button hx-get="/hello" hx-target="#result"&gt;Say Hello&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-swap</code></td>
+                    <td>Controls how the response is swapped into the target element (e.g., <code>innerHTML</code>, <code>outerHTML</code>, <code>beforeend</code>, etc.).</td>
+                    <td><code>&lt;div hx-get="/msg" hx-swap="outerHTML"&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-trigger</code></td>
+                    <td>Specifies the event(s) that trigger the request (e.g., <code>click</code>, <code>change</code>, <code>load</code>, or custom events).</td>
+                    <td><code>&lt;input hx-get="/search" hx-trigger="keyup changed delay:500ms"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-vals</code></td>
+                    <td>Specifies additional parameters to submit with the request, as a JSON object or a JavaScript expression.</td>
+                    <td><code>&lt;button hx-post="/vote" hx-vals='{"option":"A"}'&gt;Vote A&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-include</code></td>
+                    <td>Specifies additional elements whose values should be included in the request.</td>
+                    <td><code>&lt;button hx-post="/submit" hx-include="#other-input"&gt;Submit&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-params</code></td>
+                    <td>Controls which parameters are submitted with the request (e.g., <code>none</code>, <code>not</code>, or a space-separated list).</td>
+                    <td><code>&lt;form hx-post="/submit" hx-params="not password"&gt;...&lt;/form&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-headers</code></td>
+                    <td>Specifies additional headers to send with the request, as a JSON object or JavaScript expression.</td>
+                    <td><code>&lt;button hx-get="/data" hx-headers='{"X-API-Key":"123"}'&gt;Get Data&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-push-url</code></td>
+                    <td>Pushes the request URL into the browser history (or replaces it) when the request completes.</td>
+                    <td><code>&lt;a hx-get="/page2" hx-push-url="true"&gt;Next Page&lt;/a&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-select</code></td>
+                    <td>Specifies a CSS selector to select a portion of the response to swap into the target.</td>
+                    <td><code>&lt;div hx-get="/fragment" hx-select="#main"&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-confirm</code></td>
+                    <td>Shows a confirmation dialog before issuing the request. If the user cancels, the request is not sent.</td>
+                    <td><code>&lt;button hx-delete="/item" hx-confirm="Are you sure?"&gt;Delete&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-disable</code></td>
+                    <td>Disables the element while the request is in flight.</td>
+                    <td><code>&lt;button hx-post="/submit" hx-disable&gt;Submit&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-indicator</code></td>
+                    <td>Specifies an element to show while the request is in flight (e.g., a loading spinner).</td>
+                    <td><code>&lt;button hx-get="/data" hx-indicator="#spinner"&gt;Load&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-encoding</code></td>
+                    <td>Specifies the encoding type for the request (e.g., <code>multipart/form-data</code> for file uploads).</td>
+                    <td><code>&lt;form hx-post="/upload" hx-encoding="multipart/form-data"&gt;...&lt;/form&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-ext</code></td>
+                    <td>Enables one or more htmx extensions for the element.</td>
+                    <td><code>&lt;div hx-ext="debug"&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#attributes" target="_blank" rel="noopener">official htmx attribute reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="additional-attributes">
+          <h2 class="title is-4 sticky-section-title">htmx Additional Attributes</h2>
+          <div class="content">
+            <p>
+              Additional attributes provide further control and customization for htmx behavior. These are not as commonly used as the core attributes, but can be very useful for advanced scenarios.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>hx-boost</code></td>
+                    <td>Enables AJAX navigation for links and forms within the element. Set to <code>true</code> to activate.</td>
+                    <td><code>&lt;body hx-boost="true"&gt;...&lt;/body&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-disable</code></td>
+                    <td>Disables htmx processing for the element and its children.</td>
+                    <td><code>&lt;div hx-disable&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-preserve</code></td>
+                    <td>Preserves the element (and its state) during a swap, instead of replacing it.</td>
+                    <td><code>&lt;input hx-preserve id="my-input"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-sync</code></td>
+                    <td>Controls how requests for the element are synchronized (e.g., <code>drop</code>, <code>abort</code>, <code>queue</code>, <code>replace</code>).</td>
+                    <td><code>&lt;button hx-get="/data" hx-sync="this:queue"&gt;Queue Requests&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-on</code></td>
+                    <td>Allows you to specify inline event handlers for htmx events (e.g., <code>htmx:afterSwap: window.scrollTo(0,0)</code>).</td>
+                    <td><code>&lt;div hx-get="/data" hx-on="htmx:afterSwap: window.scrollTo(0,0)"&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-select-oob</code></td>
+                    <td>Allows you to select and swap content "out of band" from the response, targeting elements outside the normal swap target.</td>
+                    <td><code>&lt;div hx-get="/fragment" hx-select-oob="#sidebar"&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-replace-url</code></td>
+                    <td>Replaces the current browser URL with the request URL when the request completes, without adding a new history entry.</td>
+                    <td><code>&lt;a hx-get="/page2" hx-replace-url="true"&gt;Go to Page 2&lt;/a&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-history</code></td>
+                    <td>Controls whether a request updates browser history (<code>true</code>, <code>false</code>, or <code>restore</code>).</td>
+                    <td><code>&lt;a hx-get="/page" hx-history="false"&gt;No History&lt;/a&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-history-elt</code></td>
+                    <td>Specifies the element whose content should be saved and restored during history navigation.</td>
+                    <td><code>&lt;div id="main" hx-history-elt&gt;...&lt;/div&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-vals-js</code></td>
+                    <td>Allows you to specify a JavaScript expression that returns an object to be submitted as parameters.</td>
+                    <td><code>&lt;button hx-post="/vote" hx-vals-js="getVoteParams()"&gt;Vote&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-headers-js</code></td>
+                    <td>Allows you to specify a JavaScript expression that returns an object to be used as request headers.</td>
+                    <td><code>&lt;button hx-get="/data" hx-headers-js="getHeaders()"&gt;Get Data&lt;/button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-params-js</code></td>
+                    <td>Allows you to specify a JavaScript expression that returns an array of parameter names to submit.</td>
+                    <td><code>&lt;form hx-post="/submit" hx-params-js="getParamNames()"&gt;...&lt;/form&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>hx-encoding-js</code></td>
+                    <td>Allows you to specify a JavaScript expression that returns the encoding type for the request.</td>
+                    <td><code>&lt;form hx-post="/upload" hx-encoding-js="getEncodingType()"&gt;...&lt;/form&gt;</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#attributes-additional" target="_blank" rel="noopener">official htmx additional attribute reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="css-classes">
+          <h2 class="title is-4 sticky-section-title">htmx CSS Classes</h2>
+          <div class="content">
+            <p>
+              htmx applies special CSS classes to elements during the request lifecycle. These classes can be used to style elements based on their current state (e.g., loading, swapping, error).
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Class</th>
+                    <th>When Applied</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>htmx-request</code></td>
+                    <td>On the element issuing the request</td>
+                    <td>Added while an AJAX request is in flight.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-settling</code></td>
+                    <td>On the target element</td>
+                    <td>Added while the target element is being updated/swapped.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-swapping</code></td>
+                    <td>On the target element</td>
+                    <td>Added while the swap animation is running (if any).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-added</code></td>
+                    <td>On newly added elements</td>
+                    <td>Added to elements that are newly added to the DOM by htmx.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-indicator</code></td>
+                    <td>On indicator elements</td>
+                    <td>Should be added to elements you want to show/hide as loading indicators. htmx will automatically add/remove <code>htmx-request</code> to these elements as well.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-error</code></td>
+                    <td>On the element issuing the request</td>
+                    <td>Added if the request results in an error (e.g., network or server error).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx-triggered</code></td>
+                    <td>On the element that triggered the request</td>
+                    <td>Added to the element that triggered the request for the duration of the request.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#classes" target="_blank" rel="noopener">official htmx CSS class reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="request-headers">
+          <h2 class="title is-4 sticky-section-title">htmx Request Headers</h2>
+          <div class="content">
+            <p>
+              htmx sends a number of HTTP request headers with each AJAX request. These headers can be used by the server to detect and handle htmx requests appropriately.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Header</th>
+                    <th>Description</th>
+                    <th>Example Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>HX-Request</code></td>
+                    <td>Sent with every htmx request. Set to <code>true</code> to indicate the request was made by htmx.</td>
+                    <td><code>true</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Boosted</code></td>
+                    <td>Set to <code>true</code> if the request was initiated via <code>hx-boost</code> (boosted navigation).</td>
+                    <td><code>true</code> or not sent</td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Current-URL</code></td>
+                    <td>The current URL of the browser when the request was made.</td>
+                    <td><code>https://example.com/page</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Target</code></td>
+                    <td>The <code>id</code> of the target element that will be swapped.</td>
+                    <td><code>main-content</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger-Name</code></td>
+                    <td>The <code>name</code> of the element that triggered the request, if any.</td>
+                    <td><code>save-btn</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger</code></td>
+                    <td>The <code>id</code> of the element that triggered the request, if any.</td>
+                    <td><code>delete-row-1</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger-Id</code></td>
+                    <td>The <code>id</code> of the element that triggered the request, if any. (Alias for <code>HX-Trigger</code> in some versions.)</td>
+                    <td><code>delete-row-1</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Request</code></td>
+                    <td>Always set to <code>true</code> for htmx requests.</td>
+                    <td><code>true</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-History-Restore-Request</code></td>
+                    <td>Set to <code>true</code> if the request is being made as part of a history restoration after a back/forward navigation.</td>
+                    <td><code>true</code> or not sent</td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Prompt</code></td>
+                    <td>If the request was triggered by a prompt (e.g., <code>hx-prompt</code>), this header contains the value entered by the user.</td>
+                    <td><code>Some user input</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Triggering-Event</code></td>
+                    <td>If the request was triggered by an event, this header contains a JSON-encoded description of the event.</td>
+                    <td><code>{"type":"click"}</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#request_headers" target="_blank" rel="noopener">official htmx request header reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="response-headers">
+          <h2 class="title is-4 sticky-section-title">htmx Response Headers</h2>
+          <div class="content">
+            <p>
+              htmx recognizes several HTTP response headers that allow the server to control client-side behavior after an AJAX request. These headers can be used to trigger redirects, refresh the page, push/replace browser history, trigger events, and more.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Header</th>
+                    <th>Description</th>
+                    <th>Example Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>HX-Redirect</code></td>
+                    <td>Redirects the browser to the specified URL.</td>
+                    <td><code>/login</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Refresh</code></td>
+                    <td>If set to <code>true</code>, causes the browser to do a full page reload.</td>
+                    <td><code>true</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Location</code></td>
+                    <td>Pushes a new location into the browser's address bar, optionally with a source and event.</td>
+                    <td><code>{"path":"/new-page","source":"#main","event":"show"}</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Push-Url</code></td>
+                    <td>Pushes the given URL into the browser history.</td>
+                    <td><code>/new-url</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Replace-Url</code></td>
+                    <td>Replaces the current URL in the browser history with the given URL.</td>
+                    <td><code>/replace-url</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Reswap</code></td>
+                    <td>Overrides the <code>hx-swap</code> value for this response only.</td>
+                    <td><code>outerHTML</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Retarget</code></td>
+                    <td>Overrides the <code>hx-target</code> value for this response only.</td>
+                    <td><code>#other-element</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger</code></td>
+                    <td>Triggers the named event(s) on the client after the response is received. Value can be a space-separated list or a JSON object for event detail.</td>
+                    <td><code>customEvent</code> or <code>{"customEvent":{"detail":"value"}}</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger-After-Swap</code></td>
+                    <td>Triggers the named event(s) after the swap is complete.</td>
+                    <td><code>afterSwapEvent</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Trigger-After-Settle</code></td>
+                    <td>Triggers the named event(s) after settle is complete.</td>
+                    <td><code>afterSettleEvent</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Replace-Url</code></td>
+                    <td>Replaces the current URL in the browser history with the given URL.</td>
+                    <td><code>/replace-url</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Push-Url</code></td>
+                    <td>Pushes the given URL into the browser history.</td>
+                    <td><code>/new-url</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Retarget</code></td>
+                    <td>Overrides the <code>hx-target</code> value for this response only.</td>
+                    <td><code>#other-element</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>HX-Reswap</code></td>
+                    <td>Overrides the <code>hx-swap</code> value for this response only.</td>
+                    <td><code>outerHTML</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#response_headers" target="_blank" rel="noopener">official htmx response header reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="events">
+          <h2 class="title is-4 sticky-section-title">htmx Events</h2>
+          <div class="content">
+            <p>
+              htmx emits a variety of custom events during the request and swap lifecycle. You can listen for these events to add custom behavior to your application.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>When Fired</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>htmx:configRequest</code></td>
+                    <td>Before an AJAX request is sent. Allows you to modify the request (headers, parameters, etc.).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:beforeRequest</code></td>
+                    <td>Just before an AJAX request is issued.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:send</code></td>
+                    <td>When an AJAX request is sent.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:afterRequest</code></td>
+                    <td>After an AJAX request completes (success or error).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:beforeOnLoad</code></td>
+                    <td>Before the response is handled (before swap).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:beforeSwap</code></td>
+                    <td>Before the swap is performed. Allows you to modify the response or cancel the swap.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:afterSwap</code></td>
+                    <td>After the swap is performed.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:beforeSettle</code></td>
+                    <td>Before the settle phase (after swap, before animations complete).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:afterSettle</code></td>
+                    <td>After the settle phase (after animations complete).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:confirm</code></td>
+                    <td>When a request is about to be issued and <code>hx-confirm</code> is present. Allows you to override the confirmation dialog.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:prompt</code></td>
+                    <td>When a request is about to be issued and <code>hx-prompt</code> is present. Allows you to override the prompt dialog.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:validation:validate</code></td>
+                    <td>When a form is about to be submitted. Allows you to perform custom validation.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:validation:failed</code></td>
+                    <td>When form validation fails.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:validation:halted</code></td>
+                    <td>When form submission is halted due to validation.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:load</code></td>
+                    <td>When new content is loaded into the DOM by htmx.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:historyRestore</code></td>
+                    <td>When a history restoration occurs (back/forward navigation).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:abort</code></td>
+                    <td>When a request is aborted (e.g., due to <code>hx-sync</code> or user action).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:beforeProcessNode</code></td>
+                    <td>Before a newly loaded node is processed by htmx.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:afterProcessNode</code></td>
+                    <td>After a newly loaded node is processed by htmx.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:responseError</code></td>
+                    <td>When a response error occurs (e.g., non-2xx status code).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:sendError</code></td>
+                    <td>When a network error occurs while sending a request.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:timeout</code></td>
+                    <td>When a request times out.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:xhr:progress</code></td>
+                    <td>When an XHR progress event occurs (for file uploads, etc.).</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:xhr:loadstart</code></td>
+                    <td>When an XHR loadstart event occurs.</td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx:xhr:loadend</code></td>
+                    <td>When an XHR loadend event occurs.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#events" target="_blank" rel="noopener">official htmx events reference</a>.
+            </p>
+          </div>
+        </section>
+
+        <section id="js-api">
+          <h2 class="title is-4 sticky-section-title">JavaScript API</h2>
+          <div class="content">
+            <p>
+              htmx exposes a JavaScript API for advanced use cases, allowing you to interact with htmx programmatically.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Method / Property</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>htmx.ajax(method, url, target, values, headers)</code></td>
+                    <td>Performs an AJAX request using the specified HTTP method and swaps the response into the target element.</td>
+                    <td><code>htmx.ajax('GET', '/hello', '#result')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.process(element)</code></td>
+                    <td>Processes a DOM element and its children for htmx attributes, activating them.</td>
+                    <td><code>htmx.process(document.getElementById('new-content'))</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.on(element, event, handler)</code></td>
+                    <td>Adds an event listener for an htmx event to the specified element.</td>
+                    <td>
+                      <code>
+                        htmx.on(document.body, 'htmx:afterSwap', function(evt) { ... });
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.off(element, event, handler)</code></td>
+                    <td>Removes an event listener for an htmx event from the specified element.</td>
+                    <td>
+                      <code>
+                        htmx.off(document.body, 'htmx:afterSwap', handler);
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.trigger(element, event, detail)</code></td>
+                    <td>Triggers an htmx event on the specified element, optionally passing event detail.</td>
+                    <td>
+                      <code>
+                        htmx.trigger('#myDiv', 'htmx:afterSwap', {foo: 'bar'});
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.find(selector)</code></td>
+                    <td>Finds and returns the first element matching the selector.</td>
+                    <td><code>htmx.find('#myDiv')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.findAll(selector)</code></td>
+                    <td>Finds and returns all elements matching the selector.</td>
+                    <td><code>htmx.findAll('.item')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.logAll()</code></td>
+                    <td>Enables logging of all htmx events to the console (for debugging).</td>
+                    <td><code>htmx.logAll()</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.logNone()</code></td>
+                    <td>Disables logging of htmx events to the console.</td>
+                    <td><code>htmx.logNone()</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.createEventSource(url)</code></td>
+                    <td>Creates an EventSource object for use with <code>hx-ext="sse"</code> (Server-Sent Events extension).</td>
+                    <td><code>htmx.createEventSource('/events')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.createWebSocket(url)</code></td>
+                    <td>Creates a WebSocket object for use with <code>hx-ext="ws"</code> (WebSocket extension).</td>
+                    <td><code>htmx.createWebSocket('wss://example.com/ws')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.values(element)</code></td>
+                    <td>Returns a JavaScript object containing the values that would be submitted by the element.</td>
+                    <td><code>htmx.values(document.querySelector('form'))</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.remove(element, delay)</code></td>
+                    <td>Removes the element from the DOM, optionally after a delay (in milliseconds).</td>
+                    <td><code>htmx.remove('#myDiv', 1000)</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.addClass(element, className)</code></td>
+                    <td>Adds a CSS class to the element.</td>
+                    <td><code>htmx.addClass('#myDiv', 'is-active')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.removeClass(element, className)</code></td>
+                    <td>Removes a CSS class from the element.</td>
+                    <td><code>htmx.removeClass('#myDiv', 'is-active')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.toggleClass(element, className)</code></td>
+                    <td>Toggles a CSS class on the element.</td>
+                    <td><code>htmx.toggleClass('#myDiv', 'is-active')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.closest(element, selector)</code></td>
+                    <td>Finds the closest ancestor of the element matching the selector.</td>
+                    <td><code>htmx.closest('#myDiv', '.container')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.defineExtension(name, extension)</code></td>
+                    <td>Defines a new htmx extension.</td>
+                    <td>
+                      <code>
+                        htmx.defineExtension('myExt', { ... });
+                      </code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.removeExtension(name)</code></td>
+                    <td>Removes a previously defined htmx extension.</td>
+                    <td><code>htmx.removeExtension('myExt')</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.config</code></td>
+                    <td>The global configuration object for htmx (see Configuration Options section).</td>
+                    <td><code>htmx.config.useTemplateFragments = true</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>htmx.version</code></td>
+                    <td>The current version of htmx.</td>
+                    <td><code>htmx.version</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#api" target="_blank" rel="noopener">official htmx JavaScript API reference</a>.
+            </p>
+          </div>
+        </section>
+        <section id="config-options">
+          <h2 class="title is-4 sticky-section-title">Configuration Options</h2>
+          <div class="content">
+            <p>
+              htmx can be configured globally via the <code>htmx.config</code> object. These options allow you to customize the behavior of htmx to fit your application's needs.
+            </p>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Option</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>historyEnabled</code></td>
+                    <td><code>true</code></td>
+                    <td>Enable or disable htmx history support.</td>
+                  </tr>
+                  <tr>
+                    <td><code>historyCacheSize</code></td>
+                    <td><code>10</code></td>
+                    <td>The number of pages to cache in the history cache.</td>
+                  </tr>
+                  <tr>
+                    <td><code>refreshOnHistoryMiss</code></td>
+                    <td><code>false</code></td>
+                    <td>Refresh the page if a history miss occurs.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultSwapStyle</code></td>
+                    <td><code>'innerHTML'</code></td>
+                    <td>The default swap style to use if <code>hx-swap</code> is not specified.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultSettleDelay</code></td>
+                    <td><code>20</code></td>
+                    <td>The default delay (in ms) before the settle phase.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultFocusScroll</code></td>
+                    <td><code>true</code></td>
+                    <td>Scroll the focused element into view after a swap.</td>
+                  </tr>
+                  <tr>
+                    <td><code>includeIndicatorStyles</code></td>
+                    <td><code>true</code></td>
+                    <td>Include default indicator styles for <code>htmx-indicator</code> elements.</td>
+                  </tr>
+                  <tr>
+                    <td><code>useTemplateFragments</code></td>
+                    <td><code>false</code></td>
+                    <td>Use <code>&lt;template&gt;</code> fragments for swapping content.</td>
+                  </tr>
+                  <tr>
+                    <td><code>globalViewTransitions</code></td>
+                    <td><code>false</code></td>
+                    <td>Enable view transitions globally (if supported by the browser).</td>
+                  </tr>
+                  <tr>
+                    <td><code>selfRequestsOnly</code></td>
+                    <td><code>false</code></td>
+                    <td>Only allow requests to the same origin as the current page.</td>
+                  </tr>
+                  <tr>
+                    <td><code>withCredentials</code></td>
+                    <td><code>false</code></td>
+                    <td>Send credentials (cookies, HTTP auth) with AJAX requests.</td>
+                  </tr>
+                  <tr>
+                    <td><code>timeout</code></td>
+                    <td><code>0</code></td>
+                    <td>The timeout (in ms) for AJAX requests. <code>0</code> means no timeout.</td>
+                  </tr>
+                  <tr>
+                    <td><code>wsReconnectDelay</code></td>
+                    <td><code>3000</code></td>
+                    <td>The delay (in ms) before attempting to reconnect a WebSocket.</td>
+                  </tr>
+                  <tr>
+                    <td><code>allowEval</code></td>
+                    <td><code>false</code></td>
+                    <td>Allow <code>eval()</code> in <code>hx-on</code> and <code>hx-confirm</code> attributes.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultEncoding</code></td>
+                    <td><code>'application/x-www-form-urlencoded'</code></td>
+                    <td>The default encoding for AJAX requests.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultHeaders</code></td>
+                    <td><code>{}</code></td>
+                    <td>Default headers to send with every request.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultParams</code></td>
+                    <td><code>{}</code></td>
+                    <td>Default parameters to send with every request.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultTrigger</code></td>
+                    <td><code>'click'</code></td>
+                    <td>The default event to trigger requests.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultIndicatorClass</code></td>
+                    <td><code>'htmx-indicator'</code></td>
+                    <td>The default class for loading indicators.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultRequestClass</code></td>
+                    <td><code>'htmx-request'</code></td>
+                    <td>The default class for elements making requests.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultSettleClass</code></td>
+                    <td><code>'htmx-settling'</code></td>
+                    <td>The default class for elements during the settle phase.</td>
+                  </tr>
+                  <tr>
+                    <td><code>defaultSwappingClass</code></td>
+                    <td><code>'htmx-swapping'</code></td>
+                    <td>The default class for elements during the swap phase.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 section-footer-note">
+              For more details, see the <a href="https://htmx.org/reference/#config" target="_blank" rel="noopener">official htmx configuration reference</a>.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
+<script>
+  // Handle dropdown change (mobile)
+  document.addEventListener('DOMContentLoaded', function() {
+    var dropdown = document.getElementById('api-sections-dropdown');
+    if (dropdown) {
+      dropdown.addEventListener('change', function() {
+        var sectionId = this.value;
+        if (sectionId) {
+          var section = document.getElementById(sectionId);
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    }
+
+    // Highlight active menu item on scroll
+    const sectionIds = [
+      "core-attributes",
+      "additional-attributes",
+      "css-classes",
+      "request-headers",
+      "response-headers",
+      "events",
+      "js-api",
+      "config-options"
+    ];
+    const menuLinks = Array.from(document.querySelectorAll('#api-menu-list a[data-section]'));
+
+    function getOffsetTop(elem) {
+      const rect = elem.getBoundingClientRect();
+      return rect.top + window.scrollY;
+    }
+
+    function updateActiveMenu() {
+      const scrollPosition = window.scrollY + 5.5 * 16 + 1; // 5.5rem offset for sticky nav
+      let currentSection = sectionIds[0];
+      for (let id of sectionIds) {
+        const section = document.getElementById(id);
+        if (section && getOffsetTop(section) <= scrollPosition) {
+          currentSection = id;
+        }
+      }
+      menuLinks.forEach(link => {
+        if (link.getAttribute('data-section') === currentSection) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveMenu, { passive: true });
+    window.addEventListener('resize', updateActiveMenu);
+    updateActiveMenu();
+
+    // Also highlight on click (for instant feedback)
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        menuLinks.forEach(l => l.classList.remove('is-active'));
+        this.classList.add('is-active');
+      });
+    });
+  });
+</script>
+<style>
+@media (max-width: 768px) {
+  .is-hidden-tablet { display: block !important; }
+  .is-hidden-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .is-hidden-tablet { display: none !important; }
+  .is-hidden-mobile { display: block !important; }
+}
+/* Sticky left menu for API Reference */
+.api-reference-menu {
+  position: sticky;
+  top: 5.5rem; /* height of navbar + section padding */
+  z-index: 10;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: white;
+}
+/* Sticky left menu for API Reference */
+.api-reference-menu {
+  position: sticky;
+  top: 5.5rem; /* height of navbar + section padding */
+  z-index: 10;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: white;
+}
+
+/* Sticky section titles (h2) */
+.sticky-section-title {
+  position: sticky;
+  top: 3rem; /* height of navbar + section padding */
+  background: white;
+  z-index: 20;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  /* Optional: add a subtle shadow or border for clarity */
+  border-bottom: 1px solid #eee;
+}
+
+/* Highlight active menu item */
+#api-menu-list a.is-active {
+  background: #667eea;
+  color: #fff !important;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+/* Highlight active menu item */
+#api-menu-list a.is-active {
+  background: #667eea;
+  color: #fff !important;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+/* Add extra space below section footers */
+.section-footer-note {
+  margin-bottom: 3.5rem !important;
+  display: block;
+}
+
+</style>
+{% endblock %}
+
