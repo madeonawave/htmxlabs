@@ -864,5 +864,42 @@ def language_switcher(request):
     return render(request, "demo/language-switcher.html", {"greeting": greeting, "lang": lang})
 
 
+from .models import ContactMessage
+from django.views.decorators.csrf import csrf_exempt
+
 def reference_api(request):
     return render(request, "frontend/api_reference.html", )
+
+def about_modal(request):
+    return render(request, "about_modal.html")
+
+def careers_modal(request):
+    return render(request, "careers_modal.html")
+
+@csrf_exempt
+def contact(request):
+    if request.method != "POST":
+        # If HTMX, return modal fragment, else render page (for direct navigation)
+        if request.headers.get("HX-Request"):
+            return render(request, "contact_form_fragment.html")
+        else:
+            return render(request, "contact.html")
+    name = request.POST.get("name", "").strip()
+    email = request.POST.get("email", "").strip()
+    message = request.POST.get("message", "").strip()
+    errors = []
+    if not name:
+        errors.append("Name is required.")
+    if not email:
+        errors.append("Email is required.")
+    if not message:
+        errors.append("Message is required.")
+    if errors:
+        return render(request, "contact_form_fragment.html", {
+            "errors": errors,
+            "name": name,
+            "email": email,
+            "message": message,
+        })
+    ContactMessage.objects.create(name=name, email=email, message=message)
+    return render(request, "contact_success_fragment.html", {"name": name})

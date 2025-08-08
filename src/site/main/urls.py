@@ -1,6 +1,5 @@
 from django.urls import path
 
-
 from . import views
 
 urlpatterns = [
@@ -8,6 +7,11 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("docs/", views.documentation, name="documentation"),
     path("docs/getting-started", views.docs_getting_started, name="docs_getting_started"),
+    path("contact/", views.contact, name="contact"),
+    path("about-modal/", views.about_modal, name="about_modal"),
+    path("careers-modal/", views.careers_modal, name="careers_modal"),
+    path("careers-modal/", views.careers_modal, name="careers_modal"),
+
     path("docs/attributes", views.docs_core_attributes, name="docs_core_attributes"),
     path("examples/", views.examples, name="examples"),
     path("examples/<str:filter_name>", views.examples_data, name="examples_data"),

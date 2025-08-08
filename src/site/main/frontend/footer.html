@@ -17,25 +17,49 @@
                     <h5 class="title is-6">Community</h5>
                     <ul>
                         <li><a href="https://discord.com/invite/Z6gPqAd">Discord</a></li>
-                        <li><a href="https://github.com/madeonawave/htmxlabs">GitHub</a></li>
+                        <li><a href="https://github.com/bigskysoftware/htmx">GitHub</a></li>
                     </ul>
                 </div>
                 <div class="column is-2">
                     <h5 class="title is-6">Resources</h5>
                     <ul>
-                        <li><a class="disable-links">Blog</a></li>
-                        <li><a class="disable-links">Tutorials</a></li>
-                        <li><a class="disable-links">Changelog</a></li>
-                        <li><a class="disable-links">Support</a></li>
+                        <li><a class="" href="https://github.com/madeonawave/htmxlabs">This site</a></li>
+<!--                        <li><a class="disable-links">Blog</a></li>-->
+<!--                        <li><a class="disable-links">Tutorials</a></li>-->
+<!--                        <li><a class="disable-links">Changelog</a></li>-->
+<!--                        <li><a class="disable-links">Support</a></li>-->
                     </ul>
                 </div>
                 <div class="column is-2">
                     <h5 class="title is-6">Company</h5>
                     <ul>
-                        <li><a class="disable-links">About</a></li>
-                        <li><a class="disable-links">Team</a></li>
-                        <li><a class="disable-links">Careers</a></li>
-                        <li><a class="disable-links">Contact</a></li>
+                        <li>
+                          <a
+                            href="#"
+                            id="about-link"
+                            hx-get="{% url 'about_modal' %}"
+                            hx-target="body"
+                            hx-swap="beforeend"
+                          >About</a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            id="careers-link"
+                            hx-get="{% url 'careers_modal' %}"
+                            hx-target="body"
+                            hx-swap="beforeend"
+                          >Careers</a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            id="contact-link"
+                            hx-get="{% url 'contact' %}"
+                            hx-target="body"
+                            hx-swap="beforeend"
+                          >Contact</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -43,5 +67,34 @@
             <div class="has-text-centered">
                 <p>&copy; 2025 Made On A Wave 🌊. Built with ❤️ for the web development community.</p>
             </div>
-        </div>
+      </div>
     </footer>
+    <script>
+      // Close modal on click (delegated for dynamically added modal)
+      document.body.addEventListener('click', function(e) {
+        if (
+          e.target.classList.contains('modal-background') ||
+          e.target.classList.contains('modal-close')
+        ) {
+          var modal = e.target.closest('.modal');
+          if (modal) {
+            modal.classList.remove('is-active');
+            setTimeout(function() {
+              modal.remove();
+            }, 200);
+          }
+        }
+      });
+      // Optional: close modal on ESC key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape") {
+          var modal = document.querySelector('.modal.is-active');
+          if (modal) {
+            modal.classList.remove('is-active');
+            setTimeout(function() {
+              modal.remove();
+            }, 200);
+          }
+        }
+      });
+    </script>

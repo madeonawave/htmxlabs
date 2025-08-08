@@ -1,0 +1,13 @@
+
+{% extends "_base.html" %}
+{% load static %}
+{% block content %}
+<div class="section" style="padding-top: 5rem;">
+  <div class="container" style="max-width: 600px;">
+    <h1 class="title is-2 has-text-centered mb-5">Contact Us</h1>
+    <div id="contact-form-container">
+      {% include "contact_form_fragment.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}

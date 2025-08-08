@@ -1,0 +1,59 @@
+<div class="modal is-active" id="contact-modal">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="max-width: 480px;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Contact Us</p>
+      <button class="delete modal-close" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form
+        id="contact-form"
+        hx-post="{% url 'contact' %}"
+        hx-target="#contact-modal"
+        hx-swap="outerHTML"
+        class="box"
+        autocomplete="off"
+      >
+        {% if errors %}
+          <div class="notification is-danger">
+            <ul>
+              {% for error in errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        <div class="field">
+          <label class="label" for="name">Name</label>
+          <div class="control">
+            <input class="input" type="text" id="name" name="name" required maxlength="100" value="{{ name|default:'' }}">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <div class="control">
+            <input class="input" type="email" id="email" name="email" required value="{{ email|default:'' }}">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="message">Message</label>
+          <div class="control">
+            <textarea class="textarea" id="message" name="message" required rows="5">{{ message|default:'' }}</textarea>
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button class="button is-primary" type="submit">
+              <span class="icon"><i class="fas fa-paper-plane"></i></span>
+              <span>Send Message</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot" style="justify-content: flex-end;">
+      <button class="button is-link modal-close">Close</button>
+    </footer>
+  </div>
+</div>
+
