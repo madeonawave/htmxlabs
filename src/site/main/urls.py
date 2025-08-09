@@ -14,7 +14,7 @@ urlpatterns = [
 
     path("docs/attributes", views.docs_core_attributes, name="docs_core_attributes"),
     path("examples/", views.examples, name="examples"),
-    path("examples/<str:filter_name>", views.examples_data, name="examples_data"),
+    path("examples/<str:filter_name>", views.example_direct, name="example_direct"),
     path("examples/examples-data", views.examples_data, name="examples_data"),
     path("search-examples/<str:filter_name>", views.examples_data, name="examples_data"),
     path("reference_api/", views.reference_api, name="reference"),

@@ -78,6 +78,7 @@ def examples(request):
 
 
 def examples_data(request, filter_name):
+    # note: old, not used anymore
 
     # Get filtered, sorted, paginated data
     q = request.GET.get('q', '').strip().lower()
@@ -136,6 +137,21 @@ def examples_data(request, filter_name):
                    "limit": limit,
                    "loadmore": offset + limit < total})
 
+def example_direct(request, filter_name):
+    # Load all examples from JSON
+    with open('main/examples.json', 'r') as file:
+        examples = json.load(file)
+
+    if selected_example := next(
+        (ex for ex in examples if ex["id"] == filter_name), None
+    ):
+        # Render the main examples page, passing all examples and the selected one
+        return render(request, "full_examples.html", {
+            "examples": examples,
+            "selected_example": selected_example,
+        })
+    else:
+        raise Http404("Example not found")
 
 def dynamic_page(request, page_name):
     # Whitelist allowed templates

@@ -15,8 +15,10 @@
                   hx-get="/demo/{{ example.id }}.html"
                   hx-target="#example-detail"
                   hx-swap="innerHTML"
+                  hx-push-url="/examples/{{ example.id }}"
                   class="example-link"
                   id="example-link-{{ example.id }}"
+                  href="/examples/{{ example.id }}"
                   >
                   {{ example.title }}
                 </a>
@@ -70,8 +72,40 @@
         var exampleId = this.value;
         if (exampleId) {
           htmx.ajax('GET', '/demo/' + exampleId + '.html', '#example-detail');
+          history.pushState({}, '', '/examples/' + exampleId);
         }
       });
+    }
+
+    // On page load, check if URL is /examples/<example_id> and load that example
+    var match = window.location.pathname.match(/^\/examples\/([a-zA-Z0-9_-]+)$/);
+    if (match) {
+      var exampleId = match[1];
+      htmx.ajax('GET', '/demo/' + exampleId + '.html', '#example-detail');
+      // Optionally highlight the link
+      var activeLink = document.getElementById('example-link-' + exampleId);
+      if (activeLink) {
+        document.querySelectorAll('.example-link').forEach(function(link) {
+          link.classList.remove('is-active');
+        });
+        activeLink.classList.add('is-active');
+      }
+    }
+  });
+
+  // Listen for popstate to handle browser back/forward navigation
+  window.addEventListener('popstate', function() {
+    var match = window.location.pathname.match(/^\/examples\/([a-zA-Z0-9_-]+)$/);
+    if (match) {
+      var exampleId = match[1];
+      htmx.ajax('GET', '/demo/' + exampleId + '.html', '#example-detail');
+      var activeLink = document.getElementById('example-link-' + exampleId);
+      if (activeLink) {
+        document.querySelectorAll('.example-link').forEach(function(link) {
+          link.classList.remove('is-active');
+        });
+        activeLink.classList.add('is-active');
+      }
     }
   });
 </script>
