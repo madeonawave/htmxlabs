@@ -57,7 +57,11 @@
             </aside>
         </div>
         <div class="column is-8">
-            <div id="detail-panel">
+            <div id="detail-panel"
+                 hx-get="/demo/master-detail-detail.html?id=1"
+                 hx-trigger="load"
+                 hx-target="this"
+                 hx-swap="innerHTML">
                 <div class="has-text-grey-light has-text-centered p-6">
                     <span class="icon is-large"><i class="fas fa-user fa-3x"></i></span>
                     <p>Select an item to view details.</p>
