@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
-
-
+    <meta name="description" content="HTMX Labs: High power tools for HTML. Build modern user interfaces with the simplicity and power of hypertext using htmx." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTMX - High Power Tools for HTML</title>
     <link rel="icon" href="/favicon.ico" type="image/svg+xml">
@@ -14,13 +13,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/main/style.css">
     <link rel="stylesheet" href="/static/main/docs_style.css">
-    <script src="{% static 'silent_mammoth_whistle/js/whistle.js' %}"></script>
-    <script src="{% static 'main/clipboard.js' %}"></script>
-
 </head>
-<body>
+<body >
 
 {% block content %}
 {% endblock content%}
 </body>
+    <script src="{% static 'silent_mammoth_whistle/js/whistle.js' %}"></script>
+    <script src="{% static 'main/clipboard.js' %}"></script>
+
+    <script>
+      // Only delegate mousedown for links with the 'fastClick' attribute
+      document.body.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return; // Only left mouse button
+        var link = e.target.closest('a[fastClick][href]');
+        if (
+          link &&
+          !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey &&
+          (!link.target || link.target === "_self") &&
+          link.href &&
+          !link.href.startsWith('javascript:') &&
+          !(link.getAttribute('href') === '#' ||
+            (link.hash && link.pathname === window.location.pathname && link.origin === window.location.origin))
+        ) {
+          e.preventDefault();
+          window.location = link.href;
+        }
+      });
+    </script>
 </html>

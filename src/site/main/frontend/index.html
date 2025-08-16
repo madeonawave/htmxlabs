@@ -1,43 +1,6 @@
 {% extends "_base.html" %}
 {% block content %}
-<!-- Navigation -->
-<nav class="navbar has-shadow is-fixed-top " role="navigation" >
-<div class="container">
-    <div class="navbar-brand">
-        <a class="navbar-item"
-           href="/">
-            <span class="htmx-logo">HTMX</span>
-        </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-    <div class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="/#features">Features</a>
-            <a class="navbar-item"
-               href="/examples/"
-                >Examples</a>
-            <a class="navbar-item" href="/docs/">Documentation</a>
-            <a class="navbar-item" href="https://discord.com/invite/Z6gPqAd">Community</a>
-        </div>
-        <div class="navbar-end">
-            <div class="navbar-item">
-<!--                <div class="buttons">-->
-<!--                    <a class="button is-primary">-->
-<!--                        <strong>Get Started</strong>-->
-<!--                    </a>-->
-<!--                    <a class="button is-light">-->
-<!--                        GitHub-->
-<!--                    </a>-->
-<!--                </div>-->
-            </div>
-        </div>
-    </div>
-</div>
-</nav>
+{% include 'navigation.html' %}
 
     <!-- Main Content Section -->
     <main id="main-content">
@@ -70,10 +33,10 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <div class="demo-container" id="demo-area"
+                            <div class="demo-container" id="demo-area" style="cursor: pointer"
                                 hx-get="#quick-start"
                                 hx-target="#demo-area"
-                                hx-swap="innerHTML">
+                                hx-swap="innerHTML" fastClick>
                                 <div class="has-text-centered">
                                     <i class="fas fa-code fa-3x has-text-grey-light"></i>
                                     <p class="has-text-grey">Interactive demos will appear here</p>
@@ -274,7 +237,8 @@
                                 id="live-example-btn"
                                 hx-get="demo/clickme_example.html"
                                 hx-target="#example-result"
-                                hx-swap="innerHTML">
+                                hx-swap="innerHTML"
+                                hx-trigger="mousedown" >
                             Click me!
                         </button>
                         </div>
@@ -380,9 +344,12 @@
 
         // Measure response time for the live example
         let liveExampleStart = null;
-        document.getElementById('live-example-btn').addEventListener('click', function() {
-            liveExampleStart = performance.now();
-        });
+        const liveExampleBtn = document.getElementById('live-example-btn');
+        if (liveExampleBtn) {
+            liveExampleBtn.addEventListener('mousedown', function() {
+                liveExampleStart = performance.now();
+            });
+        }
 
         document.body.addEventListener('htmx:afterSwap', function(evt) {
             if (evt.detail.target && evt.detail.target.id === 'example-result' && liveExampleStart !== null) {
