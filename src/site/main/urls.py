@@ -1,10 +1,24 @@
 from django.urls import path
-
+from django.http import  HttpResponse
 from . import views
+
+import datetime
 
 urlpatterns = [
     path("favicon.ico", views.favicon, name="favicon"),
     path("", views.index, name="index"),
+    path("carousel/<str:id>/", views.carousel, name="carousel"),
+    path("carousel/quickstart/result/", lambda request: HttpResponse(
+        '<div id="req">You just made your first HTMX request! 🎉</div>'
+    ), name="carousel_quickstart_result"),
+    path("carousel/like/result/", lambda request: HttpResponse(
+        '<div class="notification is-danger is-light"><strong>❤️ Liked!</strong> You liked this example.</div>'
+    ), name="carousel_like_result"),
+    path("carousel/like/codeblock/", views.carousel_like_codeblock, name="carousel_like_codeblock"),
+    path("carousel/live-search/result/", views.carousel_live_search_result, name="carousel_live_search_result"),
+    path("carousel/polling/result/", lambda request: HttpResponse(
+        f'<div class="notification is-primary is-light"><strong>Polling:</strong> Server time: {datetime.datetime.now().strftime("%H:%M:%S")}</div>'
+    ), name="carousel_polling_result"),
     path("docs/", views.documentation, name="documentation"),
     path("docs/getting-started", views.docs_getting_started, name="docs_getting_started"),
     path("contact/", views.contact, name="contact"),

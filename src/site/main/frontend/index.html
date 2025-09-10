@@ -17,12 +17,10 @@
                                 HTMX gives you access to AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.
                             </p>
                             <div class="buttons">
-                                <button class="button is-large is-warning"
-                                        hx-get="#quick-start"
-                                        hx-target="#demo-area"
-                                        hx-swap="innerHTML">
+                                <a class="button is-large is-warning" id="quickstart"
+                                   href="/docs/getting-started#docs-container">
                                     <strong>Quick Start</strong>
-                                </button>
+                                </a>
                                 <a class="button is-large is-outlined is-white"
                                    href="/examples/">
                                     <span class="icon">
@@ -33,13 +31,14 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <div class="demo-container" id="demo-area" style="cursor: pointer"
-                                hx-get="#quick-start"
-                                hx-target="#demo-area"
-                                hx-swap="innerHTML" fastClick>
+                            <div class="demo-container" id="demo-area"
+                                 hx-get="/carousel/quickstart/"
+                                 hx-trigger="load"
+                                 hx-target="#demo-area"
+                                 hx-swap="innerHTML">
                                 <div class="has-text-centered">
-                                    <i class="fas fa-code fa-3x has-text-grey-light"></i>
-                                    <p class="has-text-grey">Interactive demos will appear here</p>
+                                    <span class="icon is-large"><i class="fas fa-spinner fa-spin fa-2x"></i></span>
+                                    <p>Loading demo...</p>
                                 </div>
                             </div>
                         </div>
@@ -285,22 +284,16 @@
             });
         });
 
-        // Mock HTMX responses for demo purposes
+
         document.body.addEventListener('htmx:configRequest', function(evt) {
             // Simulate different responses based on the requested endpoint
-            if (evt.detail.path === '#quick-start') {
+            if (evt.detail.path === '#carousel-quickstart-result') {
                 evt.preventDefault();
                 setTimeout(() => {
-                    document.getElementById('demo-area').innerHTML = `
-                        <div class="has-text-centered p-4">
-                            <h4 class="title is-4 has-text-primary">Welcome to HTMX!</h4>
-                            <p>You just made your first HTMX request! 🎉</p>
-                            <div class="code-block mt-4">
-&lt;script src="https://unpkg.com/htmx.org@2.0.6"&gt;&lt;/script&gt;
-                            </div>
-                        <a href="/docs/getting-started#docs-container"  onclick="window.location=this.href; return false;">Get started! </a>
+                    document.getElementById('carousel-quickstart-result').innerHTML = `
+                        <div class="notification is-success is-light">
+                            <strong>Welcome to HTMX!</strong> You made your first HTMX request!
                         </div>
-
                     `;
                 }, 100);
             }
@@ -376,4 +369,56 @@
         });
     </script>
 
+<style>
+
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+    let current = 0;
+
+    function showSlide(idx) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('is-active', i === idx);
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('is-active', i === idx);
+        });
+        track.style.transform = `translateX(-${idx * 100}%)`;
+        current = idx;
+    }
+
+    prevBtn.addEventListener('click', function() {
+        showSlide((current - 1 + slides.length) % slides.length);
+    });
+    nextBtn.addEventListener('click', function() {
+        showSlide((current + 1) % slides.length);
+    });
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', function() {
+            showSlide(i);
+        });
+    });
+
+    // Optional: swipe support for mobile
+    let startX = null;
+    track.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+    });
+    track.addEventListener('touchend', function(e) {
+        if (startX === null) return;
+        let dx = e.changedTouches[0].clientX - startX;
+        if (dx > 40) prevBtn.click();
+        if (dx < -40) nextBtn.click();
+        startX = null;
+    });
+
+    showSlide(0);
+});
+</script>
 {% endblock content %}

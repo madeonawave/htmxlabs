@@ -1,0 +1,175 @@
+<div class="carousel">
+    <div class="carousel-track">
+        <div class="carousel-slide is-active">
+            <div class="has-text-centered carousel-slide-inner">
+                <h4 class="title is-4 mb-2 has-text-primary carousel-title">{{ title }}</h4>
+                <p class="mb-3">{{ description }}</p>
+                {% if example == "quickstart" %}
+                    <div class="has-text-centered p-4">
+
+                        <div id="quickstart-result">
+                            <button class="button is-primary mt-3"
+                                    hx-get="/carousel/quickstart/result/"
+                                    hx-target="#quickstart-result"
+                                    hx-swap="outerHTML">
+                                Click me!
+                            </button>
+                        </div>
+                        <div class="code-block mt-4">
+&lt;script src="https://unpkg.com/htmx.org@2.0.6"&gt;&lt;/script&gt;
+                        </div>
+                        <a href="/docs/getting-started#docs-container" onclick="window.location=this.href; return false;">Get started! </a>
+                {% elif example == "like" %}
+                    <div class="has-text-centered p-2">
+
+                        <div id="htmx-code-demo">
+                            <button class="button is-info mt-3"
+                                    hx-post="/carousel/like/codeblock/"
+                                    hx-target="#htmx-code-demo"
+                                    hx-swap="outerHTML">
+                                Show HTMX Example
+                            </button>
+                        </div>
+                    </div>
+                    </button>
+                    <div id="carousel-like-result" class="mt-2"></div>
+                {% elif example == "live-search" %}
+                    <div class="live-search-demo" style="display: flex; flex-direction: column; align-items: flex-start; position: relative;">
+                        <input class="input is-medium"
+                            id="carousel-live-search-input"
+                            type="text"
+                            placeholder="Type to search..."
+                            name="q"
+                            autocomplete="off"
+                            hx-get="/carousel/live-search/result/"
+                            hx-target="#carousel-search-result"
+                            hx-trigger="keyup changed delay:300ms"
+                            style="max-width: 320px; margin-bottom: 0;">
+                        <div id="carousel-search-result" class="mt-2" style="width: 320px; position: absolute; left: 0; top: 100%; z-index: 10;"></div>
+                        <div class="code-block mt-3" style="width: 320px;">
+                            &lt;input
+                                name="q"
+                                hx-get="/carousel/live-search/result/"
+                                hx-target="#carousel-search-result"
+                                hx-trigger="keyup changed delay:300ms"
+                            /&gt;
+                        </div>
+                    </div>
+                    <script>
+                    (function() {
+                        let selectedIdx = -1;
+                        let results = [];
+                        const input = document.getElementById('carousel-live-search-input');
+                        const resultsDiv = document.getElementById('carousel-search-result');
+
+                        // Helper to update highlight
+                        function updateHighlight() {
+                            const items = resultsDiv ? resultsDiv.querySelectorAll('li') : [];
+                            items.forEach((li, i) => {
+                                if (i === selectedIdx) {
+                                    li.classList.add('is-active');
+                                    li.setAttribute('aria-selected', 'true');
+                                } else {
+                                    li.classList.remove('is-active');
+                                    li.removeAttribute('aria-selected');
+                                }
+                            });
+                        }
+
+                        // Click to select
+                        document.body.addEventListener('click', function(e) {
+                            var li = e.target.closest('.live-search-results li');
+                            if (li && input) {
+                                input.value = li.textContent.trim();
+                                if (resultsDiv) resultsDiv.innerHTML = '';
+                                selectedIdx = -1;
+                            }
+                        });
+
+                        // Keyboard navigation
+                        if (input) {
+                            input.addEventListener('keydown', function(e) {
+                                const items = resultsDiv ? resultsDiv.querySelectorAll('li') : [];
+                                if (!items.length) return;
+                                if (e.key === "ArrowDown") {
+                                    e.preventDefault();
+                                    selectedIdx = (selectedIdx + 1) % items.length;
+                                    updateHighlight();
+                                    items[selectedIdx].scrollIntoView({block: "nearest"});
+                                } else if (e.key === "ArrowUp") {
+                                    e.preventDefault();
+                                    selectedIdx = (selectedIdx - 1 + items.length) % items.length;
+                                    updateHighlight();
+                                    items[selectedIdx].scrollIntoView({block: "nearest"});
+                                } else if (e.key === "Enter") {
+                                    if (selectedIdx >= 0 && items[selectedIdx]) {
+                                        input.value = items[selectedIdx].textContent.trim();
+                                        if (resultsDiv) resultsDiv.innerHTML = '';
+                                        selectedIdx = -1;
+                                    }
+                                } else {
+                                    selectedIdx = -1;
+                                    updateHighlight();
+                                }
+                            });
+                        }
+
+                        // Reset highlight on new results
+                        document.body.addEventListener('htmx:afterSwap', function(evt) {
+                            if (evt.detail.target && evt.detail.target.id === "carousel-search-result") {
+                                selectedIdx = -1;
+                                updateHighlight();
+                            }
+                        });
+                    })();
+                    </script>
+                {% elif example == "polling" %}
+                    <div id="carousel-polling-result"
+                         hx-get="/carousel/polling/result/"
+                         hx-trigger="load, every 2s"
+                         hx-swap="innerHTML">
+                        <span class="icon"><i class="fas fa-sync fa-spin"></i></span>
+                        <span>Loading...</span>
+                    </div>
+                {% else %}
+                    <div class="notification is-warning is-light">No example found for this id.</div>
+                {% endif %}
+                <div class="mt-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-nav carousel-prev" aria-label="Previous">
+        <span class="icon"><i class="fas fa-chevron-left"></i></span>
+    </button>
+    <button class="carousel-nav carousel-next" aria-label="Next">
+        <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </button>
+    <div class="carousel-indicators">
+        <span class="carousel-dot {% if id == 'quickstart' %}is-active{% endif %}" data-slide="0"></span>
+        <span class="carousel-dot {% if id == 'like' %}is-active{% endif %}" data-slide="1"></span>
+        <span class="carousel-dot {% if id == 'live-search' %}is-active{% endif %}" data-slide="2"></span>
+        <span class="carousel-dot {% if id == 'polling' %}is-active{% endif %}" data-slide="3"></span>
+    </div>
+</div>
+<script>
+(function() {
+    // Carousel order
+    const ids = ["quickstart", "like", "live-search", "polling"];
+    let current = ids.indexOf("{{ id }}");
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+    function goTo(idx) {
+        if (idx < 0) idx = ids.length - 1;
+        if (idx >= ids.length) idx = 0;
+        htmx.ajax('GET', '/carousel/' + ids[idx] + '/', '.carousel');
+    }
+    if (prevBtn) prevBtn.onclick = function() { goTo(current - 1); };
+    if (nextBtn) nextBtn.onclick = function() { goTo(current + 1); };
+    dots.forEach((dot, i) => {
+        dot.onclick = function() { goTo(i); };
+    });
+})();
+</script>

@@ -50,6 +50,128 @@ def like_button(request):
 def index(request):
     return render(request, 'index.html')
 
+
+def carousel(request, id):
+    # Select content based on id
+    context = {"id": id}
+    if id == "quickstart":
+        context.update({
+            "title": "Welcome to HTMX!",
+            "description": "",
+            "button_text": "Try HTMX",
+            "result_id": "carousel-quickstart-result",
+            "tags": ["Beginner", "Quick Start"],
+            "example": "quickstart"
+        })
+    elif id == "like":
+        context.update({
+            "title": "Partial Page Updates",
+            "description": "HTMX can update parts of a page without a full-page request.",
+            "button_text": "Show HTMX Example",
+            "result_id": "htmx-code-demo",
+            "tags": ["UI", "Beginner"],
+            "example": "like"
+        })
+    elif id == "live-search":
+        context.update({
+            "title": "Live Search",
+            "description": "Type to search. Shows live suggestions using HTMX.",
+            "button_text": "Search",
+            "result_id": "carousel-search-result",
+            "tags": ["Search", "AJAX"],
+            "example": "live-search"
+        })
+    elif id == "polling":
+        context.update({
+            "title": "Polling Example",
+            "description": "Shows how to poll the server for updates every 2 seconds.",
+            "button_text": "Start Polling",
+            "result_id": "carousel-polling-result",
+            "tags": ["Polling", "Real-time"],
+            "example": "polling"
+        })
+    else:
+        context.update({
+            "title": "Unknown Example",
+            "description": "No example found for this id.",
+            "button_text": "",
+            "result_id": "",
+            "tags": [],
+            "example": "none"
+        })
+    return render(request, 'carousel.html', context)
+
+# For the like example: cycle through different code blocks
+from django.views.decorators.csrf import csrf_exempt
+
+def carousel_live_search_result(request):
+    """
+    Returns HTML fragment with live search results for the carousel live search example.
+    """
+    q = request.GET.get('q', '').strip().lower()
+    all_names = [
+        "Alice Johnson",
+        "Bob Smith",
+        "Charlie Brown",
+        "Lana White",
+        "Eve Black",
+        "Frank Green",
+        "Grace Hopper",
+        "Hank Moody",
+        "Ivy Blue",
+        "Jack Sparrow"
+    ]
+    matches = [name for name in all_names if q and q in name.lower()]
+    if not q:
+        html = '<div class="has-text-grey-light">Type to search for a name...</div>'
+    elif matches:
+        html = '<ul class="menu-list live-search-results" style="text-align:left;width:100%;max-width:320px;margin-top:-17px;margin-bottom:0;padding:0.5rem 0 0.5rem 0.5rem;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.04);">'
+        for name in matches:
+            html += f'<li style="padding:0.25rem 0;"><span class="icon"><i class="fas fa-user"></i></span> {name}</li>'
+        html += '</ul>'
+    else:
+        html = '<div class="notification is-warning is-light">No results found.</div>'
+    return HttpResponse(html)
+
+CAROUSEL_CODEBLOCKS = [
+    {
+        "code": '''&lt;button hx-post="/like" hx-target="#result" hx-swap="outerHTML"&gt;Like&lt;/button&gt;''',
+        "comment": "A button that sends a POST request to /like and updates #result."
+    },
+    {
+        "code": '''&lt;button hx-delete="/item/1" hx-target="#row-1" hx-swap="outerHTML"&gt;Delete&lt;/button&gt;''',
+        "comment": "A button that sends a DELETE request to /item/1 and removes #row-1."
+    },
+    {
+        "code": '''&lt;div hx-get="/updates" hx-trigger="every 2s" hx-swap="outerHTML"&gt;Live updates&lt;/div&gt;''',
+        "comment": "A div that polls /updates every 2 seconds for live updates."
+    }
+]
+
+@csrf_exempt
+def carousel_like_codeblock(request):
+    # Use session to track which codeblock to show next
+    idx = request.session.get("carousel_like_codeblock_idx", 0)
+    codeblock = CAROUSEL_CODEBLOCKS[idx % len(CAROUSEL_CODEBLOCKS)]
+    next_idx = (idx + 1) % len(CAROUSEL_CODEBLOCKS)
+    request.session["carousel_like_codeblock_idx"] = next_idx
+    html = f"""
+    <div id="htmx-code-demo">
+            <button class="button is-info  "
+                    hx-post="/carousel/like/codeblock/"
+                    hx-target="#htmx-code-demo"
+                    hx-swap="outerHTML">
+                Show another HTMX Example
+            </button>
+        <div class='code-block' style='margin-top:1.5rem;'>
+            {codeblock['code']}
+            <div class='has-text-grey mt-2' style='font-size:0.95em;'>{codeblock['comment']}</div>
+
+        </div>
+    </div>
+    """
+    return HttpResponse(html)
+
 def documentation(request):
     """
     Renders the main documentation landing page.
