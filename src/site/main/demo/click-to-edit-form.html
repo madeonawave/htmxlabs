@@ -8,10 +8,10 @@
     style="display:inline;"
     autocomplete="off"
 >
-    <div class="field has-addons">
-        <div class="control">
+    <div class="field has-addons bg_block" style="padding: 1.2rem 1.5rem;">
+        <div class="control" style="min-width: 320px;">
             <input
-                class="input is-small"
+                class="input is-medium"
                 type="text"
                 name="value"
                 value="{{ value|default:'This is editable text. Click to edit.' }}"
@@ -20,14 +20,12 @@
             >
         </div>
         <div class="control">
-            <button class="button is-primary is-small" type="submit">Save</button>
+            <button class="button is-primary is-medium" type="submit">Save</button>
         </div>
         <div class="control">
-            <button class="button is-light is-small"
+            <button class="button is-light is-medium"
                 type="button"
-                hx-get="/demo/click-to-edit-cancel?value={{ value|urlencode }}"
-                hx-target="#editable-demo"
-                hx-swap="outerHTML"
+                onclick="this.form.value.value=''; this.form.value.focus();"
             >Cancel</button>
         </div>
     </div>

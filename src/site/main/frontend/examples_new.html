@@ -8,7 +8,15 @@
       <div class="column is-3 is-hidden-mobile">
         <aside class="menu" style="max-height: 70vh; overflow-y: auto;">
           <p class="menu-label">Examples</p>
-          <ul class="menu-list">
+          <div class="field mb-3">
+            <div class="control has-icons-left">
+              <input class="input is-small" type="text" placeholder="Search examples..." id="example-menu-search">
+              <span class="icon is-left">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+          <ul class="menu-list" id="example-menu-list">
             {% for example in examples %}
               <li>
                 <a
@@ -19,6 +27,7 @@
                   class="example-link"
                   id="example-link-{{ example.id }}"
                   href="/examples/{{ example.id }}"
+                  data-title="{{ example.title|lower }}"
                   >
                   {{ example.title }}
                 </a>
@@ -64,8 +73,25 @@
     }
   });
 
-  // Handle dropdown change (mobile)
+  // Search/filter for the left menu
   document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('example-menu-search');
+    var menuList = document.getElementById('example-menu-list');
+    if (searchInput && menuList) {
+      searchInput.addEventListener('input', function() {
+        var q = this.value.trim().toLowerCase();
+        menuList.querySelectorAll('li').forEach(function(li) {
+          var a = li.querySelector('a');
+          if (!q || (a && a.getAttribute('data-title').includes(q))) {
+            li.style.display = '';
+          } else {
+            li.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Handle dropdown change (mobile)
     var dropdown = document.getElementById('examples-dropdown');
     if (dropdown) {
       dropdown.addEventListener('change', function() {

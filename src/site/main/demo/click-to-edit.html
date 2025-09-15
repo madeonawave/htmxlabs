@@ -12,17 +12,18 @@
     </div>
     <h3 class="title is-4 mb-3">Click to Edit</h3>
     <p>
-        Click on the text below to edit it in place. When you save, the changes are sent via AJAX and the updated value is shown.
+       Click on the text below to edit it in place. When you save, the changes are sent via AJAX and the updated value is shown.
     </p>
-    <div id="editable-demo">
+    <div id="editable-demo" class="bg_block">
         <span
             id="editable-text"
             hx-get="/demo/click-to-edit-form?value=This%20is%20editable%20text.%20Click%20to%20edit."
             hx-trigger="click"
             hx-target="#editable-demo"
             hx-swap="outerHTML"
-            style="cursor:pointer; display:inline-block; padding:0.25em 0.5em; border-radius:4px;"
+            style="cursor:pointer;"
             title="Click to edit"
+
         >
             This is editable text. Click to edit.
         </span>

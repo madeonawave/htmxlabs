@@ -337,3 +337,14 @@ a.disabled {
 #req {
     height: 52px;
 }
+
+.bg_block {
+    background: #f0f4ff;
+    border-radius: 8px;
+    padding: 1rem 0 0.5rem 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.menu {
+    min-height: 500px;
+}
