@@ -19,6 +19,7 @@ urlpatterns = [
     path("carousel/polling/result/", lambda request: HttpResponse(
         f'<div class="notification is-primary is-light"><strong>Polling:</strong> Server time: {datetime.datetime.now().strftime("%H:%M:%S")}</div>'
     ), name="carousel_polling_result"),
+    path("carousel/ticker/result/", views.carousel_ticker_result, name="carousel_ticker_result"),
     path("docs/", views.documentation, name="documentation"),
     path("docs/getting-started", views.docs_getting_started, name="docs_getting_started"),
     path("contact/", views.contact, name="contact"),

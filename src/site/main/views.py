@@ -50,14 +50,23 @@ def like_button(request):
 def index(request):
     return render(request, 'index.html')
 
+quotes = ["Full-stack with half the stack",
+    "Less is more, HTML is most",
+    "Simplicity scales",
+    "Zero dependencies, infinite possibilities",
+    "The anti-framework framework",
+    "One library to unbundle them all",
+    "Less JavaScript, more joy",
+    "Why build when you can just... not?"
+]
 
 def carousel(request, id):
     # Select content based on id
     context = {"id": id}
     if id == "quickstart":
         context.update({
-            "title": "Welcome to HTMX!",
-            "description": "",
+            "title": "HTMX",
+            "description": random.choice(quotes),
             "button_text": "Try HTMX",
             "result_id": "carousel-quickstart-result",
             "tags": ["Beginner", "Quick Start"],
@@ -74,8 +83,8 @@ def carousel(request, id):
         })
     elif id == "live-search":
         context.update({
-            "title": "Live Search",
-            "description": "Type to search. Shows live suggestions using HTMX.",
+            "title": "Example: Live Search",
+            "description": "Updates live suggestions from the backend, using HTMX.",
             "button_text": "Search",
             "result_id": "carousel-search-result",
             "tags": ["Search", "AJAX"],
@@ -83,12 +92,12 @@ def carousel(request, id):
         })
     elif id == "polling":
         context.update({
-            "title": "Polling Example",
-            "description": "Shows how to poll the server for updates every 2 seconds.",
-            "button_text": "Start Polling",
-            "result_id": "carousel-polling-result",
-            "tags": ["Polling", "Real-time"],
-            "example": "polling"
+            "title": "Example: Live Stock Ticker",
+            "description": "See real-time Bitcoin price updates using HTMX polling.",
+            "button_text": "Show Ticker",
+            "result_id": "carousel-ticker-result",
+            "tags": ["Real-time", "Polling", "API"],
+            "example": "ticker"
         })
     else:
         context.update({
@@ -103,6 +112,7 @@ def carousel(request, id):
 
 # For the like example: cycle through different code blocks
 from django.views.decorators.csrf import csrf_exempt
+import requests
 
 def carousel_live_search_result(request):
     """
@@ -125,7 +135,7 @@ def carousel_live_search_result(request):
     if not q:
         html = '<div class="has-text-grey-light">Type to search for a name...</div>'
     elif matches:
-        html = '<ul class="menu-list live-search-results" style="text-align:left;width:100%;max-width:320px;margin-top:-17px;margin-bottom:0;padding:0.5rem 0 0.5rem 0.5rem;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.04);">'
+        html = '<ul class="menu-list live-search-results" style="text-align:left;width:100%;max-width:320px;margin-bottom:0;padding:0.5rem 0 0.5rem 0.5rem;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.04);">'
         for name in matches:
             html += f'<li style="padding:0.25rem 0;"><span class="icon"><i class="fas fa-user"></i></span> {name}</li>'
         html += '</ul>'
@@ -133,17 +143,39 @@ def carousel_live_search_result(request):
         html = '<div class="notification is-warning is-light">No results found.</div>'
     return HttpResponse(html)
 
+def carousel_ticker_result(request):
+    # For demo, use a public API for Bitcoin price (or mock if offline)
+    try:
+        resp = requests.get("https://api.kraken.com/0/public/Ticker", timeout=5)
+        data = resp.json()
+        price = float(data["result"]["TBTCUSD"]["p"][0].replace(",", ""))
+        updated = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        price = None
+        updated = "N/A"
+    html = f"""
+    <div class="notification is-info is-light" style="font-size:1.2rem;">
+        <span class="icon"><i class="fab fa-btc"></i></span>
+        <strong>BTC/USD:</strong>
+        <span style="font-weight:bold;">{f"${price:,.2f}" if price else "N/A"}</span>
+        <div class="has-text-grey mt-2" style="font-size:0.95em;">
+            Last updated: {updated}
+        </div>
+    </div>
+    """
+    return HttpResponse(html)
+
 CAROUSEL_CODEBLOCKS = [
     {
-        "code": '''&lt;button hx-post="/like" hx-target="#result" hx-swap="outerHTML"&gt;Like&lt;/button&gt;''',
+        "code": '''<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-post</span>=<span style="color:#ffe66d;">"/like"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#result"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Like<span style="color:#ff6b6b;">&lt;/button&gt;</span>''',
         "comment": "A button that sends a POST request to /like and updates #result."
     },
     {
-        "code": '''&lt;button hx-delete="/item/1" hx-target="#row-1" hx-swap="outerHTML"&gt;Delete&lt;/button&gt;''',
+        "code": '''<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-delete</span>=<span style="color:#ffe66d;">"/item/1"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#row-1"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Delete<span style="color:#ff6b6b;">&lt;/button&gt;</span>''',
         "comment": "A button that sends a DELETE request to /item/1 and removes #row-1."
     },
     {
-        "code": '''&lt;div hx-get="/updates" hx-trigger="every 2s" hx-swap="outerHTML"&gt;Live updates&lt;/div&gt;''',
+        "code": '''<span style="color:#ff6b6b;">&lt;div</span> <span style="color:#4ecdc4;">hx-get</span>=<span style="color:#ffe66d;">"/updates"</span> <span style="color:#4ecdc4;">hx-trigger</span>=<span style="color:#ffe66d;">"every 2s"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Live updates<span style="color:#ff6b6b;">&lt;/div&gt;</span>''',
         "comment": "A div that polls /updates every 2 seconds for live updates."
     }
 ]

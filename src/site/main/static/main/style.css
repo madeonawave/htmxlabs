@@ -240,6 +240,11 @@ a.disabled {
     margin-bottom: 1.5rem;
     padding-top: 0.5rem;
 }
+.quickstart-bg {
+    background: linear-gradient(180deg, #f8fafc 60%, #f0f4ff 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(102,126,234,0.04);
+}
 .carousel-track {
     display: flex;
     transition: transform 0.5s cubic-bezier(.4,0,.2,1);
@@ -314,6 +319,8 @@ a.disabled {
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 2px 8px rgba(102,126,234,0.04);
+    z-index: 100;
+    position: relative;
 }
 .live-search-results li {
     padding: 0.25rem 0;

@@ -2,57 +2,70 @@
     <div class="carousel-track">
         <div class="carousel-slide is-active">
             <div class="has-text-centered carousel-slide-inner">
-                <h4 class="title is-4 mb-2 has-text-primary carousel-title">{{ title }}</h4>
-                <p class="mb-3">{{ description }}</p>
                 {% if example == "quickstart" %}
-                    <div class="has-text-centered p-4">
-
-                        <div id="quickstart-result">
-                            <button class="button is-primary mt-3"
-                                    hx-get="/carousel/quickstart/result/"
-                                    hx-target="#quickstart-result"
-                                    hx-swap="outerHTML">
-                                Click me!
-                            </button>
+                    <div class="has-text-centered p-4 quickstart-bg">
+                        <div style="background: #f0f4ff; border-radius: 8px; padding: 1rem 0 0.5rem 0; margin-bottom: 1.2rem;">
+                            <h4 class="title is-4 mb-2 has-text-primary carousel-title">
+                                {{ title }}
+                            </h4>
+                            <p class="mb-3" style="font-style: italic;">
+                                {{ description }}
+                            </p>
                         </div>
-                        <div class="code-block mt-4">
-&lt;script src="https://unpkg.com/htmx.org@2.0.6"&gt;&lt;/script&gt;
+                        <div class="code-block mt-4 language-html" data-lang="html" style="text-align:left;">
+                            <span style="color:#ff6b6b;">&lt;script</span> <span style="color:#4ecdc4;">src</span>=<span style="color:#ffe66d;">"https://unpkg.com/htmx.org@2.0.6"</span><span style="color:#ff6b6b;">&gt;&lt;/script&gt;</span>
                         </div>
                         <a href="/docs/getting-started#docs-container" onclick="window.location=this.href; return false;">Get started! </a>
                 {% elif example == "like" %}
-                    <div class="has-text-centered p-2">
-
+                    <div class="has-text-centered p-4">
+                        <h4 class="title is-4 mb-2 has-text-primary carousel-title">
+                            {{ title }}
+                        </h4>
+                        <p class="mb-3" style="font-style: italic;">
+                            {{ description }}
+                        </p>
                         <div id="htmx-code-demo">
-                            <button class="button is-info mt-3"
-                                    hx-post="/carousel/like/codeblock/"
-                                    hx-target="#htmx-code-demo"
-                                    hx-swap="outerHTML">
-                                Show HTMX Example
-                            </button>
+                            <div class='code-block mt-4'  >
+                                <span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-post</span>=<span style="color:#ffe66d;">"/like"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#result"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Like<span style="color:#ff6b6b;">&lt;/button&gt;</span>
+                                <div class='has-text-grey mt-2' style='font-size:0.95em;'>A button that sends a POST request to /like and updates #result.</div>
+                                <button class="button is-info mt-3"
+                                        hx-post="/carousel/like/codeblock/"
+                                        hx-target="#htmx-code-demo"
+                                        hx-swap="outerHTML">
+                                    Show another HTMX Example
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    </button>
-                    <div id="carousel-like-result" class="mt-2"></div>
                 {% elif example == "live-search" %}
-                    <div class="live-search-demo" style="display: flex; flex-direction: column; align-items: flex-start; position: relative;">
-                        <input class="input is-medium"
-                            id="carousel-live-search-input"
-                            type="text"
-                            placeholder="Type to search..."
-                            name="q"
-                            autocomplete="off"
-                            hx-get="/carousel/live-search/result/"
-                            hx-target="#carousel-search-result"
-                            hx-trigger="keyup changed delay:300ms"
-                            style="max-width: 320px; margin-bottom: 0;">
-                        <div id="carousel-search-result" class="mt-2" style="width: 320px; position: absolute; left: 0; top: 100%; z-index: 10;"></div>
-                        <div class="code-block mt-3" style="width: 320px;">
-                            &lt;input
+                    <div class="live-search-demo p-4" style="width: 100%;">
+                        <h4 class="title is-4 mb-2 has-text-primary carousel-title">
+                            {{ title }}
+                        </h4>
+                        <p class="mb-3" style="font-style: italic;">
+                            {{ description }}
+                        </p>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; position: relative; width: 100%;">
+                            <input class="input is-medium mt-4"
+                                id="carousel-live-search-input"
+                                type="text"
+                                placeholder="Type to search..."
                                 name="q"
+                                autocomplete="off"
                                 hx-get="/carousel/live-search/result/"
                                 hx-target="#carousel-search-result"
                                 hx-trigger="keyup changed delay:300ms"
-                            /&gt;
+                                style="max-width: 100%; width: 100%; margin-bottom: 0;">
+                            <div id="carousel-search-result" class="mt-2"
+                                 style="width: 100%; min-width: 320px; position: absolute; left: 0; top: 58px; z-index: 100;"></div>
+                        </div>
+                        <div class="code-block mt-4" style="width: 100%; min-width: 320px; text-align:left;">
+                            <span style="color:#ff6b6b;">&lt;input</span>
+                                <span style="color:#4ecdc4;">name</span>=<span style="color:#ffe66d;">"q"</span>
+                                <span style="color:#4ecdc4;">hx-get</span>=<span style="color:#ffe66d;">"/carousel/live-search/result/"</span>
+                                <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#carousel-search-result"</span>
+                                <span style="color:#4ecdc4;">hx-trigger</span>=<span style="color:#ffe66d;">"keyup changed delay:300ms"</span>
+                            <span style="color:#ff6b6b;">/&gt;</span>
                         </div>
                     </div>
                     <script>
@@ -123,13 +136,30 @@
                         });
                     })();
                     </script>
-                {% elif example == "polling" %}
-                    <div id="carousel-polling-result"
-                         hx-get="/carousel/polling/result/"
-                         hx-trigger="load, every 2s"
-                         hx-swap="innerHTML">
-                        <span class="icon"><i class="fas fa-sync fa-spin"></i></span>
-                        <span>Loading...</span>
+                {% elif example == "ticker" %}
+                    <div class="has-text-centered p-4" style="background: #f0f4ff; border-radius: 8px; padding: 1rem 0 0.5rem 0; margin-bottom: 1.2rem;">
+                        <h4 class="title is-4 mb-2 has-text-primary carousel-title">
+                            {{ title }}
+                        </h4>
+                        <p class="mb-3" style="font-style: italic;">
+                            {{ description }}
+                        </p>
+                        <div id="carousel-ticker-result"
+                             hx-get="/carousel/ticker/result/"
+                             hx-trigger="load, every 2s"
+                             hx-swap="innerHTML"
+                             hx-target="#q"
+                             style="margin: 0 auto; max-width: 340px;">
+                            <span class="icon"><i class="fab fa-btc fa-spin"></i></span>
+                            <span>Loading price...</span>
+                        </div>
+                        <div class="code-block mt-4" style="width: 100%; text-align:left;" id="q">
+                            <span style="color:#ff6b6b;">&lt;div</span>
+                                <span style="color:#4ecdc4;">hx-get</span>=<span style="color:#ffe66d;">"/carousel/ticker/result/"</span>
+                                <span style="color:#4ecdc4;">hx-trigger</span>=<span style="color:#ffe66d;">"load, every 3s"</span>
+                                <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"innerHTML"</span>
+                            <span style="color:#ff6b6b;">&gt;</span>...<span style="color:#ff6b6b;">&lt;/div&gt;</span>
+                        </div>
                     </div>
                 {% else %}
                     <div class="notification is-warning is-light">No example found for this id.</div>
