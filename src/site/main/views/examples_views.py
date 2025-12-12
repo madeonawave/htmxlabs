@@ -1,3 +1,9 @@
+"""
+examples_views.py
+
+Contains Django views for HTMX examples, demos, and related endpoints.
+"""
+
 import csv
 import json
 import os
@@ -12,16 +18,6 @@ from django.http import Http404, JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
-
-from .utils import htmx_template
-
-from django.views.decorators.csrf import csrf_exempt
-
-from config import settings
-
-
-def htmx_rest_api_demo(request):
-    return render(request, "demo/htmx-rest-api.html", )
 
 # --- Like Button Example State (in-memory for demo) ---
 LIKE_BUTTON_STATE = {"count": 42, "liked": False}
@@ -45,74 +41,6 @@ def like_button(request):
         "count": LIKE_BUTTON_STATE["count"],
         "liked": LIKE_BUTTON_STATE["liked"],
     })
-
-
-def index(request):
-    return render(request, 'index.html')
-
-quotes = ["Full-stack with half the stack",
-    "Less is more, HTML is most",
-    "Simplicity scales",
-    "Zero dependencies, infinite possibilities",
-    "The anti-framework framework",
-    "One library to unbundle them all",
-    "Less JavaScript, more joy",
-    "Why build when you can just... not?"
-]
-
-def carousel(request, id):
-    # Select content based on id
-    context = {"id": id}
-    if id == "quickstart":
-        context.update({
-            "title": "HTMX",
-            "description": random.choice(quotes),
-            "button_text": "Try HTMX",
-            "result_id": "carousel-quickstart-result",
-            "tags": ["Beginner", "Quick Start"],
-            "example": "quickstart"
-        })
-    elif id == "like":
-        context.update({
-            "title": "Partial Page Updates",
-            "description": "HTMX can update parts of a page without a full-page request.",
-            "button_text": "Show HTMX Example",
-            "result_id": "htmx-code-demo",
-            "tags": ["UI", "Beginner"],
-            "example": "like"
-        })
-    elif id == "live-search":
-        context.update({
-            "title": "Example: Live Search",
-            "description": "Updates live suggestions from the backend, using HTMX.",
-            "button_text": "Search",
-            "result_id": "carousel-search-result",
-            "tags": ["Search", "AJAX"],
-            "example": "live-search"
-        })
-    elif id == "polling":
-        context.update({
-            "title": "Example: Live Stock Ticker",
-            "description": "See real-time Bitcoin price updates using HTMX polling.",
-            "button_text": "Show Ticker",
-            "result_id": "carousel-ticker-result",
-            "tags": ["Real-time", "Polling", "API"],
-            "example": "ticker"
-        })
-    else:
-        context.update({
-            "title": "Unknown Example",
-            "description": "No example found for this id.",
-            "button_text": "",
-            "result_id": "",
-            "tags": [],
-            "example": "none"
-        })
-    return render(request, 'carousel.html', context)
-
-# For the like example: cycle through different code blocks
-from django.views.decorators.csrf import csrf_exempt
-import requests
 
 def carousel_live_search_result(request):
     """
@@ -204,32 +132,11 @@ def carousel_like_codeblock(request):
     """
     return HttpResponse(html)
 
-def documentation(request):
-    """
-    Renders the main documentation landing page.
-    """
-    return render(request, "docs/index.html")
-
-def docs_getting_started(request):
-    """
-    Renders the Getting Started documentation page.
-    """
-    return render(request, "docs/getting-started.html")
-
-def docs_core_attributes(request):
-    """
-    Renders the Core Attributes documentation page.
-    """
-    return render(request, "docs/core-attributes.html")
-
-
 def examples(request):
     # Load examples from JSON
-    import json
     with open('main/examples.json', 'r') as file:
         examples = json.load(file)
     return render(request, "full_examples.html", {"examples": examples})
-
 
 def examples_data(request, filter_name):
     # note: old, not used anymore
@@ -308,7 +215,20 @@ def example_direct(request, filter_name):
         raise Http404("Example not found")
 
 def dynamic_page(request, page_name):
-    # Whitelist allowed templates
+    """
+    Renders a dynamic example/demo page based on the given template name.
+
+    This view is used to serve many of the HTMX demo/example pages. It takes a `page_name` parameter from the URL,
+    checks if it is in the allowed list of templates (to prevent arbitrary file access), and then renders the corresponding template
+    from the 'demo' folder.
+
+    Example:
+        /demo/click-to-edit.html  ->  renders demo/click-to-edit.html
+
+    If the template is not in the whitelist, or does not exist, a 404 is returned.
+
+    """
+
     allowed_templates = [
         'active-search.html',
         'basic-ajax.html',
@@ -355,17 +275,7 @@ def dynamic_page(request, page_name):
         raise Http404("Page not found") from e
 
 
-def favicon(request):
-    """
-    Serve the favicon.svg file. If not found, return an empty SVG.
-    """
-    import os
-    favicon_path = os.path.join(settings.BASE_DIR, "static", "main", "favicon.svg")
-    try:
-        return FileResponse(open(favicon_path, "rb"), content_type="image/svg+xml")
-    except Exception:
-        empty_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"></svg>'
-        return HttpResponse(empty_svg, content_type="image/svg+xml")
+
 
 @csrf_exempt
 def click_to_edit_form(request):
@@ -419,9 +329,8 @@ def data_table_rows(request):
     page = int(request.GET.get("page", "1"))
     per_page = 4
 
-    # Sorting
-    reverse = (order == "desc")
     if sort in ["name", "age", "role"]:
+        reverse = (order == "desc")
         data = sorted(data, key=lambda x: x[sort], reverse=reverse)
 
     # Pagination
@@ -471,8 +380,8 @@ def sort_table(request):
 
     sort = request.GET.get("sort", "name")
     order = request.GET.get("order", "asc")
-    reverse = (order == "desc")
     if sort in col_list:
+        reverse = (order == "desc")
         data = sorted(data, key=lambda x: x[sort], reverse=reverse)
 
     # Always render the full page, but if HX-Request, only return the fragment
@@ -1032,44 +941,3 @@ def language_switcher(request):
     }
     greeting = greetings.get(lang, greetings["en"])
     return render(request, "demo/language-switcher.html", {"greeting": greeting, "lang": lang})
-
-
-from .models import ContactMessage
-from django.views.decorators.csrf import csrf_exempt
-
-def reference_api(request):
-    return render(request, "frontend/api_reference.html", )
-
-def about_modal(request):
-    return render(request, "about_modal.html")
-
-def careers_modal(request):
-    return render(request, "careers_modal.html")
-
-@csrf_exempt
-def contact(request):
-    if request.method != "POST":
-        # If HTMX, return modal fragment, else render page (for direct navigation)
-        if request.headers.get("HX-Request"):
-            return render(request, "contact_form_fragment.html")
-        else:
-            return render(request, "contact.html")
-    name = request.POST.get("name", "").strip()
-    email = request.POST.get("email", "").strip()
-    message = request.POST.get("message", "").strip()
-    errors = []
-    if not name:
-        errors.append("Name is required.")
-    if not email:
-        errors.append("Email is required.")
-    if not message:
-        errors.append("Message is required.")
-    if errors:
-        return render(request, "contact_form_fragment.html", {
-            "errors": errors,
-            "name": name,
-            "email": email,
-            "message": message,
-        })
-    ContactMessage.objects.create(name=name, email=email, message=message)
-    return render(request, "contact_success_fragment.html", {"name": name})

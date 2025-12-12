@@ -5,9 +5,9 @@ from . import views
 import datetime
 
 urlpatterns = [
-    path("favicon.ico", views.favicon, name="favicon"),
+    path("favicon.ico", views.main_views.favicon, name="favicon"),
     path("", views.index, name="index"),
-    path("carousel/<str:id>/", views.carousel, name="carousel"),
+    path("carousel/<str:id>/", views.main_views.carousel, name="carousel"),
     path("carousel/quickstart/result/", lambda request: HttpResponse(
         '<div id="req">You just made your first HTMX request! 🎉</div>'
     ), name="carousel_quickstart_result"),
