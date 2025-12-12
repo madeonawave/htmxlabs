@@ -16,7 +16,7 @@ Visit [htmxlabs.com](https://htmxlabs.com) to see it in action!
 
 ## Author
 
-- [madeonawave](https://github.com/madeonawave)
+- [madeonawave](https://github.com/madeonawave) / [Alex](https://github.com/Alex-CodeLab) 
 
 ## Contributing
 
@@ -47,4 +47,4 @@ This project is licensed under the MIT License.
 - [HTMX](https://htmx.org/)
 - [Django](https://www.djangoproject.com/)
 - [Bulma](https://bulma.io/)
-- [Leaflet](https://leafletjs.com/)
+
