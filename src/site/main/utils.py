@@ -9,12 +9,12 @@ def htmx_template(partial_template, full_template):
         def wrapper(request, *args, **kwargs):
             response = view_func(request, *args, **kwargs)
 
-            if hasattr(response, 'context_data'):
+            if hasattr(response, "context_data"):
                 context = response.context_data
             else:
                 context = {}
 
-            if request.headers.get('HX-Request'):
+            if request.headers.get("HX-Request"):
                 return render(request, partial_template, context)
             else:
                 return render(request, full_template, context)

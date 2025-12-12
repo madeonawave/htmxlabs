@@ -6,7 +6,6 @@ Contains Django views for HTMX examples, demos, and related endpoints.
 
 import csv
 import json
-import os
 import calendar
 import datetime
 import random
@@ -14,13 +13,14 @@ from io import StringIO
 import markdown as md
 
 import requests
-from django.http import Http404, JsonResponse, HttpResponse, FileResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 
 # --- Like Button Example State (in-memory for demo) ---
 LIKE_BUTTON_STATE = {"count": 42, "liked": False}
+
 
 @csrf_exempt
 def like_button(request):
@@ -37,16 +37,21 @@ def like_button(request):
             LIKE_BUTTON_STATE["count"] += 1
             LIKE_BUTTON_STATE["liked"] = True
     # For GET or after POST, render the button
-    return render(request, "demo/like-button.html", {
-        "count": LIKE_BUTTON_STATE["count"],
-        "liked": LIKE_BUTTON_STATE["liked"],
-    })
+    return render(
+        request,
+        "demo/like-button.html",
+        {
+            "count": LIKE_BUTTON_STATE["count"],
+            "liked": LIKE_BUTTON_STATE["liked"],
+        },
+    )
+
 
 def carousel_live_search_result(request):
     """
     Returns HTML fragment with live search results for the carousel live search example.
     """
-    q = request.GET.get('q', '').strip().lower()
+    q = request.GET.get("q", "").strip().lower()
     all_names = [
         "Alice Johnson",
         "Bob Smith",
@@ -57,7 +62,7 @@ def carousel_live_search_result(request):
         "Grace Hopper",
         "Hank Moody",
         "Ivy Blue",
-        "Jack Sparrow"
+        "Jack Sparrow",
     ]
     matches = [name for name in all_names if q and q in name.lower()]
     if not q:
@@ -66,10 +71,11 @@ def carousel_live_search_result(request):
         html = '<ul class="menu-list live-search-results" style="text-align:left;width:100%;max-width:320px;margin-bottom:0;padding:0.5rem 0 0.5rem 0.5rem;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.04);">'
         for name in matches:
             html += f'<li style="padding:0.25rem 0;"><span class="icon"><i class="fas fa-user"></i></span> {name}</li>'
-        html += '</ul>'
+        html += "</ul>"
     else:
         html = '<div class="notification is-warning is-light">No results found.</div>'
     return HttpResponse(html)
+
 
 def carousel_ticker_result(request):
     # For demo, use a public API for Bitcoin price (or mock if offline)
@@ -93,20 +99,22 @@ def carousel_ticker_result(request):
     """
     return HttpResponse(html)
 
+
 CAROUSEL_CODEBLOCKS = [
     {
-        "code": '''<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-post</span>=<span style="color:#ffe66d;">"/like"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#result"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Like<span style="color:#ff6b6b;">&lt;/button&gt;</span>''',
-        "comment": "A button that sends a POST request to /like and updates #result."
+        "code": """<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-post</span>=<span style="color:#ffe66d;">"/like"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#result"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Like<span style="color:#ff6b6b;">&lt;/button&gt;</span>""",
+        "comment": "A button that sends a POST request to /like and updates #result.",
     },
     {
-        "code": '''<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-delete</span>=<span style="color:#ffe66d;">"/item/1"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#row-1"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Delete<span style="color:#ff6b6b;">&lt;/button&gt;</span>''',
-        "comment": "A button that sends a DELETE request to /item/1 and removes #row-1."
+        "code": """<span style="color:#ff6b6b;">&lt;button</span> <span style="color:#4ecdc4;">hx-delete</span>=<span style="color:#ffe66d;">"/item/1"</span> <span style="color:#4ecdc4;">hx-target</span>=<span style="color:#ffe66d;">"#row-1"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Delete<span style="color:#ff6b6b;">&lt;/button&gt;</span>""",
+        "comment": "A button that sends a DELETE request to /item/1 and removes #row-1.",
     },
     {
-        "code": '''<span style="color:#ff6b6b;">&lt;div</span> <span style="color:#4ecdc4;">hx-get</span>=<span style="color:#ffe66d;">"/updates"</span> <span style="color:#4ecdc4;">hx-trigger</span>=<span style="color:#ffe66d;">"every 2s"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Live updates<span style="color:#ff6b6b;">&lt;/div&gt;</span>''',
-        "comment": "A div that polls /updates every 2 seconds for live updates."
-    }
+        "code": """<span style="color:#ff6b6b;">&lt;div</span> <span style="color:#4ecdc4;">hx-get</span>=<span style="color:#ffe66d;">"/updates"</span> <span style="color:#4ecdc4;">hx-trigger</span>=<span style="color:#ffe66d;">"every 2s"</span> <span style="color:#4ecdc4;">hx-swap</span>=<span style="color:#ffe66d;">"outerHTML"</span><span style="color:#ff6b6b;">&gt;</span>Live updates<span style="color:#ff6b6b;">&lt;/div&gt;</span>""",
+        "comment": "A div that polls /updates every 2 seconds for live updates.",
+    },
 ]
+
 
 @csrf_exempt
 def carousel_like_codeblock(request):
@@ -124,57 +132,61 @@ def carousel_like_codeblock(request):
                 Show another HTMX Example
             </button>
         <div class='code-block' style='margin-top:1.5rem;'>
-            {codeblock['code']}
-            <div class='has-text-grey mt-2' style='font-size:0.95em;'>{codeblock['comment']}</div>
+            {codeblock["code"]}
+            <div class='has-text-grey mt-2' style='font-size:0.95em;'>{codeblock["comment"]}</div>
 
         </div>
     </div>
     """
     return HttpResponse(html)
 
+
 def examples(request):
     # Load examples from JSON
-    with open('main/examples.json', 'r') as file:
+    with open("main/examples.json", "r") as file:
         examples = json.load(file)
     return render(request, "full_examples.html", {"examples": examples})
+
 
 def examples_data(request, filter_name):
     # note: old, not used anymore
 
     # Get filtered, sorted, paginated data
-    q = request.GET.get('q', '').strip().lower()
+    q = request.GET.get("q", "").strip().lower()
     category = filter_name
-    sort = request.GET.get('sort', 'popular')
+    sort = request.GET.get("sort", "popular")
     try:
-        limit = int(request.GET.get('limit', 12))
+        limit = int(request.GET.get("limit", 12))
     except ValueError:
         limit = 12
     try:
-        offset = int(request.GET.get('offset', 0))
+        offset = int(request.GET.get("offset", 0))
     except ValueError:
         offset = 0
 
-    with open('main/examples.json', 'r') as file:
+    with open("main/examples.json", "r") as file:
         data = json.load(file)
 
     # Filtering by category/tag/level
     if category and category != "all" and category != "search":
         data = [
-            ex for ex in data
+            ex
+            for ex in data
             if category in [t.lower() for t in ex.get("tags", [])]
-               or ex.get("level", "").lower() == category
+            or ex.get("level", "").lower() == category
         ]
 
     # Filtering by search query
     if q and q != "":
-        with open('main/examples.json', 'r') as file:
+        with open("main/examples.json", "r") as file:
             data = json.load(file)
 
         data = [
-            ex for ex in data
+            ex
+            for ex in data
             if q in ex.get("title", "").lower()
-               or q in ex.get("description", "").lower()
-               or any(q in tag.lower() for tag in ex.get("tags", []))
+            or q in ex.get("description", "").lower()
+            or any(q in tag.lower() for tag in ex.get("tags", []))
         ]
 
     # Sorting
@@ -189,30 +201,41 @@ def examples_data(request, filter_name):
 
     # Pagination
     total = len(data)
-    paged = data[offset:offset + limit]
+    paged = data[offset : offset + limit]
     # Render the grid partial template with the paged examples
-    return render(request, "examples_grid.html",
-                  {"examples": paged,
-                   "total": total,
-                   "offset": offset,
-                   "limit": limit,
-                   "loadmore": offset + limit < total})
+    return render(
+        request,
+        "examples_grid.html",
+        {
+            "examples": paged,
+            "total": total,
+            "offset": offset,
+            "limit": limit,
+            "loadmore": offset + limit < total,
+        },
+    )
+
 
 def example_direct(request, filter_name):
     # Load all examples from JSON
-    with open('main/examples.json', 'r') as file:
+    with open("main/examples.json", "r") as file:
         examples = json.load(file)
 
     if selected_example := next(
         (ex for ex in examples if ex["id"] == filter_name), None
     ):
         # Render the main examples page, passing all examples and the selected one
-        return render(request, "full_examples.html", {
-            "examples": examples,
-            "selected_example": selected_example,
-        })
+        return render(
+            request,
+            "full_examples.html",
+            {
+                "examples": examples,
+                "selected_example": selected_example,
+            },
+        )
     else:
         raise Http404("Example not found")
+
 
 def dynamic_page(request, page_name):
     """
@@ -230,51 +253,49 @@ def dynamic_page(request, page_name):
     """
 
     allowed_templates = [
-        'active-search.html',
-        'basic-ajax.html',
-        'basic-ajax-response.html',
-        'click-to-edit.html',
-        'calendar.html',
-        'clickme_example.html',
-        'csv-export.html',
-        'color-picker.html',
-        'data-table.html',
-        'delete-row.html',
-        'drag-drop.html',
-        'file-upload.html',
-        'form-validation.html',
-        'htmx_rest_api_demo.html',
-        'infinite-scroll.html',
-        'kanban-board.html',
-        'lazy-load.html',
-        'like-button.html',
-        'live-search.html',
-        'live-stock-ticker.html',
-        'live-chat.html',
-        'markdown-preview.html',
-        'master-detail.html',
-        'modal-dialog.html',
-        'dependent-dropdowns.html',
-        'tabbed-interface.html',
-        'theme-switcher.html',
-        'toast-notification.html',
-        'sort-table.html',
-        'progress-bar.html',
-        'polling.html',
-        'realtime-notifications.html',
-        'weather-widget.html'
+        "active-search.html",
+        "basic-ajax.html",
+        "basic-ajax-response.html",
+        "click-to-edit.html",
+        "calendar.html",
+        "clickme_example.html",
+        "csv-export.html",
+        "color-picker.html",
+        "data-table.html",
+        "delete-row.html",
+        "drag-drop.html",
+        "file-upload.html",
+        "form-validation.html",
+        "htmx_rest_api_demo.html",
+        "infinite-scroll.html",
+        "kanban-board.html",
+        "lazy-load.html",
+        "like-button.html",
+        "live-search.html",
+        "live-stock-ticker.html",
+        "live-chat.html",
+        "markdown-preview.html",
+        "master-detail.html",
+        "modal-dialog.html",
+        "dependent-dropdowns.html",
+        "tabbed-interface.html",
+        "theme-switcher.html",
+        "toast-notification.html",
+        "sort-table.html",
+        "progress-bar.html",
+        "polling.html",
+        "realtime-notifications.html",
+        "weather-widget.html",
     ]
-    templates_folder = 'demo'
+    templates_folder = "demo"
 
-    if f'{page_name}' not in allowed_templates:
+    if f"{page_name}" not in allowed_templates:
         raise Http404("Page not found")
-    template_name = f'{templates_folder}/{page_name}'
+    template_name = f"{templates_folder}/{page_name}"
     try:
         return render(request, template_name)
     except TemplateDoesNotExist as e:
         raise Http404("Page not found") from e
-
-
 
 
 @csrf_exempt
@@ -285,6 +306,7 @@ def click_to_edit_form(request):
     value = request.GET.get("value", "This is editable text. Click to edit.")
     return render(request, "demo/click-to-edit-form.html", {"value": value})
 
+
 @csrf_exempt
 def click_to_edit_save(request):
     """
@@ -293,6 +315,7 @@ def click_to_edit_save(request):
     value = request.POST.get("value", "This is editable text. Click to edit.")
     return render(request, "demo/click-to-edit-save.html", {"value": value})
 
+
 @csrf_exempt
 def click_to_edit_cancel(request):
     """
@@ -300,8 +323,6 @@ def click_to_edit_cancel(request):
     """
     value = request.GET.get("value", "This is editable text. Click to edit.")
     return render(request, "demo/click-to-edit-save.html", {"value": value})
-
-
 
 
 def data_table_rows(request):
@@ -330,7 +351,7 @@ def data_table_rows(request):
     per_page = 4
 
     if sort in ["name", "age", "role"]:
-        reverse = (order == "desc")
+        reverse = order == "desc"
         data = sorted(data, key=lambda x: x[sort], reverse=reverse)
 
     # Pagination
@@ -354,7 +375,7 @@ def data_table_rows(request):
             "page": page,
             "total_pages": total_pages,
             "page_range": page_range,
-        }
+        },
     )
 
 
@@ -381,23 +402,32 @@ def sort_table(request):
     sort = request.GET.get("sort", "name")
     order = request.GET.get("order", "asc")
     if sort in col_list:
-        reverse = (order == "desc")
+        reverse = order == "desc"
         data = sorted(data, key=lambda x: x[sort], reverse=reverse)
 
     # Always render the full page, but if HX-Request, only return the fragment
     if request.GET.get("fragment") == "1":
-        return render(request, "demo/sort-table-fragment.html", {
+        return render(
+            request,
+            "demo/sort-table-fragment.html",
+            {
+                "rows": data,
+                "sort": sort,
+                "order": order,
+                "col_list": col_list,
+            },
+        )
+    return render(
+        request,
+        "demo/sort-table.html",
+        {
             "rows": data,
             "sort": sort,
             "order": order,
             "col_list": col_list,
-        })
-    return render(request, "demo/sort-table.html", {
-        "rows": data,
-        "sort": sort,
-        "order": order,
-        "col_list": col_list,
-    })
+        },
+    )
+
 
 def dynamic_form_validation(request):
     print(request)
@@ -405,36 +435,50 @@ def dynamic_form_validation(request):
     Server-side validation for the Dynamic Form Validation example.
     Returns HTML with validation messages for username and email.
     """
-    username = request.POST.get('username', '').strip()
-    email = request.POST.get('email', '').strip()
+    username = request.POST.get("username", "").strip()
+    email = request.POST.get("email", "").strip()
     messages = []
 
     # Username validation
     if not username:
-        messages.append('<div class="notification is-danger is-light mb-2">Username is required.</div>')
+        messages.append(
+            '<div class="notification is-danger is-light mb-2">Username is required.</div>'
+        )
     elif len(username) < 3:
-        messages.append('<div class="notification is-danger is-light mb-2">Username must be at least 3 characters.</div>')
+        messages.append(
+            '<div class="notification is-danger is-light mb-2">Username must be at least 3 characters.</div>'
+        )
     else:
-        messages.append('<div class="notification is-success is-light mb-2">Username looks good!</div>')
+        messages.append(
+            '<div class="notification is-success is-light mb-2">Username looks good!</div>'
+        )
 
     # Email validation
     import re
-    email_regex = r'^[^@]+@[^@]+\.[^@]+$'
-    if not email:
-        messages.append('<div class="notification is-danger is-light mb-2">Email is required.</div>')
-    elif not re.match(email_regex, email):
-        messages.append('<div class="notification is-danger is-light mb-2">Please enter a valid email address.</div>')
-    else:
-        messages.append('<div class="notification is-success is-light mb-2">Email looks good!</div>')
 
-    html = ''.join(messages)
+    email_regex = r"^[^@]+@[^@]+\.[^@]+$"
+    if not email:
+        messages.append(
+            '<div class="notification is-danger is-light mb-2">Email is required.</div>'
+        )
+    elif not re.match(email_regex, email):
+        messages.append(
+            '<div class="notification is-danger is-light mb-2">Please enter a valid email address.</div>'
+        )
+    else:
+        messages.append(
+            '<div class="notification is-success is-light mb-2">Email looks good!</div>'
+        )
+
+    html = "".join(messages)
     return HttpResponse(html)
+
 
 def live_search_suggestions(request):
     """
     Returns HTML fragment with autocomplete suggestions for live search.
     """
-    q = request.GET.get('q', '').strip().lower()
+    q = request.GET.get("q", "").strip().lower()
     all_names = [
         "Alice Johnson",
         "Bob Smith",
@@ -445,7 +489,7 @@ def live_search_suggestions(request):
         "Grace Hopper",
         "Hank Moody",
         "Ivy Blue",
-        "Jack Sparrow"
+        "Jack Sparrow",
     ]
     matches = [name for name in all_names if q and q in name.lower()]
     context = {
@@ -459,7 +503,7 @@ def active_search_results(request):
     """
     Returns HTML fragment with live search results for the active search example.
     """
-    q = request.GET.get('q', '').strip().lower()
+    q = request.GET.get("q", "").strip().lower()
     all_names = [
         "Alice Johnson",
         "Bob Smith",
@@ -470,7 +514,7 @@ def active_search_results(request):
         "Grace Hopper",
         "Hank Moody",
         "Ivy Blue",
-        "Jack Sparrow"
+        "Jack Sparrow",
     ]
     matches = [name for name in all_names if q and q in name.lower()]
     context = {
@@ -480,14 +524,14 @@ def active_search_results(request):
     return render(request, "demo/active-search-results.html", context)
 
 
-
 def infinite_scroll_items(request):
     """
     Returns HTML fragment for infinite scroll items.
     """
     # Demo: 15 items, 10 per page
     import time
-    time.sleep(.1)
+
+    time.sleep(0.1)
 
     total_items = 150
     items_per_page = 10
@@ -503,6 +547,7 @@ def infinite_scroll_items(request):
     }
     return render(request, "demo/infinite-scroll-items.html", context)
 
+
 def master_detail_detail(request):
     """
     Returns the detail fragment for the Master/Detail example.
@@ -515,7 +560,7 @@ def master_detail_detail(request):
             "email": "alice@example.com",
             "bio": "Alice is a full-stack developer with 5 years of experience in JavaScript and Python.",
             "icon": "fas fa-user-astronaut",
-            "image": "https://randomuser.me/api/portraits/women/1.jpg"
+            "image": "https://randomuser.me/api/portraits/women/1.jpg",
         },
         "2": {
             "name": "Bob Smith",
@@ -523,7 +568,7 @@ def master_detail_detail(request):
             "email": "bob@example.com",
             "bio": "Bob is a creative designer who loves crafting beautiful user interfaces.",
             "icon": "fas fa-paint-brush",
-            "image": "https://randomuser.me/api/portraits/men/2.jpg"
+            "image": "https://randomuser.me/api/portraits/men/2.jpg",
         },
         "3": {
             "name": "Charlie Brown",
@@ -531,7 +576,7 @@ def master_detail_detail(request):
             "email": "charlie@example.com",
             "bio": "Charlie manages the team and ensures projects are delivered on time.",
             "icon": "fas fa-user-tie",
-            "image": "https://randomuser.me/api/portraits/men/3.jpg"
+            "image": "https://randomuser.me/api/portraits/men/3.jpg",
         },
         "4": {
             "name": "Lana White",
@@ -539,17 +584,20 @@ def master_detail_detail(request):
             "email": "lana@example.com",
             "bio": "Lana specializes in backend development and database design.",
             "icon": "fas fa-database",
-            "image": "https://randomuser.me/api/portraits/women/4.jpg"
-        }
+            "image": "https://randomuser.me/api/portraits/women/4.jpg",
+        },
     }
-    d = details.get(id, {
-        "name": "Unknown",
-        "role": "",
-        "email": "",
-        "bio": "No details available.",
-        "icon": "fas fa-question-circle",
-        "image": "https://randomuser.me/api/portraits/lego/1.jpg"
-    })
+    d = details.get(
+        id,
+        {
+            "name": "Unknown",
+            "role": "",
+            "email": "",
+            "bio": "No details available.",
+            "icon": "fas fa-question-circle",
+            "image": "https://randomuser.me/api/portraits/lego/1.jpg",
+        },
+    )
     return render(request, "demo/master-detail-detail.html", {"d": d})
 
 
@@ -578,9 +626,14 @@ def dependent_dropdown_options(request):
             ("lion", "Lion"),
         ],
     }
-    return render(request, "demo/dependent-dropdown-options.html", {
-        "items": options.get(category, []),
-    })
+    return render(
+        request,
+        "demo/dependent-dropdown-options.html",
+        {
+            "items": options.get(category, []),
+        },
+    )
+
 
 def tab_content(request):
     """
@@ -590,19 +643,20 @@ def tab_content(request):
     tab_contents = {
         "overview": {
             "title": "Overview",
-            "body": "This is the overview tab. It provides a summary of the content."
+            "body": "This is the overview tab. It provides a summary of the content.",
         },
         "details": {
             "title": "Details",
-            "body": "This is the details tab. Here you can find more in-depth information."
+            "body": "This is the details tab. Here you can find more in-depth information.",
         },
         "settings": {
             "title": "Settings",
-            "body": "This is the settings tab. Adjust your preferences here."
-        }
+            "body": "This is the settings tab. Adjust your preferences here.",
+        },
     }
     content = tab_contents.get(tab, tab_contents["overview"])
     return render(request, "demo/tab-content.html", {"tab": tab, "content": content})
+
 
 def lazy_load_image(request):
     """
@@ -621,6 +675,7 @@ def lazy_load_image(request):
     url = images.get(img_id, images["1"])
     return render(request, "demo/lazy-load-image.html", {"url": url, "img_id": img_id})
 
+
 @csrf_exempt
 def delete_row(request):
     """
@@ -631,14 +686,17 @@ def delete_row(request):
     # For demo, just return an empty response to remove the row.
     return HttpResponse("")
 
+
 def progress_bar(request):
     """
     Simulate a long-running AJAX request and return a completion message.
     """
     # Simulate a long-running task
     import time
+
     time.sleep(3)
     return render(request, "demo/progress-bar-result.html")
+
 
 def modal_content(request):
     """
@@ -679,6 +737,7 @@ def theme_switcher(request):
         .box, .card, .navbar, .modal-content { background: #fff !important; color: #222 !important; }
         """
     return HttpResponse(css_vars, content_type="text/css")
+
 
 @csrf_exempt
 def drag_drop_update(request):
@@ -726,25 +785,35 @@ def calendar_month(request):
         datetime.date(year, month, 22): "Conference",
     }
     days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    return render(request, "demo/calendar-month.html", {
-        "year": year,
-        "month": month,
-        "month_days": month_days,
-        "events": events,
-        "month_name": calendar.month_name[month],
-        "days_of_week": days_of_week,
-    })
+    return render(
+        request,
+        "demo/calendar-month.html",
+        {
+            "year": year,
+            "month": month,
+            "month_days": month_days,
+            "events": events,
+            "month_name": calendar.month_name[month],
+            "days_of_week": days_of_week,
+        },
+    )
+
 
 def polling_example(request):
     """
     Returns a fragment with a random number and the current time for polling demo.
     """
     import datetime
+
     now = datetime.datetime.now()
-    return render(request, "demo/polling-fragment.html", {
-        "now": now.strftime("%H:%M:%S"),
-        "random_number": random.randint(1, 100),
-    })
+    return render(
+        request,
+        "demo/polling-fragment.html",
+        {
+            "now": now.strftime("%H:%M:%S"),
+            "random_number": random.randint(1, 100),
+        },
+    )
 
 
 @csrf_exempt
@@ -779,7 +848,7 @@ def csv_export(request):
     # Return as bytes for blob download
     csv_bytes = output.getvalue().encode("utf-8")
     response = HttpResponse(csv_bytes, content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="table-data.csv"'
+    response["Content-Disposition"] = 'attachment; filename="table-data.csv"'
     return response
 
 
@@ -790,7 +859,7 @@ def weather_widget(request):
     city = request.GET.get("city", "Amsterdam")
     api_key = "demo"  # For demo, use a public test API or mock
     # Use Open-Meteo (no API key required, free and CORS-friendly)
-    url = f"https://api.open-meteo.com/v1/forecast?latitude=52.37&longitude=4.89&current_weather=true"
+    url = "https://api.open-meteo.com/v1/forecast?latitude=52.37&longitude=4.89&current_weather=true"
     city_coords = {
         "amsterdam": (52.37, 4.89),
         "london": (51.51, -0.13),
@@ -814,31 +883,57 @@ def weather_widget(request):
         wind = weather.get("windspeed")
         code = weather.get("weathercode")
         icon = "fas fa-sun"
-        if code in [2, 3, 45, 48]: icon = "fas fa-cloud"
-        if code in [51, 53, 55, 61, 63, 65, 80, 81, 82]: icon = "fas fa-cloud-showers-heavy"
-        if code in [71, 73, 75, 77, 85, 86]: icon = "fas fa-snowflake"
-        if code in [95, 96, 99]: icon = "fas fa-bolt"
+        if code in [2, 3, 45, 48]:
+            icon = "fas fa-cloud"
+        if code in [51, 53, 55, 61, 63, 65, 80, 81, 82]:
+            icon = "fas fa-cloud-showers-heavy"
+        if code in [71, 73, 75, 77, 85, 86]:
+            icon = "fas fa-snowflake"
+        if code in [95, 96, 99]:
+            icon = "fas fa-bolt"
         desc = {
-            0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
-            45: "Fog", 48: "Depositing rime fog", 51: "Light drizzle", 53: "Drizzle",
-            55: "Dense drizzle", 61: "Slight rain", 63: "Rain", 65: "Heavy rain",
-            71: "Slight snow", 73: "Snow", 75: "Heavy snow", 77: "Snow grains",
-            80: "Rain showers", 81: "Heavy showers", 82: "Violent showers",
-            85: "Snow showers", 86: "Heavy snow showers", 95: "Thunderstorm",
-            96: "Thunderstorm w/ hail", 99: "Thunderstorm w/ heavy hail"
+            0: "Clear sky",
+            1: "Mainly clear",
+            2: "Partly cloudy",
+            3: "Overcast",
+            45: "Fog",
+            48: "Depositing rime fog",
+            51: "Light drizzle",
+            53: "Drizzle",
+            55: "Dense drizzle",
+            61: "Slight rain",
+            63: "Rain",
+            65: "Heavy rain",
+            71: "Slight snow",
+            73: "Snow",
+            75: "Heavy snow",
+            77: "Snow grains",
+            80: "Rain showers",
+            81: "Heavy showers",
+            82: "Violent showers",
+            85: "Snow showers",
+            86: "Heavy snow showers",
+            95: "Thunderstorm",
+            96: "Thunderstorm w/ hail",
+            99: "Thunderstorm w/ heavy hail",
         }.get(code, "Unknown")
     except Exception as e:
         print(e)
         temp = wind = code = None
         icon = "fas fa-question"
         desc = "Could not fetch weather"
-    return render(request, "demo/weather-widget-fragment.html", {
-        "city": city.title(),
-        "temp": temp,
-        "wind": wind,
-        "desc": desc,
-        "icon": icon,
-    })
+    return render(
+        request,
+        "demo/weather-widget-fragment.html",
+        {
+            "city": city.title(),
+            "temp": temp,
+            "wind": wind,
+            "desc": desc,
+            "icon": icon,
+        },
+    )
+
 
 def live_stock_ticker(request):
     hx_trigger = request.headers.get("HX-Trigger")
@@ -848,7 +943,7 @@ def live_stock_ticker(request):
         data = resp.json()
         price = float(data["result"]["TBTCUSD"]["p"][0].replace(",", ""))
         updated = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    except Exception as e:
+    except Exception:
         price = None
         updated = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -868,10 +963,15 @@ def live_stock_ticker(request):
             """
         )
 
-    return render(request, "demo/live-stock-ticker.html", {
-        "price": price,
-        "updated": updated,
-    })
+    return render(
+        request,
+        "demo/live-stock-ticker.html",
+        {
+            "price": price,
+            "updated": updated,
+        },
+    )
+
 
 def markdown_preview(request):
     """
@@ -896,8 +996,8 @@ def kanban_board_update(request):
     Receives the new board state for the Kanban board and returns a success response.
     """
     from urllib.parse import unquote_plus, parse_qs
-    if request.method == "POST":
 
+    if request.method == "POST":
         if request.body:
             body_str = request.body.decode()
 
@@ -914,6 +1014,7 @@ def kanban_board_update(request):
         return render(request, "demo/kanban-board-update.html", {"board": board})
     return JsonResponse({"success": False}, status=400)
 
+
 @csrf_exempt
 def toast_notify(request):
     """
@@ -921,7 +1022,12 @@ def toast_notify(request):
     """
     msg = request.POST.get("message", "This is a toast notification!")
     level = request.POST.get("level", "info")
-    return render(request, "demo/toast-notification-fragment.html", {"message": msg, "level": level})
+    return render(
+        request,
+        "demo/toast-notification-fragment.html",
+        {"message": msg, "level": level},
+    )
+
 
 def language_switcher(request):
     """
@@ -940,4 +1046,6 @@ def language_switcher(request):
         "ru": "Привет, мир!",
     }
     greeting = greetings.get(lang, greetings["en"])
-    return render(request, "demo/language-switcher.html", {"greeting": greeting, "lang": lang})
+    return render(
+        request, "demo/language-switcher.html", {"greeting": greeting, "lang": lang}
+    )

@@ -1,5 +1,5 @@
 from django.urls import path
-from django.http import  HttpResponse
+from django.http import HttpResponse
 from . import views
 
 import datetime
@@ -8,42 +8,100 @@ urlpatterns = [
     path("favicon.ico", views.main_views.favicon, name="favicon"),
     path("", views.index, name="index"),
     path("carousel/<str:id>/", views.main_views.carousel, name="carousel"),
-    path("carousel/quickstart/result/", lambda request: HttpResponse(
-        '<div id="req">You just made your first HTMX request! 🎉</div>'
-    ), name="carousel_quickstart_result"),
-    path("carousel/like/result/", lambda request: HttpResponse(
-        '<div class="notification is-danger is-light"><strong>❤️ Liked!</strong> You liked this example.</div>'
-    ), name="carousel_like_result"),
-    path("carousel/like/codeblock/", views.carousel_like_codeblock, name="carousel_like_codeblock"),
-    path("carousel/live-search/result/", views.carousel_live_search_result, name="carousel_live_search_result"),
-    path("carousel/polling/result/", lambda request: HttpResponse(
-        f'<div class="notification is-primary is-light"><strong>Polling:</strong> Server time: {datetime.datetime.now().strftime("%H:%M:%S")}</div>'
-    ), name="carousel_polling_result"),
-    path("carousel/ticker/result/", views.carousel_ticker_result, name="carousel_ticker_result"),
+    path(
+        "carousel/quickstart/result/",
+        lambda request: HttpResponse(
+            '<div id="req">You just made your first HTMX request! 🎉</div>'
+        ),
+        name="carousel_quickstart_result",
+    ),
+    path(
+        "carousel/like/result/",
+        lambda request: HttpResponse(
+            '<div class="notification is-danger is-light"><strong>❤️ Liked!</strong> You liked this example.</div>'
+        ),
+        name="carousel_like_result",
+    ),
+    path(
+        "carousel/like/codeblock/",
+        views.carousel_like_codeblock,
+        name="carousel_like_codeblock",
+    ),
+    path(
+        "carousel/live-search/result/",
+        views.carousel_live_search_result,
+        name="carousel_live_search_result",
+    ),
+    path(
+        "carousel/polling/result/",
+        lambda request: HttpResponse(
+            f'<div class="notification is-primary is-light"><strong>Polling:</strong> Server time: {datetime.datetime.now().strftime("%H:%M:%S")}</div>'
+        ),
+        name="carousel_polling_result",
+    ),
+    path(
+        "carousel/ticker/result/",
+        views.carousel_ticker_result,
+        name="carousel_ticker_result",
+    ),
     path("docs/", views.documentation, name="documentation"),
-    path("docs/getting-started", views.docs_getting_started, name="docs_getting_started"),
+    path(
+        "docs/getting-started", views.docs_getting_started, name="docs_getting_started"
+    ),
     path("contact/", views.contact, name="contact"),
     path("about-modal/", views.about_modal, name="about_modal"),
     path("careers-modal/", views.careers_modal, name="careers_modal"),
     path("careers-modal/", views.careers_modal, name="careers_modal"),
-
     path("docs/attributes", views.docs_core_attributes, name="docs_core_attributes"),
     path("examples/", views.examples, name="examples"),
     path("examples/<str:filter_name>", views.example_direct, name="example_direct"),
     path("examples/examples-data", views.examples_data, name="examples_data"),
-    path("search-examples/<str:filter_name>", views.examples_data, name="examples_data"),
+    path(
+        "search-examples/<str:filter_name>", views.examples_data, name="examples_data"
+    ),
     path("reference_api/", views.reference_api, name="reference"),
-
     path("demo/data-table-rows", views.data_table_rows, name="data_table_rows"),
-    path("demo/live-search-suggestions.html", views.live_search_suggestions, name="live_search_suggestions"),
-    path("demo/dynamic-form-validation", views.dynamic_form_validation, name="dynamic_form_validation"),
-    path("demo/active-search-results.html", views.active_search_results, name="active_search_results"),
-    path("demo/infinite-scroll-items", views.infinite_scroll_items, name="infinite_scroll_items"),
-    path("demo/master-detail-detail.html", views.master_detail_detail, name="master_detail_detail"),
-    path("demo/click-to-edit-form", views.click_to_edit_form, name="click_to_edit_form"),
-    path("demo/click-to-edit-save", views.click_to_edit_save, name="click_to_edit_save"),
-    path("demo/click-to-edit-cancel", views.click_to_edit_cancel, name="click_to_edit_cancel"),
-    path("demo/dependent-dropdown-options", views.dependent_dropdown_options, name="dependent_dropdown_options"),
+    path(
+        "demo/live-search-suggestions.html",
+        views.live_search_suggestions,
+        name="live_search_suggestions",
+    ),
+    path(
+        "demo/dynamic-form-validation",
+        views.dynamic_form_validation,
+        name="dynamic_form_validation",
+    ),
+    path(
+        "demo/active-search-results.html",
+        views.active_search_results,
+        name="active_search_results",
+    ),
+    path(
+        "demo/infinite-scroll-items",
+        views.infinite_scroll_items,
+        name="infinite_scroll_items",
+    ),
+    path(
+        "demo/master-detail-detail.html",
+        views.master_detail_detail,
+        name="master_detail_detail",
+    ),
+    path(
+        "demo/click-to-edit-form", views.click_to_edit_form, name="click_to_edit_form"
+    ),
+    path(
+        "demo/click-to-edit-save", views.click_to_edit_save, name="click_to_edit_save"
+    ),
+    path(
+        "demo/click-to-edit-cancel",
+        views.click_to_edit_cancel,
+        name="click_to_edit_cancel",
+    ),
+    path(
+        "demo/dependent-dropdown-options",
+        views.dependent_dropdown_options,
+        name="dependent_dropdown_options",
+    ),
     path("demo/tab-content", views.tab_content, name="tab_content"),
     path("demo/lazy-load-image", views.lazy_load_image, name="lazy_load_image"),
     path("demo/delete-row", views.delete_row, name="delete_row"),
@@ -55,19 +113,42 @@ urlpatterns = [
     path("demo/polling-fragment", views.polling_example, name="polling_example"),
     path("demo/csv-export", views.csv_export, name="csv_export"),
     path("demo/weather-widget-fragment", views.weather_widget, name="weather_widget"),
-    path("demo/markdown-preview-fragment", views.markdown_preview, name="markdown_preview"),
-    path("demo/color-picker-fragment", views.color_picker_fragment, name="color_picker_fragment"),
-    path("demo/kanban-board-update", views.kanban_board_update, name="kanban_board_update"),
+    path(
+        "demo/markdown-preview-fragment",
+        views.markdown_preview,
+        name="markdown_preview",
+    ),
+    path(
+        "demo/color-picker-fragment",
+        views.color_picker_fragment,
+        name="color_picker_fragment",
+    ),
+    path(
+        "demo/kanban-board-update",
+        views.kanban_board_update,
+        name="kanban_board_update",
+    ),
     path("demo/toast-notify", views.toast_notify, name="toast_notify"),
     path("demo/htmx-rest-api", views.htmx_rest_api_demo, name="htmx_rest_api_demo"),
-    path("demo/htmx-rest-api.html", views.htmx_rest_api_demo, name="htmx_rest_api_demo_html"),
+    path(
+        "demo/htmx-rest-api.html",
+        views.htmx_rest_api_demo,
+        name="htmx_rest_api_demo_html",
+    ),
     path("demo/like-button", views.like_button, name="like_button"),
     path("demo/like-button.html", views.like_button, name="like_button_html"),
     path("demo/live-stock-ticker", views.live_stock_ticker, name="live_stock_ticker"),
-    path("demo/live-stock-ticker.html", views.live_stock_ticker, name="live_stock_ticker_html"),
+    path(
+        "demo/live-stock-ticker.html",
+        views.live_stock_ticker,
+        name="live_stock_ticker_html",
+    ),
     path("demo/language-switcher", views.language_switcher, name="language_switcher"),
-    path("demo/language-switcher.html", views.language_switcher, name="language_switcher_html"),
+    path(
+        "demo/language-switcher.html",
+        views.language_switcher,
+        name="language_switcher_html",
+    ),
     path("demo/sort-table.html", views.sort_table, name="sort_table"),
-
     path("demo/<str:page_name>", views.dynamic_page, name="examples"),
 ]

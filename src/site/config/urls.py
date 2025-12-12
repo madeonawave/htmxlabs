@@ -23,13 +23,13 @@ from .sitemaps import StaticViewSitemap, ExampleSitemap
 
 sitemaps = {
     "static": StaticViewSitemap,
-    'examples': ExampleSitemap,
+    "examples": ExampleSitemap,
 }
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('main.urls')),
-    path('mammoth/', include('silent_mammoth_whistle.urls')),
+    path("", include("main.urls")),
+    path("mammoth/", include("silent_mammoth_whistle.urls")),
     path(
         "sitemap.xml",
         sitemap,

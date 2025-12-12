@@ -26,12 +26,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-q1dh)51!4$mj1d6k2pjg-qg&*5r+v1g&$qk30w@@%$cnle1--4")
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", "django-insecure-q1dh)51!4$mj1d6k2pjg-qg&*5r+v1g&$qk30w@@%$cnle1--4"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
+ALLOWED_HOSTS = (
+    os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
+)
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # Application definition
@@ -45,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
-
     "main",
     "channels",
     "django_extensions",
@@ -61,7 +64,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "silent_mammoth_whistle.middleware.SilentMammothWhistleMiddleware",
-
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -69,7 +71,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['main/frontend', 'main'],
+        "DIRS": ["main/frontend", "main"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,7 +85,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-SITE_ID = 1 
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -144,9 +146,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ASGI_APPLICATION = "config.asgi.application"
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
-
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
