@@ -11,6 +11,7 @@ dependencies = [
     "django-silent-mammoth-whistle>=2.5",
     "dotenv>=0.9.9",
     "markdown>=3.8.2",
+    "pytest-django>=4.11.1",
     "requests>=2.32.4",
     "uvicorn[standard]>=0.35.0",
 ]
@@ -101,3 +102,6 @@ docstring-code-line-length = "dynamic"
 dev = [
     "ruff>=0.14.9",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"

@@ -38,6 +38,11 @@ Contributions, issues and feature requests are welcome!
    * ALLOWED_HOST=*,htmxlabs.com,localhost
    * CSRF_TRUSTED_ORIGINS=http://localhost
 
+## tests
+   run 
+    $ pytest main/tests.py
+
+
 ## License
 
 This project is licensed under the MIT License.
