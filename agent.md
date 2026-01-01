@@ -1,4 +1,4 @@
-# AI Instructions Document (AID)
+# Agent Instructions Document (AID)
 
 ## Purpose
 
@@ -14,7 +14,7 @@ To maximize the effectiveness, safety, and maintainability of AI-generated code,
 - **Purpose:** Defines the product's goals, features, user stories, and technical requirements.
 - **Benefit:** Ensures the AI understands the "why" and "what" behind the code, not just the "how".
 
-### 2. AI Instructions Document (AID) (this document)
+### 2. Agent Instructions Document (AID) (this document)
 - **Purpose:** Provides explicit instructions, best practices, and constraints for LLMs.
 - **Benefit:** Guides the AI to produce code that matches project standards and avoids common pitfalls.
 
